@@ -6,378 +6,213 @@
 <title>The Catch Log</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  /* ── Theme variables ─────────────────────────────────────────── */
   [data-theme="dark"] {
-    --bg:        #010810;
-    --bg2:       #041628;
-    --surface:   rgba(4,22,40,0.6);
-    --border:    rgba(0,229,255,0.12);
-    --border2:   rgba(0,229,255,0.06);
-    --text:      #e8f4f8;
-    --muted:     #8ab8cc;
-    --accent:    #00e5ff;
-    --accent2:   #00b4d8;
-    --gold:      #f0c040;
-    --special:   #ff9d00;
-    --row-hover: rgba(0,229,255,0.04);
-    --head-bg:   rgba(0,229,255,0.06);
-    --input-bg:  rgba(10,37,64,0.7);
-    --card-bg:   rgba(4,22,40,0.6);
-    --shadow:    0 0 40px rgba(0,229,255,0.08);
+    --bg:#010810; --bg2:#041628; --surface:rgba(4,22,40,0.6);
+    --border:rgba(0,229,255,0.12); --border2:rgba(0,229,255,0.06);
+    --text:#e8f4f8; --muted:#8ab8cc; --accent:#00e5ff; --accent2:#00b4d8;
+    --gold:#f0c040; --special:#ff9d00;
+    --row-hover:rgba(0,229,255,0.04); --head-bg:rgba(0,229,255,0.06);
+    --input-bg:rgba(10,37,64,0.7); --card-bg:rgba(4,22,40,0.6);
+    --shadow:0 0 40px rgba(0,229,255,0.08); --img-bg:rgba(0,20,40,0.8);
   }
   [data-theme="light"] {
-    --bg:        #f0f6fa;
-    --bg2:       #ddeef6;
-    --surface:   rgba(255,255,255,0.8);
-    --border:    rgba(0,140,180,0.2);
-    --border2:   rgba(0,140,180,0.1);
-    --text:      #0d2a3a;
-    --muted:     #4a7a94;
-    --accent:    #0088bb;
-    --accent2:   #006a94;
-    --gold:      #c07800;
-    --special:   #cc6600;
-    --row-hover: rgba(0,140,180,0.05);
-    --head-bg:   rgba(0,140,180,0.07);
-    --input-bg:  rgba(255,255,255,0.9);
-    --card-bg:   rgba(255,255,255,0.85);
-    --shadow:    0 4px 24px rgba(0,100,140,0.1);
+    --bg:#f0f6fa; --bg2:#ddeef6; --surface:rgba(255,255,255,0.85);
+    --border:rgba(0,140,180,0.2); --border2:rgba(0,140,180,0.1);
+    --text:#0d2a3a; --muted:#4a7a94; --accent:#0088bb; --accent2:#006a94;
+    --gold:#c07800; --special:#cc6600;
+    --row-hover:rgba(0,140,180,0.05); --head-bg:rgba(0,140,180,0.07);
+    --input-bg:rgba(255,255,255,0.9); --card-bg:rgba(255,255,255,0.85);
+    --shadow:0 4px 24px rgba(0,100,140,0.1); --img-bg:#d0e8f0;
   }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+  [data-theme="dark"] body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 80%,rgba(0,180,216,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 20%,rgba(0,229,255,0.04) 0%,transparent 50%),linear-gradient(180deg,#010810 0%,#020d1f 40%,#041628 100%);pointer-events:none;z-index:0;}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Crimson Pro', Georgia, serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition: background 0.3s, color 0.3s;
-  }
+  .particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .particle{position:absolute;border-radius:50%;background:var(--accent);opacity:0;animation:drift linear infinite;}
+  @keyframes drift{0%{transform:translateY(100vh);opacity:0}10%{opacity:0.5}90%{opacity:0.15}100%{transform:translateY(-10vh) translateX(30px);opacity:0}}
+  [data-theme="light"] .particle{display:none;}
 
-  [data-theme="dark"] body::before {
-    content:'';
-    position:fixed; inset:0;
-    background:
-      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(0,180,216,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(0,229,255,0.04) 0%, transparent 50%),
-      linear-gradient(180deg, #010810 0%, #020d1f 40%, #041628 100%);
-    pointer-events:none; z-index:0;
-  }
-
-  .particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
-  .particle {
-    position:absolute; border-radius:50%;
-    background:var(--accent); opacity:0;
-    animation:drift linear infinite;
-  }
-  @keyframes drift {
-    0%{transform:translateY(100vh);opacity:0} 10%{opacity:0.5}
-    90%{opacity:0.15} 100%{transform:translateY(-10vh) translateX(30px);opacity:0}
-  }
-  [data-theme="light"] .particle { display:none; }
-
-  /* ── Header ──────────────────────────────────────────────────── */
-  header {
-    position:relative; z-index:10;
-    text-align:center; padding:2.5rem 2rem 1.5rem;
-    border-bottom:1px solid var(--border);
-  }
-  .header-top { display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
-  .header-wave {
-    position:absolute; bottom:-1px; left:0; right:0; height:3px;
-    background:linear-gradient(90deg,transparent,var(--accent),transparent);
-    animation:waveGlow 3s ease-in-out infinite;
-  }
+  header{position:relative;z-index:10;text-align:center;padding:2.5rem 2rem 1.5rem;border-bottom:1px solid var(--border);}
+  .header-wave{position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:waveGlow 3s ease-in-out infinite;}
   @keyframes waveGlow{0%,100%{opacity:0.4}50%{opacity:1}}
-
-  .title {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(1.6rem,4vw,2.8rem);
-    color:var(--text); letter-spacing:0.08em;
-    text-shadow:0 0 40px rgba(0,229,255,0.4);
-  }
-  [data-theme="light"] .title { text-shadow:none; }
-
-  .subtitle { font-size:0.95rem; color:var(--muted); font-style:italic; letter-spacing:0.15em; margin-top:0.3rem; }
-  .live-dot {
-    display:inline-block; width:8px; height:8px; border-radius:50%;
-    background:#00ff88; box-shadow:0 0 8px #00ff88;
-    animation:pulse 2s ease-in-out infinite; margin-right:6px; vertical-align:middle;
-  }
+  .title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--text);letter-spacing:0.08em;text-shadow:0 0 40px rgba(0,229,255,0.4);}
+  [data-theme="light"] .title{text-shadow:none;}
+  .subtitle{font-size:0.95rem;color:var(--muted);font-style:italic;letter-spacing:0.15em;margin-top:0.3rem;}
+  .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#00ff88;box-shadow:0 0 8px #00ff88;animation:pulse 2s ease-in-out infinite;margin-right:6px;vertical-align:middle;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-  .last-updated { font-size:0.72rem; color:var(--muted); font-style:italic; margin-top:0.35rem; opacity:0.7; }
+  .last-updated{font-size:0.72rem;color:var(--muted);font-style:italic;margin-top:0.35rem;opacity:0.7;}
+  .theme-toggle{position:absolute;top:1.2rem;right:1.5rem;background:var(--input-bg);border:1px solid var(--border);color:var(--muted);font-size:1.1rem;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;z-index:20;}
+  .theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
 
-  /* Theme toggle */
-  .theme-toggle {
-    position:absolute; top:1.2rem; right:1.5rem;
-    background:var(--input-bg); border:1px solid var(--border);
-    color:var(--muted); font-size:1.1rem;
-    width:36px; height:36px; border-radius:50%;
-    cursor:pointer; display:flex; align-items:center; justify-content:center;
-    transition:all 0.3s; z-index:20;
-  }
-  .theme-toggle:hover { color:var(--accent); border-color:var(--accent); }
+  .stats-bar{position:relative;z-index:10;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;padding:1rem 2rem;background:rgba(10,37,64,0.4);border-bottom:1px solid var(--border2);}
+  [data-theme="light"] .stats-bar{background:rgba(0,100,140,0.06);}
+  .stat-item{display:flex;flex-direction:column;align-items:center;gap:0.1rem;}
+  .stat-value{font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--accent);line-height:1;transition:all 0.4s;}
+  [data-theme="dark"] .stat-value{text-shadow:0 0 20px rgba(0,229,255,0.5);}
+  .stat-label{font-size:0.68rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;font-weight:300;}
+  .stat-divider{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--border),transparent);align-self:center;}
 
-  /* ── Stats bar ───────────────────────────────────────────────── */
-  .stats-bar {
-    position:relative; z-index:10;
-    display:flex; justify-content:center; gap:2rem; flex-wrap:wrap;
-    padding:1rem 2rem;
-    background:rgba(10,37,64,0.4);
-    border-bottom:1px solid var(--border2);
-  }
-  [data-theme="light"] .stats-bar { background:rgba(0,100,140,0.06); }
-  .stat-item { display:flex; flex-direction:column; align-items:center; gap:0.1rem; }
-  .stat-value {
-    font-family:'Cinzel Decorative',serif; font-size:1.5rem;
-    color:var(--accent); line-height:1; transition:all 0.4s;
-  }
-  [data-theme="dark"] .stat-value { text-shadow:0 0 20px rgba(0,229,255,0.5); }
-  .stat-label { font-size:0.68rem; color:var(--muted); letter-spacing:0.2em; text-transform:uppercase; font-weight:300; }
-  .stat-divider { width:1px; height:36px; background:linear-gradient(180deg,transparent,var(--border),transparent); align-self:center; }
+  .tabs{position:relative;z-index:10;display:flex;flex-wrap:wrap;padding:1.2rem 2rem 0;max-width:1300px;margin:0 auto;border-bottom:2px solid var(--border2);}
+  .tab-btn{font-family:'Crimson Pro',serif;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:0.65rem 1.5rem;border:none;background:transparent;cursor:pointer;position:relative;transition:color 0.3s;color:var(--muted);}
+  .tab-btn::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;}
+  [data-theme="dark"] .tab-btn::after{box-shadow:0 0 10px var(--accent);}
+  .tab-btn.active{color:var(--text);}
+  .tab-btn.active::after{transform:scaleX(1);}
+  .tab-btn:hover:not(.active){color:var(--text);opacity:0.7;}
+  .tab-btn.special-tab{color:var(--special);}
+  .tab-btn.special-tab.active{color:var(--gold);}
+  .tab-btn.special-tab::after{background:var(--gold);}
 
-  /* ── Tab nav ─────────────────────────────────────────────────── */
-  .tabs {
-    position:relative; z-index:10;
-    display:flex; flex-wrap:wrap; gap:0;
-    padding:1.2rem 2rem 0;
-    max-width:1300px; margin:0 auto;
-    border-bottom:2px solid var(--border2);
-  }
-  .tab-btn {
-    font-family:'Crimson Pro',serif; font-size:0.9rem;
-    letter-spacing:0.1em; text-transform:uppercase; font-weight:600;
-    padding:0.65rem 1.5rem; border:none; background:transparent;
-    cursor:pointer; position:relative; transition:color 0.3s; color:var(--muted);
-  }
-  .tab-btn::after {
-    content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px;
-    background:var(--accent); transform:scaleX(0); transition:transform 0.3s;
-  }
-  [data-theme="dark"] .tab-btn::after { box-shadow:0 0 10px var(--accent); }
-  .tab-btn.active { color:var(--text); }
-  .tab-btn.active::after { transform:scaleX(1); }
-  .tab-btn:hover:not(.active) { color:var(--text); opacity:0.7; }
-  .tab-btn.special-tab { color:var(--special); }
-  .tab-btn.special-tab.active { color:var(--gold); }
-  .tab-btn.special-tab::after { background:var(--gold); }
+  main{position:relative;z-index:10;max-width:1300px;margin:0 auto;padding:1.5rem 2rem 4rem;}
 
-  /* ── Main ────────────────────────────────────────────────────── */
-  main {
-    position:relative; z-index:10;
-    max-width:1300px; margin:0 auto;
-    padding:1.5rem 2rem 4rem;
-  }
+  .filter-bar{display:flex;gap:0.8rem;margin-bottom:1.4rem;flex-wrap:wrap;align-items:center;}
+  .search-wrap{position:relative;flex:1;min-width:180px;}
+  .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:0.85rem;}
+  input[type="text"],select{background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-family:'Crimson Pro',serif;font-size:0.92rem;padding:0.55rem 1rem 0.55rem 2.2rem;border-radius:4px;outline:none;transition:border-color 0.3s;width:100%;}
+  select{padding-left:0.9rem;cursor:pointer;}
+  input[type="text"]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.06);}
+  select option{background:var(--bg2);color:var(--text);}
+  .sort-pills{display:flex;gap:0.4rem;flex-wrap:wrap;}
+  .sort-pill{font-family:'Crimson Pro',serif;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.8rem;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .sort-pill:hover{border-color:var(--accent);color:var(--text);}
+  .sort-pill.active{background:rgba(0,229,255,0.1);border-color:var(--accent);color:var(--accent);}
+  [data-theme="light"] .sort-pill.active{background:rgba(0,140,180,0.1);}
 
-  /* ── Filter bar ──────────────────────────────────────────────── */
-  .filter-bar { display:flex; gap:0.8rem; margin-bottom:1.4rem; flex-wrap:wrap; align-items:center; }
-  .search-wrap { position:relative; flex:1; min-width:180px; }
-  .search-icon { position:absolute; left:0.9rem; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; font-size:0.85rem; }
+  /* Fish thumbnail in tables */
+  .fish-thumb{width:36px;height:36px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;background:var(--img-bg);border:1px solid var(--border2);flex-shrink:0;}
+  .fish-thumb-wrap{display:flex;align-items:center;}
+  .fish-thumb-placeholder{width:36px;height:36px;border-radius:4px;background:var(--img-bg);border:1px solid var(--border2);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;margin-right:6px;flex-shrink:0;vertical-align:middle;}
 
-  input[type="text"], select {
-    background:var(--input-bg); border:1px solid var(--border);
-    color:var(--text); font-family:'Crimson Pro',serif; font-size:0.92rem;
-    padding:0.55rem 1rem 0.55rem 2.2rem; border-radius:4px;
-    outline:none; transition:border-color 0.3s; width:100%;
-  }
-  select { padding-left:0.9rem; cursor:pointer; }
-  input[type="text"]:focus, select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,229,255,0.06); }
-  select option { background:var(--bg2); color:var(--text); }
-
-  .sort-pills { display:flex; gap:0.4rem; flex-wrap:wrap; }
-  .sort-pill {
-    font-family:'Crimson Pro',serif; font-size:0.75rem; letter-spacing:0.1em;
-    text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:20px;
-    border:1px solid var(--border); background:transparent;
-    color:var(--muted); cursor:pointer; transition:all 0.2s; white-space:nowrap;
-  }
-  .sort-pill:hover { border-color:var(--accent); color:var(--text); }
-  .sort-pill.active { background:rgba(0,229,255,0.1); border-color:var(--accent); color:var(--accent); }
-  [data-theme="light"] .sort-pill.active { background:rgba(0,140,180,0.1); }
-
-  /* ── Table ───────────────────────────────────────────────────── */
-  .table-wrap {
-    border:1px solid var(--border); border-radius:8px;
-    overflow:hidden; background:var(--surface);
-    backdrop-filter:blur(10px); box-shadow:var(--shadow);
-  }
-  table { width:100%; border-collapse:collapse; }
-  thead tr { background:var(--head-bg); border-bottom:1px solid var(--border); }
-  th {
-    font-family:'Crimson Pro',serif; font-size:0.72rem; letter-spacing:0.18em;
-    text-transform:uppercase; color:var(--muted); padding:0.85rem 1.1rem;
-    text-align:left; font-weight:600; white-space:nowrap;
-  }
-  tbody tr { border-bottom:1px solid var(--border2); transition:background 0.2s; animation:rowIn 0.35s ease both; }
+  .table-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
+  table{width:100%;border-collapse:collapse;}
+  thead tr{background:var(--head-bg);border-bottom:1px solid var(--border);}
+  th{font-family:'Crimson Pro',serif;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:0.85rem 1.1rem;text-align:left;font-weight:600;white-space:nowrap;}
+  tbody tr{border-bottom:1px solid var(--border2);transition:background 0.2s;animation:rowIn 0.35s ease both;}
   @keyframes rowIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-  tbody tr:hover { background:var(--row-hover); }
-  tbody tr:last-child { border-bottom:none; }
-  td { font-size:0.92rem; padding:0.8rem 1.1rem; vertical-align:middle; }
+  tbody tr:hover{background:var(--row-hover);}
+  tbody tr:last-child{border-bottom:none;}
+  td{font-size:0.92rem;padding:0.75rem 1.1rem;vertical-align:middle;}
+  .td-rank{color:var(--muted);font-size:0.78rem;font-style:italic;width:42px;}
+  .td-angler{font-weight:600;color:var(--accent2);cursor:pointer;transition:color 0.2s;}
+  .td-angler:hover{color:var(--accent);text-decoration:underline;}
+  .td-fish{font-style:italic;}
+  .size-badge{display:inline-block;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.12rem 0.45rem;border-radius:3px;font-style:normal;font-weight:600;margin-left:0.4rem;vertical-align:middle;}
+  .size-tiny{background:rgba(138,184,204,0.15);color:var(--muted);}
+  .size-small{background:rgba(0,180,216,0.12);color:#5ab8d4;}
+  .size-medium{background:rgba(0,229,255,0.12);color:var(--accent2);}
+  .size-large{background:rgba(240,192,64,0.12);color:var(--gold);}
+  .size-enormous{background:rgba(255,107,0,0.15);color:#ff9d00;}
+  .td-weight{font-family:'Cinzel Decorative',serif;font-size:0.88rem;}
+  .td-weight .unit{font-family:'Crimson Pro',serif;font-size:0.78rem;color:var(--muted);margin-left:2px;}
+  .td-time{color:var(--muted);font-size:0.82rem;font-style:italic;}
+  .special-row td{background:rgba(240,192,64,0.03);}
+  .special-row:hover td{background:rgba(240,192,64,0.07)!important;}
+  .currency-badge{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;padding:0.18rem 0.55rem;border-radius:20px;background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);color:var(--gold);white-space:nowrap;}
 
-  .td-rank { color:var(--muted); font-size:0.78rem; font-style:italic; width:45px; }
-  .td-angler { font-weight:600; color:var(--accent2); cursor:pointer; transition:color 0.2s; }
-  .td-angler:hover { color:var(--accent); text-decoration:underline; }
-  .td-fish { font-style:italic; }
+  /* Special tab */
+  .special-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;padding:1rem 1.4rem;background:rgba(240,192,64,0.05);border:1px solid rgba(240,192,64,0.15);border-radius:8px;}
+  .special-header-icon{font-size:1.7rem;}
+  .special-header-text h2{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
+  .special-header-text p{font-size:0.82rem;color:var(--muted);font-style:italic;margin-top:0.12rem;}
+  .currency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:1.8rem;}
+  .currency-card{background:var(--card-bg);border:1px solid rgba(240,192,64,0.15);border-radius:8px;padding:1.1rem 1.4rem;backdrop-filter:blur(10px);}
+  .currency-card-title{font-family:'Cinzel Decorative',serif;font-size:0.82rem;color:var(--gold);letter-spacing:0.1em;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;}
+  .currency-leaderboard{list-style:none;}
+  .currency-leaderboard li{display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0;border-bottom:1px solid rgba(240,192,64,0.06);font-size:0.88rem;}
+  .currency-leaderboard li:last-child{border-bottom:none;}
+  .currency-leaderboard .rank-num{color:var(--muted);font-size:0.72rem;width:18px;}
+  .currency-leaderboard .angler-name{color:var(--accent2);flex:1;padding-left:0.4rem;cursor:pointer;}
+  .currency-leaderboard .angler-name:hover{color:var(--accent);text-decoration:underline;}
+  .currency-leaderboard .amount{font-family:'Cinzel Decorative',serif;font-size:0.82rem;color:var(--gold);}
 
-  .size-badge {
-    display:inline-block; font-size:0.65rem; letter-spacing:0.1em;
-    text-transform:uppercase; padding:0.12rem 0.45rem; border-radius:3px;
-    font-style:normal; font-weight:600; margin-left:0.4rem; vertical-align:middle;
-  }
-  .size-tiny    { background:rgba(138,184,204,0.15); color:var(--muted); }
-  .size-small   { background:rgba(0,180,216,0.12);   color:#5ab8d4; }
-  .size-medium  { background:rgba(0,229,255,0.12);   color:var(--accent2); }
-  .size-large   { background:rgba(240,192,64,0.12);  color:var(--gold); }
-  .size-enormous{ background:rgba(255,107,0,0.15);   color:#ff9d00; }
-  [data-theme="light"] .size-tiny  { background:rgba(0,100,140,0.08); }
-  [data-theme="light"] .size-small { background:rgba(0,140,180,0.1); color:#0077aa; }
+  /* Leaderboard */
+  .leaderboard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.2rem;}
+  .lb-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem;backdrop-filter:blur(10px);}
+  .lb-card-title{font-family:'Cinzel Decorative',serif;font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+  .lb-list{list-style:none;}
+  .lb-list li{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0;border-bottom:1px solid var(--border2);font-size:0.9rem;cursor:pointer;transition:color 0.2s;}
+  .lb-list li:last-child{border-bottom:none;}
+  .lb-list li:hover .lb-name{color:var(--accent);text-decoration:underline;}
+  .lb-medal{font-size:1rem;width:22px;text-align:center;}
+  .lb-name{flex:1;color:var(--accent2);font-weight:600;}
+  .lb-val{font-family:'Cinzel Decorative',serif;font-size:0.85rem;color:var(--text);}
+  .lb-val small{font-family:'Crimson Pro',serif;font-size:0.72rem;color:var(--muted);margin-left:2px;}
 
-  .td-weight { font-family:'Cinzel Decorative',serif; font-size:0.88rem; }
-  .td-weight .unit { font-family:'Crimson Pro',serif; font-size:0.78rem; color:var(--muted); margin-left:2px; }
-  .td-time { color:var(--muted); font-size:0.82rem; font-style:italic; }
-  .special-row td { background:rgba(240,192,64,0.03); }
-  .special-row:hover td { background:rgba(240,192,64,0.07) !important; }
+  /* Encyclopedia */
+  .species-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+  .species-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s;backdrop-filter:blur(10px);}
+  .species-card:hover{border-color:var(--accent);box-shadow:0 0 16px rgba(0,229,255,0.1);}
+  .species-img-wrap{width:100%;height:130px;background:var(--img-bg);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;}
+  .species-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;}
+  .species-card:hover .species-img{transform:scale(1.05);}
+  .species-img-placeholder{font-size:3rem;opacity:0.5;}
+  .species-img-loading{font-size:1.2rem;opacity:0.4;animation:bobble 1.2s ease-in-out infinite;}
+  @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .species-info{padding:0.85rem 1rem;}
+  .species-name{font-size:0.92rem;font-weight:600;color:var(--text);font-style:italic;margin-bottom:0.25rem;line-height:1.3;}
+  .species-cat{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;}
+  .species-stats{display:flex;gap:1rem;}
+  .species-stat{display:flex;flex-direction:column;}
+  .species-stat-val{font-family:'Cinzel Decorative',serif;font-size:0.82rem;color:var(--accent);}
+  .species-stat-lbl{font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
 
-  .currency-badge {
-    display:inline-flex; align-items:center; gap:0.25rem;
-    font-size:0.75rem; padding:0.18rem 0.55rem; border-radius:20px;
-    background:rgba(240,192,64,0.1); border:1px solid rgba(240,192,64,0.3);
-    color:var(--gold); white-space:nowrap;
-  }
-
-  /* ── Special tab ─────────────────────────────────────────────── */
-  .special-header {
-    display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem;
-    padding:1rem 1.4rem; background:rgba(240,192,64,0.05);
-    border:1px solid rgba(240,192,64,0.15); border-radius:8px;
-  }
-  .special-header-icon { font-size:1.7rem; }
-  .special-header-text h2 { font-family:'Cinzel Decorative',serif; font-size:1rem; color:var(--gold); }
-  .special-header-text p { font-size:0.82rem; color:var(--muted); font-style:italic; margin-top:0.12rem; }
-
-  .currency-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; margin-bottom:1.8rem; }
-  .currency-card { background:var(--card-bg); border:1px solid rgba(240,192,64,0.15); border-radius:8px; padding:1.1rem 1.4rem; backdrop-filter:blur(10px); }
-  .currency-card-title { font-family:'Cinzel Decorative',serif; font-size:0.82rem; color:var(--gold); letter-spacing:0.1em; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem; }
-  .currency-leaderboard { list-style:none; }
-  .currency-leaderboard li { display:flex; justify-content:space-between; align-items:center; padding:0.3rem 0; border-bottom:1px solid rgba(240,192,64,0.06); font-size:0.88rem; }
-  .currency-leaderboard li:last-child { border-bottom:none; }
-  .currency-leaderboard .rank-num { color:var(--muted); font-size:0.72rem; width:18px; }
-  .currency-leaderboard .angler-name { color:var(--accent2); flex:1; padding-left:0.4rem; cursor:pointer; }
-  .currency-leaderboard .angler-name:hover { color:var(--accent); text-decoration:underline; }
-  .currency-leaderboard .amount { font-family:'Cinzel Decorative',serif; font-size:0.82rem; color:var(--gold); }
-
-  /* ── Leaderboard tab ─────────────────────────────────────────── */
-  .leaderboard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.2rem; }
-  .lb-card { background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:1.2rem 1.4rem; backdrop-filter:blur(10px); }
-  .lb-card-title { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
-  .lb-list { list-style:none; }
-  .lb-list li { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 0; border-bottom:1px solid var(--border2); font-size:0.9rem; cursor:pointer; transition:color 0.2s; }
-  .lb-list li:last-child { border-bottom:none; }
-  .lb-list li:hover .lb-name { color:var(--accent); text-decoration:underline; }
-  .lb-medal { font-size:1rem; width:22px; text-align:center; }
-  .lb-name { flex:1; color:var(--accent2); font-weight:600; }
-  .lb-val { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--text); }
-  .lb-val small { font-family:'Crimson Pro',serif; font-size:0.72rem; color:var(--muted); margin-left:2px; }
-
-  /* ── Encyclopedia tab ────────────────────────────────────────── */
-  .encyc-search { margin-bottom:1.4rem; }
-  .species-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.9rem; }
-  .species-card {
-    background:var(--card-bg); border:1px solid var(--border);
-    border-radius:8px; padding:1rem 1.2rem; cursor:pointer;
-    transition:border-color 0.2s, box-shadow 0.2s; backdrop-filter:blur(10px);
-  }
-  .species-card:hover { border-color:var(--accent); box-shadow:0 0 16px rgba(0,229,255,0.08); }
-  .species-emoji { font-size:1.6rem; margin-bottom:0.4rem; }
-  .species-name { font-size:0.95rem; font-weight:600; color:var(--text); font-style:italic; margin-bottom:0.3rem; }
-  .species-cat { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem; }
-  .species-stats { display:flex; gap:1rem; }
-  .species-stat { display:flex; flex-direction:column; }
-  .species-stat-val { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--accent); }
-  .species-stat-lbl { font-size:0.65rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; }
-
-  /* ── Angler profile modal ────────────────────────────────────── */
-  .modal-overlay {
-    position:fixed; inset:0; background:rgba(0,0,0,0.7);
-    z-index:200; display:none; align-items:center; justify-content:center;
-    padding:1rem; backdrop-filter:blur(4px);
-  }
-  .modal-overlay.open { display:flex; }
-  .modal {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:12px; padding:2rem; max-width:680px; width:100%;
-    max-height:85vh; overflow-y:auto; position:relative;
-    box-shadow:0 0 60px rgba(0,229,255,0.12);
-    animation:modalIn 0.3s ease;
-  }
-  [data-theme="light"] .modal { box-shadow:0 8px 40px rgba(0,0,0,0.15); }
+  /* Profile modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px);}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;max-width:700px;width:100%;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 0 60px rgba(0,229,255,0.1);animation:modalIn 0.3s ease;}
+  [data-theme="light"] .modal{box-shadow:0 8px 40px rgba(0,0,0,0.15);}
   @keyframes modalIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
-  .modal-close {
-    position:absolute; top:1rem; right:1rem;
-    background:var(--input-bg); border:1px solid var(--border);
-    color:var(--muted); width:32px; height:32px; border-radius:50%;
-    cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
-    transition:all 0.2s;
-  }
-  .modal-close:hover { color:var(--text); border-color:var(--accent); }
-  .modal-angler-name { font-family:'Cinzel Decorative',serif; font-size:1.3rem; color:var(--accent); margin-bottom:0.2rem; }
-  [data-theme="dark"] .modal-angler-name { text-shadow:0 0 20px rgba(0,229,255,0.4); }
-  .modal-subtitle { font-size:0.85rem; color:var(--muted); font-style:italic; margin-bottom:1.5rem; }
-  .profile-stats { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:0.8rem; margin-bottom:1.5rem; }
-  .profile-stat { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:0.7rem 1rem; }
-  .profile-stat-val { font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--accent); }
-  .profile-stat-lbl { font-size:0.65rem; color:var(--muted); letter-spacing:0.15em; text-transform:uppercase; margin-top:0.1rem; }
-  .profile-section-title { font-family:'Cinzel Decorative',serif; font-size:0.8rem; color:var(--muted); letter-spacing:0.15em; text-transform:uppercase; margin:1.2rem 0 0.7rem; }
-  .profile-fish-list { list-style:none; }
-  .profile-fish-list li { display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--border2); font-size:0.9rem; }
-  .profile-fish-list li:last-child { border-bottom:none; }
-  .profile-fish-name { font-style:italic; }
-  .profile-fish-meta { color:var(--muted); font-size:0.82rem; }
+  .modal-close{position:absolute;top:1rem;right:1rem;background:var(--input-bg);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+  .modal-close:hover{color:var(--text);border-color:var(--accent);}
+  .modal-angler-name{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--accent);margin-bottom:0.2rem;}
+  [data-theme="dark"] .modal-angler-name{text-shadow:0 0 20px rgba(0,229,255,0.4);}
+  .modal-subtitle{font-size:0.85rem;color:var(--muted);font-style:italic;margin-bottom:1.5rem;}
+  .profile-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.8rem;margin-bottom:1.5rem;}
+  .profile-stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.7rem 1rem;}
+  .profile-stat-val{font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--accent);}
+  .profile-stat-lbl{font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.1rem;}
+  .profile-section-title{font-family:'Cinzel Decorative',serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin:1.2rem 0 0.7rem;}
+  .profile-fish-list{list-style:none;}
+  .profile-fish-list li{display:flex;align-items:center;gap:0.8rem;padding:0.55rem 0;border-bottom:1px solid var(--border2);}
+  .profile-fish-list li:last-child{border-bottom:none;}
+  .profile-fish-img{width:44px;height:44px;border-radius:5px;object-fit:cover;background:var(--img-bg);border:1px solid var(--border2);flex-shrink:0;}
+  .profile-fish-img-placeholder{width:44px;height:44px;border-radius:5px;background:var(--img-bg);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .profile-fish-details{flex:1;min-width:0;}
+  .profile-fish-name{font-style:italic;font-size:0.92rem;}
+  .profile-fish-meta{color:var(--muted);font-size:0.8rem;margin-top:0.1rem;}
 
-  /* ── Pagination ──────────────────────────────────────────────── */
-  .pagination { display:flex; justify-content:center; align-items:center; gap:0.4rem; margin-top:1.3rem; flex-wrap:wrap; }
-  .page-btn { font-family:'Crimson Pro',serif; font-size:0.82rem; padding:0.35rem 0.75rem; border:1px solid var(--border); background:transparent; color:var(--muted); border-radius:4px; cursor:pointer; transition:all 0.2s; }
-  .page-btn:hover { border-color:var(--accent); color:var(--text); }
-  .page-btn.active { background:rgba(0,229,255,0.1); border-color:var(--accent); color:var(--accent); }
-  .page-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  /* Pagination */
+  .pagination{display:flex;justify-content:center;align-items:center;gap:0.4rem;margin-top:1.3rem;flex-wrap:wrap;}
+  .page-btn{font-family:'Crimson Pro',serif;font-size:0.82rem;padding:0.35rem 0.75rem;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:4px;cursor:pointer;transition:all 0.2s;}
+  .page-btn:hover{border-color:var(--accent);color:var(--text);}
+  .page-btn.active{background:rgba(0,229,255,0.1);border-color:var(--accent);color:var(--accent);}
+  .page-btn:disabled{opacity:0.3;cursor:not-allowed;}
 
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
-
-  .loading { text-align:center; padding:3rem; color:var(--muted); font-style:italic; }
-  .loading-fish { font-size:2rem; animation:bobble 1.5s ease-in-out infinite; display:block; margin-bottom:1rem; }
-  @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-
-  .error-msg {
-    background:rgba(255,80,80,0.06); border:1px solid rgba(255,80,80,0.2);
-    border-radius:8px; padding:1.5rem; color:#ff8080; text-align:center; line-height:1.8;
-  }
-  .error-msg code { display:block; margin-top:0.5rem; font-size:0.76rem; opacity:0.6; font-family:monospace; word-break:break-all; }
-
-  .empty-state { text-align:center; padding:3rem 2rem; color:var(--muted); }
-  .empty-state .empty-icon { font-size:2.5rem; margin-bottom:0.8rem; opacity:0.5; }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .loading{text-align:center;padding:3rem;color:var(--muted);font-style:italic;}
+  .loading-fish{font-size:2rem;animation:bobble 1.5s ease-in-out infinite;display:block;margin-bottom:1rem;}
+  .error-msg{background:rgba(255,80,80,0.06);border:1px solid rgba(255,80,80,0.2);border-radius:8px;padding:1.5rem;color:#ff8080;text-align:center;line-height:1.8;}
+  .error-msg code{display:block;margin-top:0.5rem;font-size:0.76rem;opacity:0.6;font-family:monospace;word-break:break-all;}
+  .empty-state{text-align:center;padding:3rem 2rem;color:var(--muted);}
+  .empty-state .empty-icon{font-size:2.5rem;margin-bottom:0.8rem;opacity:0.5;}
 
   /* Toast */
-  .toast {
-    position:fixed; bottom:2rem; right:2rem;
-    background:var(--card-bg); border:1px solid rgba(0,229,255,0.4);
-    border-radius:8px; padding:0.85rem 1.3rem; z-index:300;
-    box-shadow:0 0 30px rgba(0,229,255,0.12); animation:toastIn 0.4s ease;
-    max-width:290px; backdrop-filter:blur(10px);
-  }
-  .toast.special { border-color:rgba(240,192,64,0.5); box-shadow:0 0 30px rgba(240,192,64,0.15); }
+  .toast{position:fixed;bottom:2rem;right:2rem;background:var(--card-bg);border:1px solid rgba(0,229,255,0.4);border-radius:8px;padding:0.85rem 1.3rem;z-index:300;box-shadow:0 0 30px rgba(0,229,255,0.12);animation:toastIn 0.4s ease;max-width:290px;backdrop-filter:blur(10px);}
+  .toast.special{border-color:rgba(240,192,64,0.5);box-shadow:0 0 30px rgba(240,192,64,0.15);}
   @keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  .toast-title { font-family:'Cinzel Decorative',serif; font-size:0.68rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:0.25rem; }
-  .toast-title.special { color:var(--gold); }
-  .toast-body { font-size:0.88rem; line-height:1.4; }
-  .toast-body strong { color:var(--accent2); }
+  .toast-title{font-family:'Cinzel Decorative',serif;font-size:0.68rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.25rem;}
+  .toast-title.special{color:var(--gold);}
+  .toast-body{font-size:0.88rem;line-height:1.4;}
+  .toast-body strong{color:var(--accent2);}
 
   @media(max-width:640px){
-    .stats-bar{gap:1rem} .stat-divider{display:none}
-    td,th{padding:0.65rem 0.75rem;font-size:0.82rem}
-    .hide-mobile{display:none}
-    .theme-toggle{top:0.8rem;right:0.8rem}
+    .stats-bar{gap:1rem;} .stat-divider{display:none;}
+    td,th{padding:0.6rem 0.7rem;font-size:0.82rem;} .hide-mobile{display:none;}
+    .theme-toggle{top:0.8rem;right:0.8rem;}
+    .species-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
   }
 </style>
 </head>
@@ -386,14 +221,10 @@
 <div class="particles" id="particles"></div>
 
 <header>
-  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">🌙</button>
-  <div class="header-top">
-    <div>
-      <h1 class="title">⚓ The Catch Log</h1>
-      <p class="subtitle"><span class="live-dot"></span>Live from the stream</p>
-      <p class="last-updated" id="lastUpdated">Connecting to database...</p>
-    </div>
-  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  <h1 class="title">⚓ The Catch Log</h1>
+  <p class="subtitle"><span class="live-dot"></span>Live from the stream</p>
+  <p class="last-updated" id="lastUpdated">Connecting to database...</p>
   <div class="header-wave"></div>
 </header>
 
@@ -417,7 +248,6 @@
 </div>
 
 <main>
-
   <!-- ALL CATCHES -->
   <div class="tab-panel active" id="tab-all">
     <div class="filter-bar">
@@ -468,12 +298,12 @@
 
   <!-- LEADERBOARD -->
   <div class="tab-panel" id="tab-leaderboard">
-    <div id="leaderboardContent"><div class="loading"><span class="loading-fish">🏆</span>Tallying the scores...</div></div>
+    <div id="leaderboardContent"><div class="loading"><span class="loading-fish">🏆</span>Tallying scores...</div></div>
   </div>
 
   <!-- ENCYCLOPEDIA -->
   <div class="tab-panel" id="tab-encyclopedia">
-    <div class="filter-bar encyc-search">
+    <div class="filter-bar">
       <div class="search-wrap">
         <span class="search-icon">⚲</span>
         <input type="text" id="searchEncyc" placeholder="Search species..." oninput="renderEncyclopedia()">
@@ -488,7 +318,6 @@
     </div>
     <div id="encycContent"><div class="loading"><span class="loading-fish">📖</span>Loading species data...</div></div>
   </div>
-
 </main>
 
 <!-- ANGLER PROFILE MODAL -->
@@ -497,33 +326,53 @@
 </div>
 
 <script>
-// ── Config ───────────────────────────────────────────────────────
+// ── Config ────────────────────────────────────────────────────────
 const API      = 'https://mhtiosfhklwazokjscho.supabase.co/functions/v1/get-catches';
 const KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1odGlvc2Zoa2x3YXpva2pzY2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTY1OTMsImV4cCI6MjA3NzE3MjU5M30.kngMjoWZaFTF6MqO_2W9s3WXSaMyIWzmEvbCCR8z-4c';
 const PAGE_SIZE = 25;
+const WIKI_API  = 'https://en.wikipedia.org/w/api.php';
 
-// ── Fish metadata ────────────────────────────────────────────────
+// ── Image cache (persisted to sessionStorage) ─────────────────────
+const imgCache = (() => {
+  try { return JSON.parse(sessionStorage.getItem('fishImgCache')||'{}'); } catch { return {}; }
+})();
+function saveCache(){ try{ sessionStorage.setItem('fishImgCache',JSON.stringify(imgCache)); }catch{} }
+
+// Wikipedia search terms — map unusual names to better search queries
+const WIKI_SEARCH = {
+  'kraken':'Kraken','WhaleShark':'Whale shark','OceanSunfish':'Ocean sunfish',
+  'AsianCarp':'Asian carp','GreenlandHalibut':'Greenland halibut',
+  'AtlanticCod':'Atlantic cod','SeaBass':'European seabass',
+  'NilePerch':'Nile perch','Shortnose Gar':'Shortnose gar',
+  'African Lung fish':'African lungfish','Lungfish':'Lungfish',
+  'anchor':'Ship anchor','Hat':'Fedora hat','Boot':'Wellington boot',
+  'Stick':'Wooden stick','Empty Wallet':'Wallet','Life Jacket':'Life jacket',
+  'Gyrinocheilus aymonieri':'Gyrinocheilus aymonieri',
+  'Neolamprologus multifasciatus':'Neolamprologus multifasciatus',
+  'Legendary Jcliff Fish you win 200+ Cliff Coins':'Atlantic bluefin tuna',
+  "MerlinMilk's Wallet you win 200+ $GUANCE":'Leather wallet',
+  "Spooo's Wallet you win 200+ $DD":'Leather wallet',
+  "Pixel's Wallet you win 200+ Marble Coins":'Marble',
+  'Firehawk Fish':'Firefish goby','Tundrachick Fish':'Arctic char',
+  'FlakJacket Fish':'Armored catfish','Leedsichthys':'Leedsichthys',
+  'Megamouth Shark':'Megamouth shark','Giant Freshwater Stingray':'Giant freshwater stingray',
+  'Giant Oceanic Manta Ray':'Oceanic manta ray','Beluga Sturgeon':'Beluga sturgeon',
+  'Greenland Shark':'Greenland shark','Basking Shark':'Basking shark',
+  'Mekong Giant Catfish':'Mekong giant catfish','Giant Barb':'Giant barb',
+  'Murray Cod':'Murray cod','Chilean Sea Bass':'Patagonian toothfish',
+  'Goliath Grouper':'Goliath grouper','Alligator Gar':'Alligator gar',
+};
+
 const FISH_EMOJI = {
-  // tiny/small
   'Guppie':'🐟','Nemo':'🐠','Gold Fish':'🐡','Blue Tang':'🐟','Piranha':'🦈',
   'Puffer Fish':'🐡','Star Fish':'⭐','Jelly Fish':'🪼','Crab':'🦀','Sea Snake':'🐍',
   'Angler Fish':'🎣','Lion Fish':'🐡','Blobfish':'🐟','Leafy Sea Dragon':'🐲',
   'Flying Fish':'🐟','Ghost Fish':'👻','Hat':'🎩','Boot':'👢','Stick':'🪵',
   'Empty Wallet':'👛','Life Jacket':'🦺','Dragonfish':'🐉','Sun Fish':'☀️',
-  // medium
-  'Largemouth Bass':'🐟','Trout':'🐟','Salmon':'🐟','Cat Fish':'🐈','Octopus':'🐙',
-  'Squid':'🦑','Lobster':'🦞','Sting Ray':'🩴','Electric Eel':'⚡','Mackerel':'🐟',
-  'Snapper':'🐟','Barramundi':'🐟','Wahoo':'🐟','Flounder':'🐟','Paddlefish':'🐟',
-  // large
-  'Yellowfin Tuna':'🐟','Swordfish':'🐟','Great White Shark':'🦈','Mahi-Mahi':'🐟',
-  'Sailfish':'🐟','Barracuda':'🐟','Blue Marlin':'🐟','Arapaima':'🐟',
-  'Sturgeon':'🐟','Bluefin Tuna':'🐟','Alligator Gar':'🐊',
-  // giant
-  'WhaleShark':'🐋','Megalodon':'🦕','kraken':'🦑','OceanSunfish':'☀️',
-  'Sea Turtle':'🐢','Basking Shark':'🦈','Giant Oceanic Manta Ray':'🩴',
-  'Beluga Sturgeon':'🐟','Greenland Shark':'🦈','Megamouth Shark':'🦈',
-  'Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
-  'Arowana':'🐉','Leedsichthys':'🦕',
+  'Octopus':'🐙','Squid':'🦑','Lobster':'🦞','Electric Eel':'⚡',
+  'Great White Shark':'🦈','WhaleShark':'🐋','Megalodon':'🦕','kraken':'🦑',
+  'Sea Turtle':'🐢','Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
+  'Arowana':'🐉','OceanSunfish':'☀️','Alligator Gar':'🐊',
 };
 const DEFAULT_EMOJI = '🐟';
 
@@ -533,20 +382,56 @@ const FISH_CATEGORIES = {
   large:['Yellowfin Tuna','Swordfish','Great White Shark','Mahi-Mahi','Sailfish','Barracuda','Blue Marlin','Arapaima','Coelacanth','Sturgeon','Chilean Sea Bass','Alligator Gar','Bluefin Tuna','Goliath Grouper','Murray Cod','Taimen','Goonch','Vundu','Piraiba','Mekong Giant Catfish','Giant Barb'],
   giant:['WhaleShark','Megalodon','kraken','OceanSunfish','Sea Turtle','Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE","Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins",'Basking Shark','Giant Oceanic Manta Ray','Beluga Sturgeon','Greenland Shark','Megamouth Shark','Kaluga','Giant Freshwater Stingray','Leedsichthys','Arowana','Firehawk Fish','Tundrachick Fish','FlakJacket Fish'],
 };
-function getCategoryForFish(name){
-  for(const [cat,list] of Object.entries(FISH_CATEGORIES)){
-    if(list.includes(name)) return cat;
-  }
-  return 'unknown';
+function getCat(name){ for(const[c,l]of Object.entries(FISH_CATEGORIES))if(l.includes(name))return c; return 'unknown'; }
+
+// ── Wikipedia image fetch ─────────────────────────────────────────
+const fetchQueue = new Map(); // prevent duplicate in-flight requests
+
+async function getWikiImage(fishName) {
+  if(imgCache[fishName] !== undefined) return imgCache[fishName];
+  if(fetchQueue.has(fishName)) return fetchQueue.get(fishName);
+
+  const searchTerm = WIKI_SEARCH[fishName] || fishName;
+  const promise = (async () => {
+    try {
+      const params = new URLSearchParams({
+        action:'query', titles:searchTerm, prop:'pageimages',
+        pithumbsize:'400', format:'json', origin:'*'
+      });
+      const res = await fetch(`${WIKI_API}?${params}`);
+      const data = await res.json();
+      const pages = data?.query?.pages || {};
+      const page = Object.values(pages)[0];
+      const url = page?.thumbnail?.source || null;
+      imgCache[fishName] = url;
+      saveCache();
+      return url;
+    } catch {
+      imgCache[fishName] = null;
+      return null;
+    } finally {
+      fetchQueue.delete(fishName);
+    }
+  })();
+
+  fetchQueue.set(fishName, promise);
+  return promise;
 }
 
-// ── State ────────────────────────────────────────────────────────
+// Prefetch images for a list of fish names in the background
+function prefetchImages(names) {
+  const unique = [...new Set(names)].filter(n => imgCache[n] === undefined);
+  // Stagger requests to avoid hammering Wikipedia
+  unique.forEach((name, i) => setTimeout(() => getWikiImage(name), i * 80));
+}
+
+// ── State ─────────────────────────────────────────────────────────
 let allCatches=[],specialCatches=[],filteredAll=[],filteredSpecial=[];
 let sortAll='time',sortSpecial='time';
 let pageAll=1,pageSpecial=1;
 let knownIds=new Set(),isFirstLoad=true;
 
-// ── Particles (dark only) ─────────────────────────────────────────
+// ── Particles ─────────────────────────────────────────────────────
 (function(){
   const c=document.getElementById('particles');
   for(let i=0;i<28;i++){
@@ -557,23 +442,20 @@ let knownIds=new Set(),isFirstLoad=true;
   }
 })();
 
-// ── Theme toggle ─────────────────────────────────────────────────
+// ── Theme ─────────────────────────────────────────────────────────
 function toggleTheme(){
   const html=document.documentElement;
   const isDark=html.getAttribute('data-theme')==='dark';
   html.setAttribute('data-theme',isDark?'light':'dark');
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
   localStorage.setItem('theme',isDark?'light':'dark');
 }
 (function(){
   const saved=localStorage.getItem('theme');
-  if(saved){
-    document.documentElement.setAttribute('data-theme',saved);
-    document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';
-  }
+  if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';}
 })();
 
-// ── Fetch ─────────────────────────────────────────────────────────
+// ── Fetch catches ─────────────────────────────────────────────────
 async function fetchData(){
   const res=await fetch(API,{headers:{'Authorization':`Bearer ${KEY}`,'x-game-api-key':'catchingfish'}});
   if(!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
@@ -588,6 +470,10 @@ async function loadData(){
     isFirstLoad=false;
     allCatches=data;
     specialCatches=data.filter(c=>c.is_special);
+
+    // Prefetch images for all species seen
+    prefetchImages([...new Set(data.map(c=>c.fish_name).filter(Boolean))]);
+
     updateStats();
     applyFilters();
     applySpecialFilters();
@@ -619,13 +505,30 @@ function animCount(id,target){
   const from=parseInt(el.textContent.replace(/,/g,''))||0;
   if(from===target){el.textContent=target.toLocaleString();return;}
   let cur=from;const step=Math.max(1,Math.ceil(Math.abs(target-from)/20));
-  const iv=setInterval(()=>{
-    cur=cur<target?Math.min(cur+step,target):Math.max(cur-step,target);
-    el.textContent=cur.toLocaleString();if(cur===target)clearInterval(iv);
-  },40);
+  const iv=setInterval(()=>{cur=cur<target?Math.min(cur+step,target):Math.max(cur-step,target);el.textContent=cur.toLocaleString();if(cur===target)clearInterval(iv);},40);
 }
 
-// ── Currency cards ───────────────────────────────────────────────
+// ── Image element helpers ─────────────────────────────────────────
+// Returns an img element or placeholder. Async — updates DOM when loaded.
+function thumbEl(fishName, size=36, elId=null) {
+  const id = elId || 'img_'+Math.random().toString(36).slice(2);
+  const emoji = FISH_EMOJI[fishName] || DEFAULT_EMOJI;
+  const placeholder = `<span class="fish-thumb-placeholder" id="${id}" style="width:${size}px;height:${size}px;font-size:${Math.round(size*0.55)}px">${emoji}</span>`;
+
+  const cached = imgCache[fishName];
+  if(cached) return `<img class="fish-thumb" src="${esc(cached)}" style="width:${size}px;height:${size}px" alt="${esc(fishName)}" onerror="this.outerHTML='${emoji}'">`;
+  if(cached === null) return placeholder; // known miss
+
+  // Async: render placeholder then swap in image
+  setTimeout(async () => {
+    const url = await getWikiImage(fishName);
+    const el = document.getElementById(id);
+    if(el && url) el.outerHTML = `<img class="fish-thumb" src="${esc(url)}" style="width:${size}px;height:${size}px" alt="${esc(fishName)}" onerror="this.style.display='none'">`;
+  }, 0);
+  return placeholder;
+}
+
+// ── Currency cards ────────────────────────────────────────────────
 function buildCurrencyCards(){
   const icons={CliffCoins:'⛰️',GUANCE:'💰',DD:'🎯',MarbleCoins:'🔮'};
   const totals={};
@@ -636,7 +539,7 @@ function buildCurrencyCards(){
   });
   const container=document.getElementById('currencyCards');
   container.innerHTML='';
-  if(!Object.keys(totals).length){container.innerHTML='<p style="color:var(--muted);font-style:italic;padding:0.5rem 0">No special catches yet.</p>';return;}
+  if(!Object.keys(totals).length){container.innerHTML='<p style="color:var(--muted);font-style:italic">No special catches yet.</p>';return;}
   Object.entries(totals).forEach(([type,users])=>{
     const sorted=Object.entries(users).sort((a,b)=>b[1]-a[1]).slice(0,5);
     const card=document.createElement('div');card.className='currency-card';
@@ -650,7 +553,7 @@ function buildCurrencyCards(){
   });
 }
 
-// ── Leaderboard ──────────────────────────────────────────────────
+// ── Leaderboard ───────────────────────────────────────────────────
 function renderLeaderboard(){
   const byAngler={};
   allCatches.forEach(c=>{
@@ -661,100 +564,140 @@ function renderLeaderboard(){
     if((c.weight||0)>byAngler[n].heaviest){byAngler[n].heaviest=c.weight;byAngler[n].heaviestFish=c.fish_name;}
   });
   const anglers=Object.values(byAngler);
-  const byCount=[...anglers].sort((a,b)=>b.count-a.count).slice(0,10);
-  const byWeight=[...anglers].sort((a,b)=>b.totalWeight-a.totalWeight).slice(0,10);
-  const byHeaviest=[...anglers].sort((a,b)=>b.heaviest-a.heaviest).slice(0,10);
   const medals=['🥇','🥈','🥉'];
-  const lbCard=(title,icon,list,valFn)=>`
-    <div class="lb-card">
-      <div class="lb-card-title">${icon} ${title}</div>
-      <ul class="lb-list">
-        ${list.map((a,i)=>`<li onclick="openProfile('${esc(a.name)}')">
-          <span class="lb-medal">${medals[i]||'#'+(i+1)}</span>
-          <span class="lb-name">${esc(a.name)}</span>
-          <span class="lb-val">${valFn(a)}</span>
-        </li>`).join('')}
-      </ul>
-    </div>`;
-  document.getElementById('leaderboardContent').innerHTML=`
-    <div class="leaderboard-grid">
-      ${lbCard('Most Fish Caught','🎣',byCount,a=>`${a.count.toLocaleString()} <small>catches</small>`)}
-      ${lbCard('Heaviest Total Haul','⚖️',byWeight,a=>`${a.totalWeight.toLocaleString()} <small>lbs</small>`)}
-      ${lbCard('Single Biggest Catch','🏆',byHeaviest,a=>`${a.heaviest.toLocaleString()} <small>lbs</small>`)}
-    </div>`;
+  const lbCard=(title,icon,list,valFn)=>`<div class="lb-card">
+    <div class="lb-card-title">${icon} ${title}</div>
+    <ul class="lb-list">${list.map((a,i)=>`
+      <li onclick="openProfile('${esc(a.name)}')">
+        <span class="lb-medal">${medals[i]||'#'+(i+1)}</span>
+        <span class="lb-name">${esc(a.name)}</span>
+        <span class="lb-val">${valFn(a)}</span>
+      </li>`).join('')}</ul></div>`;
+  document.getElementById('leaderboardContent').innerHTML=`<div class="leaderboard-grid">
+    ${lbCard('Most Fish Caught','🎣',[...anglers].sort((a,b)=>b.count-a.count).slice(0,10),a=>`${a.count.toLocaleString()} <small>catches</small>`)}
+    ${lbCard('Heaviest Total Haul','⚖️',[...anglers].sort((a,b)=>b.totalWeight-a.totalWeight).slice(0,10),a=>`${a.totalWeight.toLocaleString()} <small>lbs</small>`)}
+    ${lbCard('Single Biggest Catch','🏆',[...anglers].sort((a,b)=>b.heaviest-a.heaviest).slice(0,10),a=>`${a.heaviest.toLocaleString()} <small>lbs</small>`)}
+  </div>`;
 }
 
-// ── Encyclopedia ─────────────────────────────────────────────────
+// ── Encyclopedia ──────────────────────────────────────────────────
 function renderEncyclopedia(){
   const q=(document.getElementById('searchEncyc').value||'').toLowerCase();
   const catF=document.getElementById('catFilter').value;
-
-  // Build species stats from catch data
   const speciesMap={};
   allCatches.forEach(c=>{
     const n=c.fish_name;if(!n)return;
-    if(!speciesMap[n])speciesMap[n]={name:n,count:0,totalWeight:0,heaviest:0,category:getCategoryForFish(n)};
-    speciesMap[n].count++;
-    speciesMap[n].totalWeight+=(c.weight||0);
+    if(!speciesMap[n])speciesMap[n]={name:n,count:0,totalWeight:0,heaviest:0,category:getCat(n)};
+    speciesMap[n].count++;speciesMap[n].totalWeight+=(c.weight||0);
     if((c.weight||0)>speciesMap[n].heaviest)speciesMap[n].heaviest=c.weight;
   });
-
-  // Also include fish from master list even if never caught
   Object.entries(FISH_CATEGORIES).forEach(([cat,list])=>{
-    list.forEach(name=>{
-      if(!speciesMap[name])speciesMap[name]={name,count:0,totalWeight:0,heaviest:0,category:cat};
-    });
+    list.forEach(name=>{if(!speciesMap[name])speciesMap[name]={name,count:0,totalWeight:0,heaviest:0,category:cat};});
   });
-
   let species=Object.values(speciesMap);
   if(q) species=species.filter(s=>s.name.toLowerCase().includes(q));
   if(catF) species=species.filter(s=>s.category===catF);
   species.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 
-  if(!species.length){
-    document.getElementById('encycContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No species found.</p></div>';
-    return;
-  }
+  if(!species.length){document.getElementById('encycContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No species found.</p></div>';return;}
 
   const catLabel={small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};
+
+  // Prefetch images for visible species
+  prefetchImages(species.slice(0,40).map(s=>s.name));
+
   document.getElementById('encycContent').innerHTML=`<div class="species-grid">
-    ${species.map(s=>`
-      <div class="species-card">
-        <div class="species-emoji">${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</div>
-        <div class="species-name">${esc(s.name)}</div>
-        <div class="species-cat">${catLabel[s.category]||s.category}</div>
-        <div class="species-stats">
-          <div class="species-stat">
-            <span class="species-stat-val">${s.count.toLocaleString()}</span>
-            <span class="species-stat-lbl">Caught</span>
+    ${species.map(s=>{
+      const imgId='enc_'+s.name.replace(/\W/g,'_');
+      const cached=imgCache[s.name];
+      let imgHtml;
+      if(cached){
+        imgHtml=`<img class="species-img" src="${esc(cached)}" alt="${esc(s.name)}" onerror="this.parentElement.innerHTML='<span class=species-img-placeholder>${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</span>'">`;
+      } else if(cached===null){
+        imgHtml=`<span class="species-img-placeholder">${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</span>`;
+      } else {
+        imgHtml=`<span class="species-img-loading" id="${imgId}">⏳</span>`;
+        setTimeout(async()=>{
+          const url=await getWikiImage(s.name);
+          const el=document.getElementById(imgId);
+          if(el){el.parentElement.innerHTML=url?`<img class="species-img" src="${esc(url)}" alt="${esc(s.name)}" onerror="this.parentElement.innerHTML='<span class=species-img-placeholder>${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</span>'">`:`<span class="species-img-placeholder">${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</span>`;}
+        },0);
+      }
+      return `<div class="species-card" onclick="openProfile(null,'${esc(s.name)}')">
+        <div class="species-img-wrap">${imgHtml}</div>
+        <div class="species-info">
+          <div class="species-name">${esc(s.name)}</div>
+          <div class="species-cat">${catLabel[s.category]||s.category}</div>
+          <div class="species-stats">
+            <div class="species-stat"><span class="species-stat-val">${s.count.toLocaleString()}</span><span class="species-stat-lbl">Caught</span></div>
+            ${s.heaviest?`<div class="species-stat"><span class="species-stat-val">${s.heaviest.toLocaleString()}</span><span class="species-stat-lbl">Record lbs</span></div>`:''}
           </div>
-          ${s.heaviest?`<div class="species-stat">
-            <span class="species-stat-val">${s.heaviest.toLocaleString()}</span>
-            <span class="species-stat-lbl">Best (lbs)</span>
-          </div>`:''}
         </div>
-      </div>`).join('')}
+      </div>`;
+    }).join('')}
   </div>`;
 }
 
-// ── Angler profile ───────────────────────────────────────────────
-function openProfile(name){
-  const catches=allCatches.filter(c=>c.user_name===name);
+// ── Angler profile ────────────────────────────────────────────────
+async function openProfile(anglerName, fishFilter=null){
+  const modal=document.getElementById('profileModal');
+  const content=document.getElementById('profileContent');
+
+  // If called from encyclopedia card (fishFilter set, no angler)
+  if(fishFilter && !anglerName){
+    const catches=allCatches.filter(c=>c.fish_name===fishFilter).sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
+    const url=await getWikiImage(fishFilter);
+    const imgHtml=url?`<img src="${esc(url)}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-bottom:1.2rem;border:1px solid var(--border)" alt="${esc(fishFilter)}">`:'';
+    content.innerHTML=`<button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
+      ${imgHtml}
+      <div class="modal-angler-name">${FISH_EMOJI[fishFilter]||DEFAULT_EMOJI} ${esc(fishFilter)}</div>
+      <div class="modal-subtitle">${catLabel()[getCat(fishFilter)]} species · ${catches.length} recent catches shown</div>
+      <div class="profile-section-title">Recent Catches</div>
+      <ul class="profile-fish-list">
+        ${catches.map(c=>`<li>
+          <div class="profile-fish-img-placeholder">${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>
+          <div class="profile-fish-details">
+            <div class="profile-fish-name" style="font-style:normal;font-weight:600;color:var(--accent2)">${esc(c.user_name||'Unknown')}</div>
+            <div class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs · ${(c.fish_size||'')} · ${formatTime(c.caught_at)}</div>
+          </div>
+        </li>`).join('')}
+      </ul>`;
+    modal.classList.add('open');
+    return;
+  }
+
+  const catches=allCatches.filter(c=>c.user_name===anglerName);
   if(!catches.length)return;
   const totalWeight=catches.reduce((s,c)=>s+(c.weight||0),0);
   const heaviest=catches.reduce((m,c)=>(c.weight||0)>m.weight?c:m,catches[0]);
   const speciesSet=new Set(catches.map(c=>c.fish_name));
   const specials=catches.filter(c=>c.is_special);
   const recent=[...catches].sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
-
-  // currency totals
   const currencies={};
   specials.forEach(c=>{if(c.currency_type)currencies[c.currency_type]=(currencies[c.currency_type]||0)+(c.currency_amount||0);});
   const currHtml=Object.entries(currencies).map(([t,a])=>`<span class="currency-badge">✦ ${a.toLocaleString()} ${esc(t)}</span>`).join(' ');
 
-  document.getElementById('profileContent').innerHTML=`
-    <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
-    <div class="modal-angler-name">🎣 ${esc(name)}</div>
+  // Build fish list items with images
+  const fishRows = recent.map(c=>{
+    const iid='pf_'+Math.random().toString(36).slice(2);
+    const cached=imgCache[c.fish_name];
+    let imgEl;
+    if(cached) imgEl=`<img class="profile-fish-img" src="${esc(cached)}" alt="${esc(c.fish_name)}" onerror="this.outerHTML='<div class=profile-fish-img-placeholder>${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>'">`;
+    else if(cached===null) imgEl=`<div class="profile-fish-img-placeholder">${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>`;
+    else{
+      imgEl=`<div class="profile-fish-img-placeholder" id="${iid}">${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>`;
+      setTimeout(async()=>{const url=await getWikiImage(c.fish_name);const el=document.getElementById(iid);if(el&&url)el.outerHTML=`<img class="profile-fish-img" src="${esc(url)}" alt="${esc(c.fish_name)}" onerror="this.outerHTML='<div class=profile-fish-img-placeholder>${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>'">`;},0);
+    }
+    return `<li>${imgEl}
+      <div class="profile-fish-details">
+        <div class="profile-fish-name">${esc(c.fish_name)}<span class="size-badge size-${(c.fish_size||'').toLowerCase()}">${c.fish_size||''}</span></div>
+        <div class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs &nbsp;·&nbsp; ${formatTime(c.caught_at)}</div>
+      </div>
+    </li>`;
+  }).join('');
+
+  content.innerHTML=`<button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
+    <div class="modal-angler-name">🎣 ${esc(anglerName)}</div>
     <div class="modal-subtitle">Angler profile</div>
     <div class="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val">${catches.length.toLocaleString()}</div><div class="profile-stat-lbl">Total Catches</div></div>
@@ -765,39 +708,24 @@ function openProfile(name){
     </div>
     ${currHtml?`<div class="profile-section-title">Currencies Earned</div><div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem">${currHtml}</div>`:''}
     <div class="profile-section-title">Recent Catches</div>
-    <ul class="profile-fish-list">
-      ${recent.map(c=>`<li>
-        <span>${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI} <span class="profile-fish-name">${esc(c.fish_name)}</span>
-          <span class="size-badge size-${(c.fish_size||'').toLowerCase()}">${c.fish_size||''}</span></span>
-        <span class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs &nbsp;·&nbsp; ${formatTime(c.caught_at)}</span>
-      </li>`).join('')}
-    </ul>`;
-  document.getElementById('profileModal').classList.add('open');
+    <ul class="profile-fish-list">${fishRows}</ul>`;
+  modal.classList.add('open');
 }
-function closeProfile(e){
-  if(e.target===document.getElementById('profileModal'))
-    document.getElementById('profileModal').classList.remove('open');
-}
+
+function catLabel(){return{small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};}
+function closeProfile(e){if(e.target===document.getElementById('profileModal'))document.getElementById('profileModal').classList.remove('open');}
 
 // ── Sort / filter ─────────────────────────────────────────────────
 function sortData(arr,by){
   arr.sort((a,b)=>{
-    if(by==='weight')   return (b.weight||0)-(a.weight||0);
-    if(by==='angler')   return (a.user_name||'').localeCompare(b.user_name||'');
-    if(by==='currency') return (b.currency_amount||0)-(a.currency_amount||0);
+    if(by==='weight')return(b.weight||0)-(a.weight||0);
+    if(by==='angler')return(a.user_name||'').localeCompare(b.user_name||'');
+    if(by==='currency')return(b.currency_amount||0)-(a.currency_amount||0);
     return new Date(b.caught_at||0)-new Date(a.caught_at||0);
   });
 }
-function setSort(val,btn){
-  sortAll=val;
-  document.querySelectorAll('#tab-all .sort-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');pageAll=1;applyFilters();
-}
-function setSpecialSort(val,btn){
-  sortSpecial=val;
-  document.querySelectorAll('#tab-special .sort-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');pageSpecial=1;applySpecialFilters();
-}
+function setSort(val,btn){sortAll=val;document.querySelectorAll('#tab-all .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageAll=1;applyFilters();}
+function setSpecialSort(val,btn){sortSpecial=val;document.querySelectorAll('#tab-special .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageSpecial=1;applySpecialFilters();}
 function applyFilters(){
   const q=(document.getElementById('searchAll').value||'').toLowerCase();
   const size=document.getElementById('sizeFilter').value;
@@ -815,33 +743,36 @@ function applySpecialFilters(){
   renderTable('specialContent',filteredSpecial,true,pageSpecial);
 }
 
-// ── Render table ─────────────────────────────────────────────────
+// ── Render table ──────────────────────────────────────────────────
 function renderTable(id,data,isSpecial,page){
   const el=document.getElementById(id);
   if(!data.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">${isSpecial?'🌟':'🎣'}</div><p>No catches found.</p></div>`;return;}
   const totalPages=Math.ceil(data.length/PAGE_SIZE);
   const start=(page-1)*PAGE_SIZE;
   const slice=data.slice(start,start+PAGE_SIZE);
+
+  // Prefetch images for this page
+  prefetchImages(slice.map(c=>c.fish_name).filter(Boolean));
+
   const rows=slice.map((c,i)=>{
     const size=(c.fish_size||'').toLowerCase();
-    const emoji=FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI;
     const sizeBadge=size?`<span class="size-badge size-${size}">${size}</span>`:'';
     const currBadge=(c.is_special&&c.currency_type)?`<span class="currency-badge">✦ ${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type)}</span>`:'';
+    const thumb=thumbEl(c.fish_name,34);
     return `<tr class="${c.is_special?'special-row':''}" style="animation-delay:${(i%PAGE_SIZE)*0.018}s">
       <td class="td-rank">${start+i+1}</td>
       <td class="td-angler" onclick="openProfile('${esc(c.user_name||'')}')">${esc(c.user_name||'Unknown')}</td>
-      <td class="td-fish">${emoji} ${esc(c.fish_name||'Unknown')}${sizeBadge}</td>
+      <td class="td-fish"><span class="fish-thumb-wrap">${thumb}<span>${esc(c.fish_name||'Unknown')}${sizeBadge}</span></span></td>
       <td class="td-weight">${(c.weight||0).toLocaleString()}<span class="unit">lbs</span></td>
       ${isSpecial?`<td>${currBadge}</td>`:''}
       <td class="td-time hide-mobile">${formatTime(c.caught_at)}</td>
     </tr>`;
   }).join('');
-  el.innerHTML=`
-    <div class="table-wrap"><table>
-      <thead><tr><th>#</th><th>Angler</th><th>Fish</th><th>Weight</th>${isSpecial?'<th>Currency</th>':''}<th class="hide-mobile">Time</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>
-    ${totalPages>1?renderPagination(page,totalPages,id):''}`;
+
+  el.innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Angler</th><th>Fish</th><th>Weight</th>${isSpecial?'<th>Currency</th>':''}<th class="hide-mobile">Time</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>${totalPages>1?renderPagination(page,totalPages,id):''}`;
 }
 
 function renderPagination(current,total,id){
@@ -866,8 +797,7 @@ function showToast(c){
   const t=document.createElement('div');
   t.className='toast'+(c.is_special?' special':'');
   t.innerHTML=`<div class="toast-title${c.is_special?' special':''}">
-    ${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}
-  </div>
+    ${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}</div>
   <div class="toast-body">
     <strong>${esc(c.user_name||'Someone')}</strong> caught
     ${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI} <em>${esc(c.fish_name||'a fish')}</em>
@@ -889,12 +819,9 @@ function switchTab(id,btn){
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function formatTime(ts){
   if(!ts)return'—';
-  try{
-    const d=new Date(ts),diff=(Date.now()-d)/1000;
-    if(diff<60)return'just now';
-    if(diff<3600)return`${Math.floor(diff/60)}m ago`;
-    if(diff<86400)return`${Math.floor(diff/3600)}h ago`;
-    if(diff<604800)return`${Math.floor(diff/86400)}d ago`;
+  try{const d=new Date(ts),diff=(Date.now()-d)/1000;
+    if(diff<60)return'just now';if(diff<3600)return`${Math.floor(diff/60)}m ago`;
+    if(diff<86400)return`${Math.floor(diff/3600)}h ago`;if(diff<604800)return`${Math.floor(diff/86400)}d ago`;
     return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
   }catch{return'—';}
 }
