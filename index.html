@@ -1,267 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Catch Log</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --abyss: #010810;
-    --surface: #0a2540;
-    --biolum: #00e5ff;
-    --biolum2: #00b4d8;
-    --gold: #f0c040;
-    --pearl: #e8f4f8;
-    --mist: #8ab8cc;
-    --special: #ff9d00;
+  /* ── Theme variables ─────────────────────────────────────────── */
+  [data-theme="dark"] {
+    --bg:        #010810;
+    --bg2:       #041628;
+    --surface:   rgba(4,22,40,0.6);
+    --border:    rgba(0,229,255,0.12);
+    --border2:   rgba(0,229,255,0.06);
+    --text:      #e8f4f8;
+    --muted:     #8ab8cc;
+    --accent:    #00e5ff;
+    --accent2:   #00b4d8;
+    --gold:      #f0c040;
+    --special:   #ff9d00;
+    --row-hover: rgba(0,229,255,0.04);
+    --head-bg:   rgba(0,229,255,0.06);
+    --input-bg:  rgba(10,37,64,0.7);
+    --card-bg:   rgba(4,22,40,0.6);
+    --shadow:    0 0 40px rgba(0,229,255,0.08);
+  }
+  [data-theme="light"] {
+    --bg:        #f0f6fa;
+    --bg2:       #ddeef6;
+    --surface:   rgba(255,255,255,0.8);
+    --border:    rgba(0,140,180,0.2);
+    --border2:   rgba(0,140,180,0.1);
+    --text:      #0d2a3a;
+    --muted:     #4a7a94;
+    --accent:    #0088bb;
+    --accent2:   #006a94;
+    --gold:      #c07800;
+    --special:   #cc6600;
+    --row-hover: rgba(0,140,180,0.05);
+    --head-bg:   rgba(0,140,180,0.07);
+    --input-bg:  rgba(255,255,255,0.9);
+    --card-bg:   rgba(255,255,255,0.85);
+    --shadow:    0 4px 24px rgba(0,100,140,0.1);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
-    background: var(--abyss);
-    color: var(--pearl);
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Crimson Pro', Georgia, serif;
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
+  [data-theme="dark"] body::before {
+    content:'';
+    position:fixed; inset:0;
     background:
       radial-gradient(ellipse 80% 50% at 20% 80%, rgba(0,180,216,0.07) 0%, transparent 60%),
       radial-gradient(ellipse 60% 40% at 80% 20%, rgba(0,229,255,0.04) 0%, transparent 50%),
       linear-gradient(180deg, #010810 0%, #020d1f 40%, #041628 100%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events:none; z-index:0;
   }
 
-  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
   .particle {
-    position: absolute; border-radius: 50%;
-    background: var(--biolum); opacity: 0;
-    animation: drift linear infinite;
+    position:absolute; border-radius:50%;
+    background:var(--accent); opacity:0;
+    animation:drift linear infinite;
   }
   @keyframes drift {
-    0%   { transform: translateY(100vh); opacity: 0; }
-    10%  { opacity: 0.6; }
-    90%  { opacity: 0.2; }
-    100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+    0%{transform:translateY(100vh);opacity:0} 10%{opacity:0.5}
+    90%{opacity:0.15} 100%{transform:translateY(-10vh) translateX(30px);opacity:0}
   }
+  [data-theme="light"] .particle { display:none; }
 
+  /* ── Header ──────────────────────────────────────────────────── */
   header {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 3rem 2rem 1.5rem;
-    border-bottom: 1px solid rgba(0,229,255,0.12);
+    position:relative; z-index:10;
+    text-align:center; padding:2.5rem 2rem 1.5rem;
+    border-bottom:1px solid var(--border);
   }
+  .header-top { display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
   .header-wave {
-    position: absolute; bottom: -1px; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, transparent, var(--biolum), transparent);
-    animation: waveGlow 3s ease-in-out infinite;
+    position:absolute; bottom:-1px; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    animation:waveGlow 3s ease-in-out infinite;
   }
-  @keyframes waveGlow { 0%,100%{opacity:0.4} 50%{opacity:1} }
+  @keyframes waveGlow{0%,100%{opacity:0.4}50%{opacity:1}}
 
   .title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.8rem, 5vw, 3.2rem);
-    color: var(--pearl); letter-spacing: 0.08em;
-    text-shadow: 0 0 40px rgba(0,229,255,0.5), 0 0 80px rgba(0,229,255,0.2);
-    margin-bottom: 0.3rem;
+    font-family:'Cinzel Decorative',serif;
+    font-size:clamp(1.6rem,4vw,2.8rem);
+    color:var(--text); letter-spacing:0.08em;
+    text-shadow:0 0 40px rgba(0,229,255,0.4);
   }
-  .subtitle {
-    font-size: 1rem; color: var(--mist);
-    font-style: italic; letter-spacing: 0.15em; font-weight: 300;
-  }
+  [data-theme="light"] .title { text-shadow:none; }
+
+  .subtitle { font-size:0.95rem; color:var(--muted); font-style:italic; letter-spacing:0.15em; margin-top:0.3rem; }
   .live-dot {
-    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-    background: #00ff88; box-shadow: 0 0 8px #00ff88;
-    animation: pulse 2s ease-in-out infinite;
-    margin-right: 6px; vertical-align: middle;
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    background:#00ff88; box-shadow:0 0 8px #00ff88;
+    animation:pulse 2s ease-in-out infinite; margin-right:6px; vertical-align:middle;
   }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-  .last-updated { font-size: 0.75rem; color: var(--mist); font-style: italic; margin-top: 0.4rem; opacity: 0.7; }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .last-updated { font-size:0.72rem; color:var(--muted); font-style:italic; margin-top:0.35rem; opacity:0.7; }
 
+  /* Theme toggle */
+  .theme-toggle {
+    position:absolute; top:1.2rem; right:1.5rem;
+    background:var(--input-bg); border:1px solid var(--border);
+    color:var(--muted); font-size:1.1rem;
+    width:36px; height:36px; border-radius:50%;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:all 0.3s; z-index:20;
+  }
+  .theme-toggle:hover { color:var(--accent); border-color:var(--accent); }
+
+  /* ── Stats bar ───────────────────────────────────────────────── */
   .stats-bar {
-    position: relative; z-index: 10;
-    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
-    padding: 1.2rem 2rem;
-    background: rgba(10,37,64,0.5);
-    border-bottom: 1px solid rgba(0,229,255,0.08);
+    position:relative; z-index:10;
+    display:flex; justify-content:center; gap:2rem; flex-wrap:wrap;
+    padding:1rem 2rem;
+    background:rgba(10,37,64,0.4);
+    border-bottom:1px solid var(--border2);
   }
-  .stat-item { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
+  [data-theme="light"] .stats-bar { background:rgba(0,100,140,0.06); }
+  .stat-item { display:flex; flex-direction:column; align-items:center; gap:0.1rem; }
   .stat-value {
-    font-family: 'Cinzel Decorative', serif; font-size: 1.6rem;
-    color: var(--biolum); text-shadow: 0 0 20px rgba(0,229,255,0.6);
-    line-height: 1; transition: all 0.4s;
+    font-family:'Cinzel Decorative',serif; font-size:1.5rem;
+    color:var(--accent); line-height:1; transition:all 0.4s;
   }
-  .stat-label { font-size: 0.7rem; color: var(--mist); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; }
-  .stat-divider {
-    width: 1px; height: 40px; align-self: center;
-    background: linear-gradient(180deg, transparent, rgba(0,229,255,0.3), transparent);
-  }
+  [data-theme="dark"] .stat-value { text-shadow:0 0 20px rgba(0,229,255,0.5); }
+  .stat-label { font-size:0.68rem; color:var(--muted); letter-spacing:0.2em; text-transform:uppercase; font-weight:300; }
+  .stat-divider { width:1px; height:36px; background:linear-gradient(180deg,transparent,var(--border),transparent); align-self:center; }
 
+  /* ── Tab nav ─────────────────────────────────────────────────── */
   .tabs {
-    position: relative; z-index: 10;
-    display: flex; padding: 1.5rem 2rem 0;
-    max-width: 1200px; margin: 0 auto;
+    position:relative; z-index:10;
+    display:flex; flex-wrap:wrap; gap:0;
+    padding:1.2rem 2rem 0;
+    max-width:1300px; margin:0 auto;
+    border-bottom:2px solid var(--border2);
   }
   .tab-btn {
-    font-family: 'Crimson Pro', serif; font-size: 1rem;
-    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
-    padding: 0.7rem 2rem; border: none; background: transparent;
-    cursor: pointer; position: relative; transition: color 0.3s; color: var(--mist);
+    font-family:'Crimson Pro',serif; font-size:0.9rem;
+    letter-spacing:0.1em; text-transform:uppercase; font-weight:600;
+    padding:0.65rem 1.5rem; border:none; background:transparent;
+    cursor:pointer; position:relative; transition:color 0.3s; color:var(--muted);
   }
   .tab-btn::after {
-    content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px;
-    background: var(--biolum); transform: scaleX(0); transition: transform 0.3s;
-    box-shadow: 0 0 10px var(--biolum);
+    content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px;
+    background:var(--accent); transform:scaleX(0); transition:transform 0.3s;
   }
-  .tab-btn.active { color: var(--pearl); }
-  .tab-btn.active::after { transform: scaleX(1); }
-  .tab-btn:hover:not(.active) { color: rgba(232,244,248,0.7); }
-  .tab-btn.special-tab { color: var(--special); }
-  .tab-btn.special-tab.active { color: var(--gold); }
-  .tab-btn.special-tab::after { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+  [data-theme="dark"] .tab-btn::after { box-shadow:0 0 10px var(--accent); }
+  .tab-btn.active { color:var(--text); }
+  .tab-btn.active::after { transform:scaleX(1); }
+  .tab-btn:hover:not(.active) { color:var(--text); opacity:0.7; }
+  .tab-btn.special-tab { color:var(--special); }
+  .tab-btn.special-tab.active { color:var(--gold); }
+  .tab-btn.special-tab::after { background:var(--gold); }
 
+  /* ── Main ────────────────────────────────────────────────────── */
   main {
-    position: relative; z-index: 10;
-    max-width: 1200px; margin: 0 auto;
-    padding: 1.5rem 2rem 4rem;
+    position:relative; z-index:10;
+    max-width:1300px; margin:0 auto;
+    padding:1.5rem 2rem 4rem;
   }
 
-  .filter-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
-  .search-wrap { position: relative; flex: 1; min-width: 200px; }
-  .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--mist); pointer-events: none; }
+  /* ── Filter bar ──────────────────────────────────────────────── */
+  .filter-bar { display:flex; gap:0.8rem; margin-bottom:1.4rem; flex-wrap:wrap; align-items:center; }
+  .search-wrap { position:relative; flex:1; min-width:180px; }
+  .search-icon { position:absolute; left:0.9rem; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; font-size:0.85rem; }
 
   input[type="text"], select {
-    background: rgba(10,37,64,0.7); border: 1px solid rgba(0,229,255,0.15);
-    color: var(--pearl); font-family: 'Crimson Pro', serif; font-size: 0.95rem;
-    padding: 0.6rem 1rem 0.6rem 2.4rem; border-radius: 4px; outline: none;
-    transition: border-color 0.3s; width: 100%;
+    background:var(--input-bg); border:1px solid var(--border);
+    color:var(--text); font-family:'Crimson Pro',serif; font-size:0.92rem;
+    padding:0.55rem 1rem 0.55rem 2.2rem; border-radius:4px;
+    outline:none; transition:border-color 0.3s; width:100%;
   }
-  select { padding-left: 1rem; cursor: pointer; }
-  input[type="text"]:focus, select:focus { border-color: rgba(0,229,255,0.5); box-shadow: 0 0 0 3px rgba(0,229,255,0.06); }
-  select option { background: var(--surface); }
+  select { padding-left:0.9rem; cursor:pointer; }
+  input[type="text"]:focus, select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,229,255,0.06); }
+  select option { background:var(--bg2); color:var(--text); }
 
-  .sort-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .sort-pills { display:flex; gap:0.4rem; flex-wrap:wrap; }
   .sort-pill {
-    font-family: 'Crimson Pro', serif; font-size: 0.8rem; letter-spacing: 0.1em;
-    text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 20px;
-    border: 1px solid rgba(0,229,255,0.2); background: transparent;
-    color: var(--mist); cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    font-family:'Crimson Pro',serif; font-size:0.75rem; letter-spacing:0.1em;
+    text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:20px;
+    border:1px solid var(--border); background:transparent;
+    color:var(--muted); cursor:pointer; transition:all 0.2s; white-space:nowrap;
   }
-  .sort-pill:hover { border-color: rgba(0,229,255,0.4); color: var(--pearl); }
-  .sort-pill.active { background: rgba(0,229,255,0.12); border-color: var(--biolum); color: var(--biolum); box-shadow: 0 0 10px rgba(0,229,255,0.1); }
+  .sort-pill:hover { border-color:var(--accent); color:var(--text); }
+  .sort-pill.active { background:rgba(0,229,255,0.1); border-color:var(--accent); color:var(--accent); }
+  [data-theme="light"] .sort-pill.active { background:rgba(0,140,180,0.1); }
 
+  /* ── Table ───────────────────────────────────────────────────── */
   .table-wrap {
-    border: 1px solid rgba(0,229,255,0.1); border-radius: 8px;
-    overflow: hidden; background: rgba(4,22,40,0.5); backdrop-filter: blur(10px);
+    border:1px solid var(--border); border-radius:8px;
+    overflow:hidden; background:var(--surface);
+    backdrop-filter:blur(10px); box-shadow:var(--shadow);
   }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: rgba(0,229,255,0.06); border-bottom: 1px solid rgba(0,229,255,0.15); }
+  table { width:100%; border-collapse:collapse; }
+  thead tr { background:var(--head-bg); border-bottom:1px solid var(--border); }
   th {
-    font-family: 'Crimson Pro', serif; font-size: 0.75rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--mist); padding: 0.9rem 1.2rem;
-    text-align: left; font-weight: 600; white-space: nowrap;
+    font-family:'Crimson Pro',serif; font-size:0.72rem; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--muted); padding:0.85rem 1.1rem;
+    text-align:left; font-weight:600; white-space:nowrap;
   }
-  tbody tr { border-bottom: 1px solid rgba(0,229,255,0.05); transition: background 0.2s; animation: rowFadeIn 0.4s ease both; }
-  @keyframes rowFadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-  tbody tr:hover { background: rgba(0,229,255,0.04); }
-  tbody tr:last-child { border-bottom: none; }
-  td { font-size: 0.95rem; padding: 0.85rem 1.2rem; color: var(--pearl); vertical-align: middle; }
+  tbody tr { border-bottom:1px solid var(--border2); transition:background 0.2s; animation:rowIn 0.35s ease both; }
+  @keyframes rowIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  tbody tr:hover { background:var(--row-hover); }
+  tbody tr:last-child { border-bottom:none; }
+  td { font-size:0.92rem; padding:0.8rem 1.1rem; vertical-align:middle; }
 
-  .td-rank { color: var(--mist); font-size: 0.8rem; font-style: italic; width: 50px; }
-  .td-angler { font-weight: 600; color: var(--biolum2); }
-  .td-fish { font-style: italic; }
+  .td-rank { color:var(--muted); font-size:0.78rem; font-style:italic; width:45px; }
+  .td-angler { font-weight:600; color:var(--accent2); cursor:pointer; transition:color 0.2s; }
+  .td-angler:hover { color:var(--accent); text-decoration:underline; }
+  .td-fish { font-style:italic; }
+
   .size-badge {
-    display: inline-block; font-size: 0.68rem; letter-spacing: 0.12em;
-    text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 3px;
-    font-style: normal; font-weight: 600; margin-left: 0.5rem; vertical-align: middle;
+    display:inline-block; font-size:0.65rem; letter-spacing:0.1em;
+    text-transform:uppercase; padding:0.12rem 0.45rem; border-radius:3px;
+    font-style:normal; font-weight:600; margin-left:0.4rem; vertical-align:middle;
   }
-  .size-tiny     { background: rgba(138,184,204,0.15); color: var(--mist); }
-  .size-small    { background: rgba(0,180,216,0.12);   color: #5ab8d4; }
-  .size-medium   { background: rgba(0,229,255,0.12);   color: var(--biolum2); }
-  .size-large    { background: rgba(240,192,64,0.12);  color: var(--gold); }
-  .size-enormous { background: rgba(255,107,0,0.15);   color: #ff9d00; }
+  .size-tiny    { background:rgba(138,184,204,0.15); color:var(--muted); }
+  .size-small   { background:rgba(0,180,216,0.12);   color:#5ab8d4; }
+  .size-medium  { background:rgba(0,229,255,0.12);   color:var(--accent2); }
+  .size-large   { background:rgba(240,192,64,0.12);  color:var(--gold); }
+  .size-enormous{ background:rgba(255,107,0,0.15);   color:#ff9d00; }
+  [data-theme="light"] .size-tiny  { background:rgba(0,100,140,0.08); }
+  [data-theme="light"] .size-small { background:rgba(0,140,180,0.1); color:#0077aa; }
 
-  .td-weight { font-family: 'Cinzel Decorative', serif; font-size: 0.9rem; }
-  .td-weight .unit { font-family: 'Crimson Pro', serif; font-size: 0.8rem; color: var(--mist); margin-left: 2px; }
-  .td-time { color: var(--mist); font-size: 0.85rem; font-style: italic; }
+  .td-weight { font-family:'Cinzel Decorative',serif; font-size:0.88rem; }
+  .td-weight .unit { font-family:'Crimson Pro',serif; font-size:0.78rem; color:var(--muted); margin-left:2px; }
+  .td-time { color:var(--muted); font-size:0.82rem; font-style:italic; }
+  .special-row td { background:rgba(240,192,64,0.03); }
+  .special-row:hover td { background:rgba(240,192,64,0.07) !important; }
 
-  .special-row td { background: rgba(240,192,64,0.03); }
-  .special-row:hover td { background: rgba(240,192,64,0.07) !important; }
   .currency-badge {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    font-size: 0.78rem; letter-spacing: 0.08em; padding: 0.2rem 0.6rem;
-    border-radius: 20px; background: rgba(240,192,64,0.12);
-    border: 1px solid rgba(240,192,64,0.3); color: var(--gold); white-space: nowrap;
+    display:inline-flex; align-items:center; gap:0.25rem;
+    font-size:0.75rem; padding:0.18rem 0.55rem; border-radius:20px;
+    background:rgba(240,192,64,0.1); border:1px solid rgba(240,192,64,0.3);
+    color:var(--gold); white-space:nowrap;
   }
 
+  /* ── Special tab ─────────────────────────────────────────────── */
   .special-header {
-    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
-    padding: 1rem 1.5rem; background: rgba(240,192,64,0.05);
-    border: 1px solid rgba(240,192,64,0.15); border-radius: 8px;
+    display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem;
+    padding:1rem 1.4rem; background:rgba(240,192,64,0.05);
+    border:1px solid rgba(240,192,64,0.15); border-radius:8px;
   }
-  .special-header-icon { font-size: 1.8rem; }
-  .special-header-text h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; color: var(--gold); text-shadow: 0 0 20px rgba(240,192,64,0.4); }
-  .special-header-text p { font-size: 0.85rem; color: var(--mist); font-style: italic; margin-top: 0.15rem; }
+  .special-header-icon { font-size:1.7rem; }
+  .special-header-text h2 { font-family:'Cinzel Decorative',serif; font-size:1rem; color:var(--gold); }
+  .special-header-text p { font-size:0.82rem; color:var(--muted); font-style:italic; margin-top:0.12rem; }
 
-  .currency-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-  .currency-card { background: rgba(4,22,40,0.6); border: 1px solid rgba(240,192,64,0.15); border-radius: 8px; padding: 1.2rem 1.5rem; backdrop-filter: blur(10px); }
-  .currency-card-title { font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
-  .currency-leaderboard { list-style: none; }
-  .currency-leaderboard li { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid rgba(240,192,64,0.06); font-size: 0.9rem; }
-  .currency-leaderboard li:last-child { border-bottom: none; }
-  .currency-leaderboard .rank-num { color: var(--mist); font-size: 0.75rem; width: 20px; }
-  .currency-leaderboard .angler-name { color: var(--biolum2); flex: 1; padding-left: 0.5rem; }
-  .currency-leaderboard .amount { font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; color: var(--gold); }
+  .currency-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; margin-bottom:1.8rem; }
+  .currency-card { background:var(--card-bg); border:1px solid rgba(240,192,64,0.15); border-radius:8px; padding:1.1rem 1.4rem; backdrop-filter:blur(10px); }
+  .currency-card-title { font-family:'Cinzel Decorative',serif; font-size:0.82rem; color:var(--gold); letter-spacing:0.1em; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem; }
+  .currency-leaderboard { list-style:none; }
+  .currency-leaderboard li { display:flex; justify-content:space-between; align-items:center; padding:0.3rem 0; border-bottom:1px solid rgba(240,192,64,0.06); font-size:0.88rem; }
+  .currency-leaderboard li:last-child { border-bottom:none; }
+  .currency-leaderboard .rank-num { color:var(--muted); font-size:0.72rem; width:18px; }
+  .currency-leaderboard .angler-name { color:var(--accent2); flex:1; padding-left:0.4rem; cursor:pointer; }
+  .currency-leaderboard .angler-name:hover { color:var(--accent); text-decoration:underline; }
+  .currency-leaderboard .amount { font-family:'Cinzel Decorative',serif; font-size:0.82rem; color:var(--gold); }
 
-  .empty-state { text-align: center; padding: 4rem 2rem; color: var(--mist); }
-  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
-  .empty-state p { font-size: 1rem; font-style: italic; }
+  /* ── Leaderboard tab ─────────────────────────────────────────── */
+  .leaderboard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.2rem; }
+  .lb-card { background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:1.2rem 1.4rem; backdrop-filter:blur(10px); }
+  .lb-card-title { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+  .lb-list { list-style:none; }
+  .lb-list li { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 0; border-bottom:1px solid var(--border2); font-size:0.9rem; cursor:pointer; transition:color 0.2s; }
+  .lb-list li:last-child { border-bottom:none; }
+  .lb-list li:hover .lb-name { color:var(--accent); text-decoration:underline; }
+  .lb-medal { font-size:1rem; width:22px; text-align:center; }
+  .lb-name { flex:1; color:var(--accent2); font-weight:600; }
+  .lb-val { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--text); }
+  .lb-val small { font-family:'Crimson Pro',serif; font-size:0.72rem; color:var(--muted); margin-left:2px; }
 
-  .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
-  .page-btn { font-family: 'Crimson Pro', serif; font-size: 0.85rem; padding: 0.4rem 0.8rem; border: 1px solid rgba(0,229,255,0.15); background: transparent; color: var(--mist); border-radius: 4px; cursor: pointer; transition: all 0.2s; }
-  .page-btn:hover { border-color: rgba(0,229,255,0.4); color: var(--pearl); }
-  .page-btn.active { background: rgba(0,229,255,0.12); border-color: var(--biolum); color: var(--biolum); }
-  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  /* ── Encyclopedia tab ────────────────────────────────────────── */
+  .encyc-search { margin-bottom:1.4rem; }
+  .species-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.9rem; }
+  .species-card {
+    background:var(--card-bg); border:1px solid var(--border);
+    border-radius:8px; padding:1rem 1.2rem; cursor:pointer;
+    transition:border-color 0.2s, box-shadow 0.2s; backdrop-filter:blur(10px);
+  }
+  .species-card:hover { border-color:var(--accent); box-shadow:0 0 16px rgba(0,229,255,0.08); }
+  .species-emoji { font-size:1.6rem; margin-bottom:0.4rem; }
+  .species-name { font-size:0.95rem; font-weight:600; color:var(--text); font-style:italic; margin-bottom:0.3rem; }
+  .species-cat { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem; }
+  .species-stats { display:flex; gap:1rem; }
+  .species-stat { display:flex; flex-direction:column; }
+  .species-stat-val { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--accent); }
+  .species-stat-lbl { font-size:0.65rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; }
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  /* ── Angler profile modal ────────────────────────────────────── */
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.7);
+    z-index:200; display:none; align-items:center; justify-content:center;
+    padding:1rem; backdrop-filter:blur(4px);
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:12px; padding:2rem; max-width:680px; width:100%;
+    max-height:85vh; overflow-y:auto; position:relative;
+    box-shadow:0 0 60px rgba(0,229,255,0.12);
+    animation:modalIn 0.3s ease;
+  }
+  [data-theme="light"] .modal { box-shadow:0 8px 40px rgba(0,0,0,0.15); }
+  @keyframes modalIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close {
+    position:absolute; top:1rem; right:1rem;
+    background:var(--input-bg); border:1px solid var(--border);
+    color:var(--muted); width:32px; height:32px; border-radius:50%;
+    cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s;
+  }
+  .modal-close:hover { color:var(--text); border-color:var(--accent); }
+  .modal-angler-name { font-family:'Cinzel Decorative',serif; font-size:1.3rem; color:var(--accent); margin-bottom:0.2rem; }
+  [data-theme="dark"] .modal-angler-name { text-shadow:0 0 20px rgba(0,229,255,0.4); }
+  .modal-subtitle { font-size:0.85rem; color:var(--muted); font-style:italic; margin-bottom:1.5rem; }
+  .profile-stats { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:0.8rem; margin-bottom:1.5rem; }
+  .profile-stat { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:0.7rem 1rem; }
+  .profile-stat-val { font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--accent); }
+  .profile-stat-lbl { font-size:0.65rem; color:var(--muted); letter-spacing:0.15em; text-transform:uppercase; margin-top:0.1rem; }
+  .profile-section-title { font-family:'Cinzel Decorative',serif; font-size:0.8rem; color:var(--muted); letter-spacing:0.15em; text-transform:uppercase; margin:1.2rem 0 0.7rem; }
+  .profile-fish-list { list-style:none; }
+  .profile-fish-list li { display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--border2); font-size:0.9rem; }
+  .profile-fish-list li:last-child { border-bottom:none; }
+  .profile-fish-name { font-style:italic; }
+  .profile-fish-meta { color:var(--muted); font-size:0.82rem; }
 
-  .loading { text-align: center; padding: 3rem; color: var(--mist); font-style: italic; }
-  .loading-fish { font-size: 2rem; animation: bobble 1.5s ease-in-out infinite; display: block; margin-bottom: 1rem; }
-  @keyframes bobble { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  /* ── Pagination ──────────────────────────────────────────────── */
+  .pagination { display:flex; justify-content:center; align-items:center; gap:0.4rem; margin-top:1.3rem; flex-wrap:wrap; }
+  .page-btn { font-family:'Crimson Pro',serif; font-size:0.82rem; padding:0.35rem 0.75rem; border:1px solid var(--border); background:transparent; color:var(--muted); border-radius:4px; cursor:pointer; transition:all 0.2s; }
+  .page-btn:hover { border-color:var(--accent); color:var(--text); }
+  .page-btn.active { background:rgba(0,229,255,0.1); border-color:var(--accent); color:var(--accent); }
+  .page-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  .loading { text-align:center; padding:3rem; color:var(--muted); font-style:italic; }
+  .loading-fish { font-size:2rem; animation:bobble 1.5s ease-in-out infinite; display:block; margin-bottom:1rem; }
+  @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
   .error-msg {
-    background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.2);
-    border-radius: 8px; padding: 1.5rem; color: #ff8080; text-align: center; line-height: 1.8;
+    background:rgba(255,80,80,0.06); border:1px solid rgba(255,80,80,0.2);
+    border-radius:8px; padding:1.5rem; color:#ff8080; text-align:center; line-height:1.8;
   }
-  .error-msg code { display: block; margin-top: 0.5rem; font-size: 0.78rem; opacity: 0.6; font-family: monospace; word-break: break-all; }
+  .error-msg code { display:block; margin-top:0.5rem; font-size:0.76rem; opacity:0.6; font-family:monospace; word-break:break-all; }
 
-  .new-catch-toast {
-    position: fixed; bottom: 2rem; right: 2rem;
-    background: rgba(4,22,40,0.95); border: 1px solid rgba(0,229,255,0.4);
-    border-radius: 8px; padding: 0.9rem 1.4rem; z-index: 100;
-    box-shadow: 0 0 30px rgba(0,229,255,0.15); animation: toastIn 0.4s ease;
-    max-width: 300px; backdrop-filter: blur(10px);
+  .empty-state { text-align:center; padding:3rem 2rem; color:var(--muted); }
+  .empty-state .empty-icon { font-size:2.5rem; margin-bottom:0.8rem; opacity:0.5; }
+
+  /* Toast */
+  .toast {
+    position:fixed; bottom:2rem; right:2rem;
+    background:var(--card-bg); border:1px solid rgba(0,229,255,0.4);
+    border-radius:8px; padding:0.85rem 1.3rem; z-index:300;
+    box-shadow:0 0 30px rgba(0,229,255,0.12); animation:toastIn 0.4s ease;
+    max-width:290px; backdrop-filter:blur(10px);
   }
-  .new-catch-toast.special { border-color: rgba(240,192,64,0.5); box-shadow: 0 0 30px rgba(240,192,64,0.2); }
-  @keyframes toastIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-  .toast-title { font-family: 'Cinzel Decorative', serif; font-size: 0.72rem; color: var(--biolum); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
-  .toast-title.special { color: var(--gold); }
-  .toast-body { font-size: 0.9rem; color: var(--pearl); line-height: 1.4; }
-  .toast-body strong { color: var(--biolum2); }
+  .toast.special { border-color:rgba(240,192,64,0.5); box-shadow:0 0 30px rgba(240,192,64,0.15); }
+  @keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .toast-title { font-family:'Cinzel Decorative',serif; font-size:0.68rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:0.25rem; }
+  .toast-title.special { color:var(--gold); }
+  .toast-body { font-size:0.88rem; line-height:1.4; }
+  .toast-body strong { color:var(--accent2); }
 
-  @media (max-width: 640px) {
-    .stats-bar { gap: 1rem; }
-    .stat-divider { display: none; }
-    td, th { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
-    .hide-mobile { display: none; }
+  @media(max-width:640px){
+    .stats-bar{gap:1rem} .stat-divider{display:none}
+    td,th{padding:0.65rem 0.75rem;font-size:0.82rem}
+    .hide-mobile{display:none}
+    .theme-toggle{top:0.8rem;right:0.8rem}
   }
 </style>
 </head>
@@ -270,9 +386,14 @@
 <div class="particles" id="particles"></div>
 
 <header>
-  <h1 class="title">⚓ The Catch Log</h1>
-  <p class="subtitle"><span class="live-dot"></span>Live from the stream</p>
-  <p class="last-updated" id="lastUpdated">Connecting to database...</p>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">🌙</button>
+  <div class="header-top">
+    <div>
+      <h1 class="title">⚓ The Catch Log</h1>
+      <p class="subtitle"><span class="live-dot"></span>Live from the stream</p>
+      <p class="last-updated" id="lastUpdated">Connecting to database...</p>
+    </div>
+  </div>
   <div class="header-wave"></div>
 </header>
 
@@ -284,14 +405,20 @@
   <div class="stat-item"><span class="stat-value" id="statHeaviest">—</span><span class="stat-label">Heaviest (lbs)</span></div>
   <div class="stat-divider"></div>
   <div class="stat-item"><span class="stat-value" id="statSpecial">—</span><span class="stat-label">Special Catches</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat-item"><span class="stat-value" id="statSpecies">—</span><span class="stat-label">Species Found</span></div>
 </div>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('all',this)">All Catches</button>
-  <button class="tab-btn special-tab" onclick="switchTab('special',this)">✦ Special Catches</button>
+  <button class="tab-btn active"      onclick="switchTab('all',this)">🎣 All Catches</button>
+  <button class="tab-btn special-tab" onclick="switchTab('special',this)">✦ Special</button>
+  <button class="tab-btn"             onclick="switchTab('leaderboard',this)">🏆 Leaderboard</button>
+  <button class="tab-btn"             onclick="switchTab('encyclopedia',this)">📖 Encyclopedia</button>
 </div>
 
 <main>
+
+  <!-- ALL CATCHES -->
   <div class="tab-panel active" id="tab-all">
     <div class="filter-bar">
       <div class="search-wrap">
@@ -309,12 +436,13 @@
       <div class="sort-pills">
         <button class="sort-pill active" onclick="setSort('time',this)">Latest</button>
         <button class="sort-pill" onclick="setSort('weight',this)">Heaviest</button>
-        <button class="sort-pill" onclick="setSort('angler',this)">Angler</button>
+        <button class="sort-pill" onclick="setSort('angler',this)">Angler A–Z</button>
       </div>
     </div>
     <div id="allContent"><div class="loading"><span class="loading-fish">🐟</span>Hauling in the catch...</div></div>
   </div>
 
+  <!-- SPECIAL -->
   <div class="tab-panel" id="tab-special">
     <div class="special-header">
       <div class="special-header-icon">🏆</div>
@@ -332,107 +460,173 @@
       <div class="sort-pills">
         <button class="sort-pill active" onclick="setSpecialSort('time',this)">Latest</button>
         <button class="sort-pill" onclick="setSpecialSort('amount',this)">Most Coins</button>
-        <button class="sort-pill" onclick="setSpecialSort('angler',this)">Angler</button>
+        <button class="sort-pill" onclick="setSpecialSort('angler',this)">Angler A–Z</button>
       </div>
     </div>
     <div id="specialContent"><div class="loading"><span class="loading-fish">🌟</span>Seeking the legendary...</div></div>
   </div>
+
+  <!-- LEADERBOARD -->
+  <div class="tab-panel" id="tab-leaderboard">
+    <div id="leaderboardContent"><div class="loading"><span class="loading-fish">🏆</span>Tallying the scores...</div></div>
+  </div>
+
+  <!-- ENCYCLOPEDIA -->
+  <div class="tab-panel" id="tab-encyclopedia">
+    <div class="filter-bar encyc-search">
+      <div class="search-wrap">
+        <span class="search-icon">⚲</span>
+        <input type="text" id="searchEncyc" placeholder="Search species..." oninput="renderEncyclopedia()">
+      </div>
+      <select id="catFilter" onchange="renderEncyclopedia()">
+        <option value="">All categories</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <option value="giant">Giant / Special</option>
+      </select>
+    </div>
+    <div id="encycContent"><div class="loading"><span class="loading-fish">📖</span>Loading species data...</div></div>
+  </div>
+
 </main>
+
+<!-- ANGLER PROFILE MODAL -->
+<div class="modal-overlay" id="profileModal" onclick="closeProfile(event)">
+  <div class="modal" id="profileContent"></div>
+</div>
 
 <script>
 // ── Config ───────────────────────────────────────────────────────
-const API = 'https://mhtiosfhklwazokjscho.supabase.co/functions/v1/get-catches';
-const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1odGlvc2Zoa2x3YXpva2pzY2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTY1OTMsImV4cCI6MjA3NzE3MjU5M30.kngMjoWZaFTF6MqO_2W9s3WXSaMyIWzmEvbCCR8z-4c';
+const API      = 'https://mhtiosfhklwazokjscho.supabase.co/functions/v1/get-catches';
+const KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1odGlvc2Zoa2x3YXpva2pzY2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTY1OTMsImV4cCI6MjA3NzE3MjU5M30.kngMjoWZaFTF6MqO_2W9s3WXSaMyIWzmEvbCCR8z-4c';
 const PAGE_SIZE = 25;
 
-// ── State ────────────────────────────────────────────────────────
-let allCatches = [], specialCatches = [];
-let filteredAll = [], filteredSpecial = [];
-let sortAll = 'time', sortSpecial = 'time';
-let pageAll = 1, pageSpecial = 1;
-let knownIds = new Set();
-let isFirstLoad = true;
+// ── Fish metadata ────────────────────────────────────────────────
+const FISH_EMOJI = {
+  // tiny/small
+  'Guppie':'🐟','Nemo':'🐠','Gold Fish':'🐡','Blue Tang':'🐟','Piranha':'🦈',
+  'Puffer Fish':'🐡','Star Fish':'⭐','Jelly Fish':'🪼','Crab':'🦀','Sea Snake':'🐍',
+  'Angler Fish':'🎣','Lion Fish':'🐡','Blobfish':'🐟','Leafy Sea Dragon':'🐲',
+  'Flying Fish':'🐟','Ghost Fish':'👻','Hat':'🎩','Boot':'👢','Stick':'🪵',
+  'Empty Wallet':'👛','Life Jacket':'🦺','Dragonfish':'🐉','Sun Fish':'☀️',
+  // medium
+  'Largemouth Bass':'🐟','Trout':'🐟','Salmon':'🐟','Cat Fish':'🐈','Octopus':'🐙',
+  'Squid':'🦑','Lobster':'🦞','Sting Ray':'🩴','Electric Eel':'⚡','Mackerel':'🐟',
+  'Snapper':'🐟','Barramundi':'🐟','Wahoo':'🐟','Flounder':'🐟','Paddlefish':'🐟',
+  // large
+  'Yellowfin Tuna':'🐟','Swordfish':'🐟','Great White Shark':'🦈','Mahi-Mahi':'🐟',
+  'Sailfish':'🐟','Barracuda':'🐟','Blue Marlin':'🐟','Arapaima':'🐟',
+  'Sturgeon':'🐟','Bluefin Tuna':'🐟','Alligator Gar':'🐊',
+  // giant
+  'WhaleShark':'🐋','Megalodon':'🦕','kraken':'🦑','OceanSunfish':'☀️',
+  'Sea Turtle':'🐢','Basking Shark':'🦈','Giant Oceanic Manta Ray':'🩴',
+  'Beluga Sturgeon':'🐟','Greenland Shark':'🦈','Megamouth Shark':'🦈',
+  'Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
+  'Arowana':'🐉','Leedsichthys':'🦕',
+};
+const DEFAULT_EMOJI = '🐟';
 
-// ── Particles ────────────────────────────────────────────────────
+const FISH_CATEGORIES = {
+  small:['Guppie','Nemo','Purple Tang','Gold Fish','Blue Tang','Damselfish','Goby','Moorish Idol','Butterflyfish','Parrotfish','Wrasse','Triggerfish','Surgeonfish','Fangtooth','Piranha','Candiru','Lanternfish','Viperfish','Flying Fish','Leafy Sea Dragon','Mud Skipper','Sculpin','Icefish','Phongolo Suckermouth','Galjoen','Bichir','Mormyrid','Spiny Eel','African Knifefish','Rudd','Tench','Blobfish','Puffer Fish','Star Fish','Jelly Fish','Crab','Hat','Stick','Empty Wallet','Boot','Life Jacket','Sea Snake','Ghost Fish','Angler Fish','Dragonfish','Lion Fish','Sun Fish','Betta','Tetra','Rasbora','Danio','Killifish','Platy','Hatchetfish','Apistogramma','Neolamprologus multifasciatus'],
+  medium:['Largemouth Bass','Trout','Salmon','Yellow Perch','Basic Carp','Cat Fish','Tiger Fish','Tilapia','Crappie','Walleye','Northern Pike','Muskellunge','Pacu','Tambaqui','Rohu','Snakehead','Giant Gourami','AsianCarp','Zander','Burbot','Arctic Char','GreenlandHalibut','AtlanticCod','Sole','Haddock','Pollock','SeaBass','Scorpionfish','Snapper','Basic Cod','Basic Grouper','Basic Halibut','Snoek','Yellowtail','Mackerel','Squid','Octopus','Lobster','Sting Ray','Ribbonfish','Bowfin','Shortnose Gar','Paddlefish','African Lung fish','Lungfish','NilePerch','Mahseer','Rabbit Fish','Barramundi','Wahoo','Opah','Electric Eel','anchor','Flounder','Monkfish','Orange Roughy','Shad','Cory Catfish','Mollies','Rainbowfish','Swordtail','Dwarf Cichlid','Gyrinocheilus aymonieri','Clown Loach','Wels Catfish','Blue Catfish','Flathead Catfish','Red-Tail Catfish'],
+  large:['Yellowfin Tuna','Swordfish','Great White Shark','Mahi-Mahi','Sailfish','Barracuda','Blue Marlin','Arapaima','Coelacanth','Sturgeon','Chilean Sea Bass','Alligator Gar','Bluefin Tuna','Goliath Grouper','Murray Cod','Taimen','Goonch','Vundu','Piraiba','Mekong Giant Catfish','Giant Barb'],
+  giant:['WhaleShark','Megalodon','kraken','OceanSunfish','Sea Turtle','Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE","Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins",'Basking Shark','Giant Oceanic Manta Ray','Beluga Sturgeon','Greenland Shark','Megamouth Shark','Kaluga','Giant Freshwater Stingray','Leedsichthys','Arowana','Firehawk Fish','Tundrachick Fish','FlakJacket Fish'],
+};
+function getCategoryForFish(name){
+  for(const [cat,list] of Object.entries(FISH_CATEGORIES)){
+    if(list.includes(name)) return cat;
+  }
+  return 'unknown';
+}
+
+// ── State ────────────────────────────────────────────────────────
+let allCatches=[],specialCatches=[],filteredAll=[],filteredSpecial=[];
+let sortAll='time',sortSpecial='time';
+let pageAll=1,pageSpecial=1;
+let knownIds=new Set(),isFirstLoad=true;
+
+// ── Particles (dark only) ─────────────────────────────────────────
 (function(){
-  const c = document.getElementById('particles');
-  for(let i=0;i<30;i++){
-    const p=document.createElement('div'); p.className='particle';
+  const c=document.getElementById('particles');
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');p.className='particle';
     const s=Math.random()*3+1;
-    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*15}s;animation-delay:${Math.random()*15}s;opacity:0`;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*14}s;animation-delay:${Math.random()*14}s;opacity:0`;
     c.appendChild(p);
   }
 })();
 
-// ── Fetch via Edge Function (handles CORS) ────────────────────────
-async function fetchData() {
-  const res = await fetch(API, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${KEY}`,
-      'x-game-api-key': 'catchingfish'
-    }
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+// ── Theme toggle ─────────────────────────────────────────────────
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+(function(){
+  const saved=localStorage.getItem('theme');
+  if(saved){
+    document.documentElement.setAttribute('data-theme',saved);
+    document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';
+  }
+})();
+
+// ── Fetch ─────────────────────────────────────────────────────────
+async function fetchData(){
+  const res=await fetch(API,{headers:{'Authorization':`Bearer ${KEY}`,'x-game-api-key':'catchingfish'}});
+  if(!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
   return res.json();
 }
 
-// ── Main load / poll ─────────────────────────────────────────────
-async function loadData() {
-  try {
-    const data = await fetchData();
-
-    // Show toast for any new rows since last poll
-    if (!isFirstLoad) {
-      data.forEach(c => { if (!knownIds.has(c.id)) showToast(c); });
-    }
-    knownIds = new Set(data.map(c => c.id));
-    isFirstLoad = false;
-
-    allCatches     = data;
-    specialCatches = data.filter(c => c.is_special);
-
+async function loadData(){
+  try{
+    const data=await fetchData();
+    if(!isFirstLoad) data.forEach(c=>{if(!knownIds.has(c.id))showToast(c);});
+    knownIds=new Set(data.map(c=>c.id));
+    isFirstLoad=false;
+    allCatches=data;
+    specialCatches=data.filter(c=>c.is_special);
     updateStats();
     applyFilters();
     applySpecialFilters();
     buildCurrencyCards();
-
-    document.getElementById('lastUpdated').textContent =
-      'Last updated ' + new Date().toLocaleTimeString();
-
-  } catch(err) {
-    console.error('Fetch error:', err);
-    document.getElementById('lastUpdated').textContent = '⚠ Could not reach database — retrying in 30s';
-    if (isFirstLoad) {
-      const msg = `<div class="error-msg">Could not connect to database.<br>Make sure the <strong>get-catches</strong> Edge Function is deployed.<code>${err.message}</code></div>`;
-      document.getElementById('allContent').innerHTML     = msg;
-      document.getElementById('specialContent').innerHTML = msg;
+    renderLeaderboard();
+    renderEncyclopedia();
+    document.getElementById('lastUpdated').textContent='Last updated '+new Date().toLocaleTimeString();
+  }catch(err){
+    console.error(err);
+    document.getElementById('lastUpdated').textContent='⚠ Could not reach database — retrying in 30s';
+    if(isFirstLoad){
+      const msg=`<div class="error-msg">Could not connect.<br>Make sure <strong>get-catches</strong> Edge Function is deployed.<code>${err.message}</code></div>`;
+      document.getElementById('allContent').innerHTML=msg;
+      document.getElementById('specialContent').innerHTML=msg;
     }
   }
 }
 
-// ── Stats (animated) ─────────────────────────────────────────────
-function updateStats() {
-  animCount('statTotal',    allCatches.length);
-  animCount('statAnglers',  new Set(allCatches.map(c=>c.user_name)).size);
-  animCount('statHeaviest', allCatches.reduce((m,c)=>Math.max(m,c.weight||0),0));
-  animCount('statSpecial',  specialCatches.length);
+// ── Stats ─────────────────────────────────────────────────────────
+function updateStats(){
+  animCount('statTotal',allCatches.length);
+  animCount('statAnglers',new Set(allCatches.map(c=>c.user_name)).size);
+  animCount('statHeaviest',allCatches.reduce((m,c)=>Math.max(m,c.weight||0),0));
+  animCount('statSpecial',specialCatches.length);
+  animCount('statSpecies',new Set(allCatches.map(c=>c.fish_name)).size);
 }
-function animCount(id, target) {
+function animCount(id,target){
   const el=document.getElementById(id);
   const from=parseInt(el.textContent.replace(/,/g,''))||0;
   if(from===target){el.textContent=target.toLocaleString();return;}
-  let cur=from;
-  const step=Math.max(1,Math.ceil(Math.abs(target-from)/20));
+  let cur=from;const step=Math.max(1,Math.ceil(Math.abs(target-from)/20));
   const iv=setInterval(()=>{
     cur=cur<target?Math.min(cur+step,target):Math.max(cur-step,target);
-    el.textContent=cur.toLocaleString();
-    if(cur===target)clearInterval(iv);
+    el.textContent=cur.toLocaleString();if(cur===target)clearInterval(iv);
   },40);
 }
 
-// ── Currency leaderboard cards ───────────────────────────────────
-function buildCurrencyCards() {
+// ── Currency cards ───────────────────────────────────────────────
+function buildCurrencyCards(){
   const icons={CliffCoins:'⛰️',GUANCE:'💰',DD:'🎯',MarbleCoins:'🔮'};
   const totals={};
   specialCatches.forEach(c=>{
@@ -442,28 +636,150 @@ function buildCurrencyCards() {
   });
   const container=document.getElementById('currencyCards');
   container.innerHTML='';
-  if(!Object.keys(totals).length){
-    container.innerHTML='<p style="color:var(--mist);font-style:italic;padding:1rem 0">No special catches yet.</p>';
-    return;
-  }
+  if(!Object.keys(totals).length){container.innerHTML='<p style="color:var(--muted);font-style:italic;padding:0.5rem 0">No special catches yet.</p>';return;}
   Object.entries(totals).forEach(([type,users])=>{
     const sorted=Object.entries(users).sort((a,b)=>b[1]-a[1]).slice(0,5);
-    const card=document.createElement('div'); card.className='currency-card';
-    card.innerHTML=`
-      <div class="currency-card-title">${icons[type]||'✦'} ${type} Leaderboard</div>
-      <ul class="currency-leaderboard">
-        ${sorted.map(([name,amt],i)=>`
-          <li>
-            <span class="rank-num">#${i+1}</span>
-            <span class="angler-name">${esc(name)}</span>
-            <span class="amount">${amt.toLocaleString()}</span>
-          </li>`).join('')}
+    const card=document.createElement('div');card.className='currency-card';
+    card.innerHTML=`<div class="currency-card-title">${icons[type]||'✦'} ${type} Leaderboard</div>
+      <ul class="currency-leaderboard">${sorted.map(([name,amt],i)=>`
+        <li><span class="rank-num">#${i+1}</span>
+          <span class="angler-name" onclick="openProfile('${esc(name)}')">${esc(name)}</span>
+          <span class="amount">${amt.toLocaleString()}</span></li>`).join('')}
       </ul>`;
     container.appendChild(card);
   });
 }
 
-// ── Sort ─────────────────────────────────────────────────────────
+// ── Leaderboard ──────────────────────────────────────────────────
+function renderLeaderboard(){
+  const byAngler={};
+  allCatches.forEach(c=>{
+    const n=c.user_name||'Unknown';
+    if(!byAngler[n])byAngler[n]={name:n,count:0,totalWeight:0,heaviest:0,heaviestFish:''};
+    byAngler[n].count++;
+    byAngler[n].totalWeight+=(c.weight||0);
+    if((c.weight||0)>byAngler[n].heaviest){byAngler[n].heaviest=c.weight;byAngler[n].heaviestFish=c.fish_name;}
+  });
+  const anglers=Object.values(byAngler);
+  const byCount=[...anglers].sort((a,b)=>b.count-a.count).slice(0,10);
+  const byWeight=[...anglers].sort((a,b)=>b.totalWeight-a.totalWeight).slice(0,10);
+  const byHeaviest=[...anglers].sort((a,b)=>b.heaviest-a.heaviest).slice(0,10);
+  const medals=['🥇','🥈','🥉'];
+  const lbCard=(title,icon,list,valFn)=>`
+    <div class="lb-card">
+      <div class="lb-card-title">${icon} ${title}</div>
+      <ul class="lb-list">
+        ${list.map((a,i)=>`<li onclick="openProfile('${esc(a.name)}')">
+          <span class="lb-medal">${medals[i]||'#'+(i+1)}</span>
+          <span class="lb-name">${esc(a.name)}</span>
+          <span class="lb-val">${valFn(a)}</span>
+        </li>`).join('')}
+      </ul>
+    </div>`;
+  document.getElementById('leaderboardContent').innerHTML=`
+    <div class="leaderboard-grid">
+      ${lbCard('Most Fish Caught','🎣',byCount,a=>`${a.count.toLocaleString()} <small>catches</small>`)}
+      ${lbCard('Heaviest Total Haul','⚖️',byWeight,a=>`${a.totalWeight.toLocaleString()} <small>lbs</small>`)}
+      ${lbCard('Single Biggest Catch','🏆',byHeaviest,a=>`${a.heaviest.toLocaleString()} <small>lbs</small>`)}
+    </div>`;
+}
+
+// ── Encyclopedia ─────────────────────────────────────────────────
+function renderEncyclopedia(){
+  const q=(document.getElementById('searchEncyc').value||'').toLowerCase();
+  const catF=document.getElementById('catFilter').value;
+
+  // Build species stats from catch data
+  const speciesMap={};
+  allCatches.forEach(c=>{
+    const n=c.fish_name;if(!n)return;
+    if(!speciesMap[n])speciesMap[n]={name:n,count:0,totalWeight:0,heaviest:0,category:getCategoryForFish(n)};
+    speciesMap[n].count++;
+    speciesMap[n].totalWeight+=(c.weight||0);
+    if((c.weight||0)>speciesMap[n].heaviest)speciesMap[n].heaviest=c.weight;
+  });
+
+  // Also include fish from master list even if never caught
+  Object.entries(FISH_CATEGORIES).forEach(([cat,list])=>{
+    list.forEach(name=>{
+      if(!speciesMap[name])speciesMap[name]={name,count:0,totalWeight:0,heaviest:0,category:cat};
+    });
+  });
+
+  let species=Object.values(speciesMap);
+  if(q) species=species.filter(s=>s.name.toLowerCase().includes(q));
+  if(catF) species=species.filter(s=>s.category===catF);
+  species.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
+
+  if(!species.length){
+    document.getElementById('encycContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No species found.</p></div>';
+    return;
+  }
+
+  const catLabel={small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};
+  document.getElementById('encycContent').innerHTML=`<div class="species-grid">
+    ${species.map(s=>`
+      <div class="species-card">
+        <div class="species-emoji">${FISH_EMOJI[s.name]||DEFAULT_EMOJI}</div>
+        <div class="species-name">${esc(s.name)}</div>
+        <div class="species-cat">${catLabel[s.category]||s.category}</div>
+        <div class="species-stats">
+          <div class="species-stat">
+            <span class="species-stat-val">${s.count.toLocaleString()}</span>
+            <span class="species-stat-lbl">Caught</span>
+          </div>
+          ${s.heaviest?`<div class="species-stat">
+            <span class="species-stat-val">${s.heaviest.toLocaleString()}</span>
+            <span class="species-stat-lbl">Best (lbs)</span>
+          </div>`:''}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+// ── Angler profile ───────────────────────────────────────────────
+function openProfile(name){
+  const catches=allCatches.filter(c=>c.user_name===name);
+  if(!catches.length)return;
+  const totalWeight=catches.reduce((s,c)=>s+(c.weight||0),0);
+  const heaviest=catches.reduce((m,c)=>(c.weight||0)>m.weight?c:m,catches[0]);
+  const speciesSet=new Set(catches.map(c=>c.fish_name));
+  const specials=catches.filter(c=>c.is_special);
+  const recent=[...catches].sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
+
+  // currency totals
+  const currencies={};
+  specials.forEach(c=>{if(c.currency_type)currencies[c.currency_type]=(currencies[c.currency_type]||0)+(c.currency_amount||0);});
+  const currHtml=Object.entries(currencies).map(([t,a])=>`<span class="currency-badge">✦ ${a.toLocaleString()} ${esc(t)}</span>`).join(' ');
+
+  document.getElementById('profileContent').innerHTML=`
+    <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
+    <div class="modal-angler-name">🎣 ${esc(name)}</div>
+    <div class="modal-subtitle">Angler profile</div>
+    <div class="profile-stats">
+      <div class="profile-stat"><div class="profile-stat-val">${catches.length.toLocaleString()}</div><div class="profile-stat-lbl">Total Catches</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${totalWeight.toLocaleString()}</div><div class="profile-stat-lbl">Total lbs</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${speciesSet.size}</div><div class="profile-stat-lbl">Species Found</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${specials.length}</div><div class="profile-stat-lbl">Special Catches</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${(heaviest.weight||0).toLocaleString()}</div><div class="profile-stat-lbl">Heaviest (lbs)</div></div>
+    </div>
+    ${currHtml?`<div class="profile-section-title">Currencies Earned</div><div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem">${currHtml}</div>`:''}
+    <div class="profile-section-title">Recent Catches</div>
+    <ul class="profile-fish-list">
+      ${recent.map(c=>`<li>
+        <span>${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI} <span class="profile-fish-name">${esc(c.fish_name)}</span>
+          <span class="size-badge size-${(c.fish_size||'').toLowerCase()}">${c.fish_size||''}</span></span>
+        <span class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs &nbsp;·&nbsp; ${formatTime(c.caught_at)}</span>
+      </li>`).join('')}
+    </ul>`;
+  document.getElementById('profileModal').classList.add('open');
+}
+function closeProfile(e){
+  if(e.target===document.getElementById('profileModal'))
+    document.getElementById('profileModal').classList.remove('open');
+}
+
+// ── Sort / filter ─────────────────────────────────────────────────
 function sortData(arr,by){
   arr.sort((a,b)=>{
     if(by==='weight')   return (b.weight||0)-(a.weight||0);
@@ -475,69 +791,56 @@ function sortData(arr,by){
 function setSort(val,btn){
   sortAll=val;
   document.querySelectorAll('#tab-all .sort-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); pageAll=1; applyFilters();
+  btn.classList.add('active');pageAll=1;applyFilters();
 }
 function setSpecialSort(val,btn){
   sortSpecial=val;
   document.querySelectorAll('#tab-special .sort-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); pageSpecial=1; applySpecialFilters();
+  btn.classList.add('active');pageSpecial=1;applySpecialFilters();
 }
-
-// ── Filters ──────────────────────────────────────────────────────
 function applyFilters(){
   const q=(document.getElementById('searchAll').value||'').toLowerCase();
   const size=document.getElementById('sizeFilter').value;
   filteredAll=allCatches.filter(c=>!c.is_special);
-  if(q)    filteredAll=filteredAll.filter(c=>(c.user_name||'').toLowerCase().includes(q)||(c.fish_name||'').toLowerCase().includes(q));
-  if(size) filteredAll=filteredAll.filter(c=>(c.fish_size||'').toLowerCase()===size);
-  sortData(filteredAll,sortAll); pageAll=1;
+  if(q)filteredAll=filteredAll.filter(c=>(c.user_name||'').toLowerCase().includes(q)||(c.fish_name||'').toLowerCase().includes(q));
+  if(size)filteredAll=filteredAll.filter(c=>(c.fish_size||'').toLowerCase()===size);
+  sortData(filteredAll,sortAll);pageAll=1;
   renderTable('allContent',filteredAll,false,pageAll);
 }
 function applySpecialFilters(){
   const q=(document.getElementById('searchSpecial').value||'').toLowerCase();
   filteredSpecial=[...specialCatches];
-  if(q) filteredSpecial=filteredSpecial.filter(c=>(c.user_name||'').toLowerCase().includes(q)||(c.fish_name||'').toLowerCase().includes(q));
-  sortData(filteredSpecial,sortSpecial==='amount'?'currency':sortSpecial); pageSpecial=1;
+  if(q)filteredSpecial=filteredSpecial.filter(c=>(c.user_name||'').toLowerCase().includes(q)||(c.fish_name||'').toLowerCase().includes(q));
+  sortData(filteredSpecial,sortSpecial==='amount'?'currency':sortSpecial);pageSpecial=1;
   renderTable('specialContent',filteredSpecial,true,pageSpecial);
 }
 
 // ── Render table ─────────────────────────────────────────────────
 function renderTable(id,data,isSpecial,page){
   const el=document.getElementById(id);
-  if(!data.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-icon">${isSpecial?'🌟':'🎣'}</div><p>No catches found.</p></div>`;
-    return;
-  }
+  if(!data.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">${isSpecial?'🌟':'🎣'}</div><p>No catches found.</p></div>`;return;}
   const totalPages=Math.ceil(data.length/PAGE_SIZE);
   const start=(page-1)*PAGE_SIZE;
   const slice=data.slice(start,start+PAGE_SIZE);
-
   const rows=slice.map((c,i)=>{
     const size=(c.fish_size||'').toLowerCase();
+    const emoji=FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI;
     const sizeBadge=size?`<span class="size-badge size-${size}">${size}</span>`:'';
-    const currBadge=(c.is_special&&c.currency_type)
-      ?`<span class="currency-badge">✦ ${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type)}</span>`:'';
-    return `<tr class="${c.is_special?'special-row':''}" style="animation-delay:${(i%PAGE_SIZE)*0.02}s">
+    const currBadge=(c.is_special&&c.currency_type)?`<span class="currency-badge">✦ ${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type)}</span>`:'';
+    return `<tr class="${c.is_special?'special-row':''}" style="animation-delay:${(i%PAGE_SIZE)*0.018}s">
       <td class="td-rank">${start+i+1}</td>
-      <td class="td-angler">${esc(c.user_name||'Unknown')}</td>
-      <td class="td-fish">${esc(c.fish_name||'Unknown')}${sizeBadge}</td>
+      <td class="td-angler" onclick="openProfile('${esc(c.user_name||'')}')">${esc(c.user_name||'Unknown')}</td>
+      <td class="td-fish">${emoji} ${esc(c.fish_name||'Unknown')}${sizeBadge}</td>
       <td class="td-weight">${(c.weight||0).toLocaleString()}<span class="unit">lbs</span></td>
       ${isSpecial?`<td>${currBadge}</td>`:''}
       <td class="td-time hide-mobile">${formatTime(c.caught_at)}</td>
     </tr>`;
   }).join('');
-
   el.innerHTML=`
-    <div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>#</th><th>Angler</th><th>Fish</th><th>Weight</th>
-          ${isSpecial?'<th>Currency Won</th>':''}
-          <th class="hide-mobile">Time</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Angler</th><th>Fish</th><th>Weight</th>${isSpecial?'<th>Currency</th>':''}<th class="hide-mobile">Time</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
     ${totalPages>1?renderPagination(page,totalPages,id):''}`;
 }
 
@@ -545,43 +848,36 @@ function renderPagination(current,total,id){
   let s=Math.max(1,current-3),e=Math.min(total,s+6);
   if(e-s<6)s=Math.max(1,e-6);
   let pages='';
-  for(let i=s;i<=e;i++)
-    pages+=`<button class="page-btn${i===current?' active':''}" onclick="goPage(${i},'${id}')">${i}</button>`;
+  for(let i=s;i<=e;i++)pages+=`<button class="page-btn${i===current?' active':''}" onclick="goPage(${i},'${id}')">${i}</button>`;
   return `<div class="pagination">
     <button class="page-btn" onclick="goPage(${current-1},'${id}')" ${current<=1?'disabled':''}>‹</button>
     ${pages}
     <button class="page-btn" onclick="goPage(${current+1},'${id}')" ${current>=total?'disabled':''}>›</button>
   </div>`;
 }
-
 function goPage(p,id){
   if(id==='allContent'){pageAll=p;renderTable('allContent',filteredAll,false,pageAll);}
   else{pageSpecial=p;renderTable('specialContent',filteredSpecial,true,pageSpecial);}
   document.querySelector('main').scrollIntoView({behavior:'smooth'});
 }
 
-// ── Toast ────────────────────────────────────────────────────────
+// ── Toast ─────────────────────────────────────────────────────────
 function showToast(c){
   const t=document.createElement('div');
-  t.className='new-catch-toast'+(c.is_special?' special':'');
-  t.innerHTML=`
-    <div class="toast-title${c.is_special?' special':''}">
-      ${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}
-    </div>
-    <div class="toast-body">
-      <strong>${esc(c.user_name||'Someone')}</strong> caught
-      a ${esc(c.fish_size||'')} <em>${esc(c.fish_name||'fish')}</em>
-      ${c.is_special?`<br><span style="color:var(--gold)">+${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type||'')}</span>`:''}
-    </div>`;
+  t.className='toast'+(c.is_special?' special':'');
+  t.innerHTML=`<div class="toast-title${c.is_special?' special':''}">
+    ${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}
+  </div>
+  <div class="toast-body">
+    <strong>${esc(c.user_name||'Someone')}</strong> caught
+    ${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI} <em>${esc(c.fish_name||'a fish')}</em>
+    ${c.is_special?`<br><span style="color:var(--gold)">+${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type||'')}</span>`:''}
+  </div>`;
   document.body.appendChild(t);
-  setTimeout(()=>{
-    t.style.transition='opacity 0.5s,transform 0.5s';
-    t.style.opacity='0';t.style.transform='translateY(20px)';
-    setTimeout(()=>t.remove(),500);
-  },4000);
+  setTimeout(()=>{t.style.transition='opacity 0.5s,transform 0.5s';t.style.opacity='0';t.style.transform='translateY(20px)';setTimeout(()=>t.remove(),500);},4000);
 }
 
-// ── Tab switching ────────────────────────────────────────────────
+// ── Tab switching ─────────────────────────────────────────────────
 function switchTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -589,25 +885,23 @@ function switchTab(id,btn){
   btn.classList.add('active');
 }
 
-// ── Helpers ──────────────────────────────────────────────────────
-function esc(s){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+// ── Helpers ───────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function formatTime(ts){
   if(!ts)return'—';
   try{
     const d=new Date(ts),diff=(Date.now()-d)/1000;
-    if(diff<60)    return'just now';
-    if(diff<3600)  return`${Math.floor(diff/60)}m ago`;
-    if(diff<86400) return`${Math.floor(diff/3600)}h ago`;
+    if(diff<60)return'just now';
+    if(diff<3600)return`${Math.floor(diff/60)}m ago`;
+    if(diff<86400)return`${Math.floor(diff/3600)}h ago`;
     if(diff<604800)return`${Math.floor(diff/86400)}d ago`;
     return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
   }catch{return'—';}
 }
 
-// ── Init ─────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────
 loadData();
-setInterval(loadData, 30000);
+setInterval(loadData,30000);
 </script>
 </body>
 </html>
