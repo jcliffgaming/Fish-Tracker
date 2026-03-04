@@ -283,11 +283,37 @@
   <div class="modal" id="profileContent"></div>
 </div>
 <script>
+// ── Helpers (defined first so everything below can use them) ──────
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return Math.abs(h)%999983;}
+function formatTime(ts){if(!ts)return'—';try{const d=new Date(ts),diff=(Date.now()-d)/1000;if(diff<60)return'just now';if(diff<3600)return`${Math.floor(diff/60)}m ago`;if(diff<86400)return`${Math.floor(diff/3600)}h ago`;if(diff<604800)return`${Math.floor(diff/86400)}d ago`;return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}catch{return'—';}}
+
 // ── Config ────────────────────────────────────────────────────────
 const API       = 'https://mhtiosfhklwazokjscho.supabase.co/functions/v1/get-catches';
 const KEY       = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1odGlvc2Zoa2x3YXpva2pzY2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTY1OTMsImV4cCI6MjA3NzE3MjU5M30.kngMjoWZaFTF6MqO_2W9s3WXSaMyIWzmEvbCCR8z-4c';
 const POLL      = 'https://image.pollinations.ai/prompt/';
 const PAGE_SIZE = 25;
+
+// ── Fish data (defined early — used by imgBox and throughout) ─────
+const EMOJI = {
+  'Guppie':'🐟','Nemo':'🐠','Gold Fish':'🐡','Blue Tang':'🐟','Piranha':'🦈',
+  'Puffer Fish':'🐡','Star Fish':'⭐','Jelly Fish':'🪼','Crab':'🦀','Sea Snake':'🐍',
+  'Angler Fish':'🎣','Lion Fish':'🐡','Blobfish':'🐟','Leafy Sea Dragon':'🐲',
+  'Flying Fish':'🐟','Ghost Fish':'👻','Hat':'🎩','Boot':'👢','Stick':'🪵',
+  'Empty Wallet':'👛','Life Jacket':'🦺','Dragonfish':'🐉','Sun Fish':'☀️',
+  'Octopus':'🐙','Squid':'🦑','Lobster':'🦞','Electric Eel':'⚡',
+  'Great White Shark':'🦈','WhaleShark':'🐋','Megalodon':'🦕','kraken':'🦑',
+  'Sea Turtle':'🐢','Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
+  'Arowana':'🐉','OceanSunfish':'☀️','Alligator Gar':'🐊',
+};
+const CATS = {
+  small:['Guppie','Nemo','Purple Tang','Gold Fish','Blue Tang','Damselfish','Goby','Moorish Idol','Butterflyfish','Parrotfish','Wrasse','Triggerfish','Surgeonfish','Fangtooth','Piranha','Candiru','Lanternfish','Viperfish','Flying Fish','Leafy Sea Dragon','Mud Skipper','Sculpin','Icefish','Phongolo Suckermouth','Galjoen','Bichir','Mormyrid','Spiny Eel','African Knifefish','Rudd','Tench','Blobfish','Puffer Fish','Star Fish','Jelly Fish','Crab','Hat','Stick','Empty Wallet','Boot','Life Jacket','Sea Snake','Ghost Fish','Angler Fish','Dragonfish','Lion Fish','Sun Fish','Betta','Tetra','Rasbora','Danio','Killifish','Platy','Hatchetfish','Apistogramma','Neolamprologus multifasciatus'],
+  medium:['Largemouth Bass','Trout','Salmon','Yellow Perch','Basic Carp','Cat Fish','Tiger Fish','Tilapia','Crappie','Walleye','Northern Pike','Muskellunge','Pacu','Tambaqui','Rohu','Snakehead','Giant Gourami','AsianCarp','Zander','Burbot','Arctic Char','GreenlandHalibut','AtlanticCod','Sole','Haddock','Pollock','SeaBass','Scorpionfish','Snapper','Basic Cod','Basic Grouper','Basic Halibut','Snoek','Yellowtail','Mackerel','Squid','Octopus','Lobster','Sting Ray','Ribbonfish','Bowfin','Shortnose Gar','Paddlefish','African Lung fish','Lungfish','NilePerch','Mahseer','Rabbit Fish','Barramundi','Wahoo','Opah','Electric Eel','anchor','Flounder','Monkfish','Orange Roughy','Shad','Cory Catfish','Mollies','Rainbowfish','Swordtail','Dwarf Cichlid','Gyrinocheilus aymonieri','Clown Loach','Wels Catfish','Blue Catfish','Flathead Catfish','Red-Tail Catfish'],
+  large:['Yellowfin Tuna','Swordfish','Great White Shark','Mahi-Mahi','Sailfish','Barracuda','Blue Marlin','Arapaima','Coelacanth','Sturgeon','Chilean Sea Bass','Alligator Gar','Bluefin Tuna','Goliath Grouper','Murray Cod','Taimen','Goonch','Vundu','Piraiba','Mekong Giant Catfish','Giant Barb'],
+  giant:['WhaleShark','Megalodon','kraken','OceanSunfish','Sea Turtle','Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE","Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins",'Basking Shark','Giant Oceanic Manta Ray','Beluga Sturgeon','Greenland Shark','Megamouth Shark','Kaluga','Giant Freshwater Stingray','Leedsichthys','Arowana','Firehawk Fish','Tundrachick Fish','FlakJacket Fish'],
+};
+const CAT_LABEL = {small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};
+function getCat(n){for(const[c,l]of Object.entries(CATS))if(l.includes(n))return c;return'unknown';}
 
 // ── Pollinations prompts — specific per fish to avoid ambiguity ───
 // "Kaluga" alone returns the Russian city. Always be explicit.
@@ -466,11 +492,10 @@ function pollUrl(name) {
   const prompt = FISH_PROMPT[name] || `realistic underwater photo of a ${name} fish, high quality nature photography, detailed`;
   return POLL + encodeURIComponent(prompt) + '?width=400&height=300&nologo=true&seed=' + hashStr(name);
 }
-function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return Math.abs(h)%999983;}
 
-// ── Image URL store (localStorage for persistence across sessions) ─
-const IMG = (() => { try { return JSON.parse(localStorage.getItem('fishImgV4')||'{}'); } catch { return {}; } })();
-function saveImg() { try { localStorage.setItem('fishImgV4', JSON.stringify(IMG)); } catch {} }
+// ── Image URL store ───────────────────────────────────────────────
+const IMG = (() => { try { return JSON.parse(localStorage.getItem('fishImgV5')||'{}'); } catch { return {}; } })();
+function saveImg() { try { localStorage.setItem('fishImgV5', JSON.stringify(IMG)); } catch {} }
 
 // getImg just returns the Pollinations URL — no async needed since
 // Pollinations generates on-demand via the URL itself (browser loads it)
@@ -513,27 +538,7 @@ function preload(names) {
   });
 }
 
-// ── Fish data ─────────────────────────────────────────────────────
-const EMOJI = {
-  'Guppie':'🐟','Nemo':'🐠','Gold Fish':'🐡','Blue Tang':'🐟','Piranha':'🦈',
-  'Puffer Fish':'🐡','Star Fish':'⭐','Jelly Fish':'🪼','Crab':'🦀','Sea Snake':'🐍',
-  'Angler Fish':'🎣','Lion Fish':'🐡','Blobfish':'🐟','Leafy Sea Dragon':'🐲',
-  'Flying Fish':'🐟','Ghost Fish':'👻','Hat':'🎩','Boot':'👢','Stick':'🪵',
-  'Empty Wallet':'👛','Life Jacket':'🦺','Dragonfish':'🐉','Sun Fish':'☀️',
-  'Octopus':'🐙','Squid':'🦑','Lobster':'🦞','Electric Eel':'⚡',
-  'Great White Shark':'🦈','WhaleShark':'🐋','Megalodon':'🦕','kraken':'🦑',
-  'Sea Turtle':'🐢','Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
-  'Arowana':'🐉','OceanSunfish':'☀️','Alligator Gar':'🐊',
-};
 
-const CATS = {
-  small:['Guppie','Nemo','Purple Tang','Gold Fish','Blue Tang','Damselfish','Goby','Moorish Idol','Butterflyfish','Parrotfish','Wrasse','Triggerfish','Surgeonfish','Fangtooth','Piranha','Candiru','Lanternfish','Viperfish','Flying Fish','Leafy Sea Dragon','Mud Skipper','Sculpin','Icefish','Phongolo Suckermouth','Galjoen','Bichir','Mormyrid','Spiny Eel','African Knifefish','Rudd','Tench','Blobfish','Puffer Fish','Star Fish','Jelly Fish','Crab','Hat','Stick','Empty Wallet','Boot','Life Jacket','Sea Snake','Ghost Fish','Angler Fish','Dragonfish','Lion Fish','Sun Fish','Betta','Tetra','Rasbora','Danio','Killifish','Platy','Hatchetfish','Apistogramma','Neolamprologus multifasciatus'],
-  medium:['Largemouth Bass','Trout','Salmon','Yellow Perch','Basic Carp','Cat Fish','Tiger Fish','Tilapia','Crappie','Walleye','Northern Pike','Muskellunge','Pacu','Tambaqui','Rohu','Snakehead','Giant Gourami','AsianCarp','Zander','Burbot','Arctic Char','GreenlandHalibut','AtlanticCod','Sole','Haddock','Pollock','SeaBass','Scorpionfish','Snapper','Basic Cod','Basic Grouper','Basic Halibut','Snoek','Yellowtail','Mackerel','Squid','Octopus','Lobster','Sting Ray','Ribbonfish','Bowfin','Shortnose Gar','Paddlefish','African Lung fish','Lungfish','NilePerch','Mahseer','Rabbit Fish','Barramundi','Wahoo','Opah','Electric Eel','anchor','Flounder','Monkfish','Orange Roughy','Shad','Cory Catfish','Mollies','Rainbowfish','Swordtail','Dwarf Cichlid','Gyrinocheilus aymonieri','Clown Loach','Wels Catfish','Blue Catfish','Flathead Catfish','Red-Tail Catfish'],
-  large:['Yellowfin Tuna','Swordfish','Great White Shark','Mahi-Mahi','Sailfish','Barracuda','Blue Marlin','Arapaima','Coelacanth','Sturgeon','Chilean Sea Bass','Alligator Gar','Bluefin Tuna','Goliath Grouper','Murray Cod','Taimen','Goonch','Vundu','Piraiba','Mekong Giant Catfish','Giant Barb'],
-  giant:['WhaleShark','Megalodon','kraken','OceanSunfish','Sea Turtle','Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE","Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins",'Basking Shark','Giant Oceanic Manta Ray','Beluga Sturgeon','Greenland Shark','Megamouth Shark','Kaluga','Giant Freshwater Stingray','Leedsichthys','Arowana','Firehawk Fish','Tundrachick Fish','FlakJacket Fish'],
-};
-const CAT_LABEL = {small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};
-function getCat(n){for(const[c,l]of Object.entries(CATS))if(l.includes(n))return c;return'unknown';}
 
 // ── App state ─────────────────────────────────────────────────────
 let allCatches=[],specialCatches=[],filteredAll=[],filteredSpecial=[];
@@ -763,10 +768,6 @@ function showToast(c){const t=document.createElement('div');t.className='toast'+
 
 // ── Tabs ──────────────────────────────────────────────────────────
 function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
-
-// ── Helpers ───────────────────────────────────────────────────────
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function formatTime(ts){if(!ts)return'—';try{const d=new Date(ts),diff=(Date.now()-d)/1000;if(diff<60)return'just now';if(diff<3600)return`${Math.floor(diff/60)}m ago`;if(diff<86400)return`${Math.floor(diff/3600)}h ago`;if(diff<604800)return`${Math.floor(diff/86400)}d ago`;return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}catch{return'—';}}
 
 // ── Init ──────────────────────────────────────────────────────────
 loadData();
