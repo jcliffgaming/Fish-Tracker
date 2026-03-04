@@ -7,33 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   [data-theme="dark"] {
-    --bg:#010810; --bg2:#041628; --surface:rgba(4,22,40,0.6);
-    --border:rgba(0,229,255,0.12); --border2:rgba(0,229,255,0.06);
-    --text:#e8f4f8; --muted:#8ab8cc; --accent:#00e5ff; --accent2:#00b4d8;
-    --gold:#f0c040; --special:#ff9d00;
-    --row-hover:rgba(0,229,255,0.04); --head-bg:rgba(0,229,255,0.06);
-    --input-bg:rgba(10,37,64,0.7); --card-bg:rgba(4,22,40,0.6);
-    --shadow:0 0 40px rgba(0,229,255,0.08); --img-bg:rgba(0,20,40,0.8);
+    --bg:#010810;--bg2:#041628;--surface:rgba(4,22,40,0.6);
+    --border:rgba(0,229,255,0.12);--border2:rgba(0,229,255,0.06);
+    --text:#e8f4f8;--muted:#8ab8cc;--accent:#00e5ff;--accent2:#00b4d8;
+    --gold:#f0c040;--special:#ff9d00;
+    --row-hover:rgba(0,229,255,0.04);--head-bg:rgba(0,229,255,0.06);
+    --input-bg:rgba(10,37,64,0.7);--card-bg:rgba(4,22,40,0.6);
+    --shadow:0 0 40px rgba(0,229,255,0.08);--img-bg:rgba(0,20,40,0.8);
   }
   [data-theme="light"] {
-    --bg:#f0f6fa; --bg2:#ddeef6; --surface:rgba(255,255,255,0.85);
-    --border:rgba(0,140,180,0.2); --border2:rgba(0,140,180,0.1);
-    --text:#0d2a3a; --muted:#4a7a94; --accent:#0088bb; --accent2:#006a94;
-    --gold:#c07800; --special:#cc6600;
-    --row-hover:rgba(0,140,180,0.05); --head-bg:rgba(0,140,180,0.07);
-    --input-bg:rgba(255,255,255,0.9); --card-bg:rgba(255,255,255,0.85);
-    --shadow:0 4px 24px rgba(0,100,140,0.1); --img-bg:#d0e8f0;
+    --bg:#f0f6fa;--bg2:#ddeef6;--surface:rgba(255,255,255,0.85);
+    --border:rgba(0,140,180,0.2);--border2:rgba(0,140,180,0.1);
+    --text:#0d2a3a;--muted:#4a7a94;--accent:#0088bb;--accent2:#006a94;
+    --gold:#c07800;--special:#cc6600;
+    --row-hover:rgba(0,140,180,0.05);--head-bg:rgba(0,140,180,0.07);
+    --input-bg:rgba(255,255,255,0.9);--card-bg:rgba(255,255,255,0.85);
+    --shadow:0 4px 24px rgba(0,100,140,0.1);--img-bg:#d0e8f0;
   }
-
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
   [data-theme="dark"] body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 80%,rgba(0,180,216,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 20%,rgba(0,229,255,0.04) 0%,transparent 50%),linear-gradient(180deg,#010810 0%,#020d1f 40%,#041628 100%);pointer-events:none;z-index:0;}
-
   .particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
   .particle{position:absolute;border-radius:50%;background:var(--accent);opacity:0;animation:drift linear infinite;}
   @keyframes drift{0%{transform:translateY(100vh);opacity:0}10%{opacity:0.5}90%{opacity:0.15}100%{transform:translateY(-10vh) translateX(30px);opacity:0}}
   [data-theme="light"] .particle{display:none;}
-
   header{position:relative;z-index:10;text-align:center;padding:2.5rem 2rem 1.5rem;border-bottom:1px solid var(--border);}
   .header-wave{position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:waveGlow 3s ease-in-out infinite;}
   @keyframes waveGlow{0%,100%{opacity:0.4}50%{opacity:1}}
@@ -45,7 +42,6 @@
   .last-updated{font-size:0.72rem;color:var(--muted);font-style:italic;margin-top:0.35rem;opacity:0.7;}
   .theme-toggle{position:absolute;top:1.2rem;right:1.5rem;background:var(--input-bg);border:1px solid var(--border);color:var(--muted);font-size:1.1rem;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;z-index:20;}
   .theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
-
   .stats-bar{position:relative;z-index:10;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;padding:1rem 2rem;background:rgba(10,37,64,0.4);border-bottom:1px solid var(--border2);}
   [data-theme="light"] .stats-bar{background:rgba(0,100,140,0.06);}
   .stat-item{display:flex;flex-direction:column;align-items:center;gap:0.1rem;}
@@ -53,7 +49,6 @@
   [data-theme="dark"] .stat-value{text-shadow:0 0 20px rgba(0,229,255,0.5);}
   .stat-label{font-size:0.68rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;font-weight:300;}
   .stat-divider{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--border),transparent);align-self:center;}
-
   .tabs{position:relative;z-index:10;display:flex;flex-wrap:wrap;padding:1.2rem 2rem 0;max-width:1300px;margin:0 auto;border-bottom:2px solid var(--border2);}
   .tab-btn{font-family:'Crimson Pro',serif;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:0.65rem 1.5rem;border:none;background:transparent;cursor:pointer;position:relative;transition:color 0.3s;color:var(--muted);}
   .tab-btn::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;}
@@ -64,12 +59,10 @@
   .tab-btn.special-tab{color:var(--special);}
   .tab-btn.special-tab.active{color:var(--gold);}
   .tab-btn.special-tab::after{background:var(--gold);}
-
   main{position:relative;z-index:10;max-width:1300px;margin:0 auto;padding:1.5rem 2rem 4rem;}
-
   .filter-bar{display:flex;gap:0.8rem;margin-bottom:1.4rem;flex-wrap:wrap;align-items:center;}
   .search-wrap{position:relative;flex:1;min-width:180px;}
-  .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:0.85rem;}
+  .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
   input[type="text"],select{background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-family:'Crimson Pro',serif;font-size:0.92rem;padding:0.55rem 1rem 0.55rem 2.2rem;border-radius:4px;outline:none;transition:border-color 0.3s;width:100%;}
   select{padding-left:0.9rem;cursor:pointer;}
   input[type="text"]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.06);}
@@ -80,13 +73,14 @@
   .sort-pill.active{background:rgba(0,229,255,0.1);border-color:var(--accent);color:var(--accent);}
   [data-theme="light"] .sort-pill.active{background:rgba(0,140,180,0.1);}
 
-  /* Images */
-  .fish-thumb{width:36px;height:36px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;background:var(--img-bg);border:1px solid var(--border2);flex-shrink:0;}
-  .fish-thumb-placeholder{width:36px;height:36px;border-radius:4px;background:var(--img-bg);border:1px solid var(--border2);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;margin-right:6px;flex-shrink:0;vertical-align:middle;}
-  .fish-thumb-wrap{display:inline-flex;align-items:center;}
-
-  /* AI badge on generated images */
-  .ai-badge{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,0.55);color:#aef;font-size:0.55rem;letter-spacing:0.08em;padding:1px 4px;border-radius:3px;font-family:'Crimson Pro',serif;pointer-events:none;}
+  /* ── Fish images ── */
+  .fish-img{object-fit:cover;border-radius:4px;background:var(--img-bg);border:1px solid var(--border2);display:block;}
+  .fish-img-box{position:relative;display:inline-flex;align-items:center;justify-content:center;background:var(--img-bg);border-radius:4px;border:1px solid var(--border2);overflow:hidden;flex-shrink:0;}
+  .fish-img-box img{width:100%;height:100%;object-fit:cover;display:block;}
+  .fish-img-box .emoji-fb{font-size:1.4em;line-height:1;}
+  .ai-badge{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,0.6);color:#7df;font-size:0.5rem;letter-spacing:0.06em;padding:1px 3px;border-radius:2px;pointer-events:none;font-family:sans-serif;}
+  .img-loading{animation:shimmer 1.4s ease-in-out infinite;}
+  @keyframes shimmer{0%,100%{opacity:0.4}50%{opacity:0.8}}
 
   .table-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
   table{width:100%;border-collapse:collapse;}
@@ -101,6 +95,7 @@
   .td-angler{font-weight:600;color:var(--accent2);cursor:pointer;transition:color 0.2s;}
   .td-angler:hover{color:var(--accent);text-decoration:underline;}
   .td-fish{font-style:italic;}
+  .fish-cell{display:flex;align-items:center;gap:8px;}
   .size-badge{display:inline-block;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.12rem 0.45rem;border-radius:3px;font-style:normal;font-weight:600;margin-left:0.4rem;vertical-align:middle;}
   .size-tiny{background:rgba(138,184,204,0.15);color:var(--muted);}
   .size-small{background:rgba(0,180,216,0.12);color:#5ab8d4;}
@@ -113,7 +108,6 @@
   .special-row td{background:rgba(240,192,64,0.03);}
   .special-row:hover td{background:rgba(240,192,64,0.07)!important;}
   .currency-badge{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;padding:0.18rem 0.55rem;border-radius:20px;background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);color:var(--gold);white-space:nowrap;}
-
   .special-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;padding:1rem 1.4rem;background:rgba(240,192,64,0.05);border:1px solid rgba(240,192,64,0.15);border-radius:8px;}
   .special-header-icon{font-size:1.7rem;}
   .special-header-text h2{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
@@ -128,7 +122,6 @@
   .currency-leaderboard .angler-name{color:var(--accent2);flex:1;padding-left:0.4rem;cursor:pointer;}
   .currency-leaderboard .angler-name:hover{color:var(--accent);text-decoration:underline;}
   .currency-leaderboard .amount{font-family:'Cinzel Decorative',serif;font-size:0.82rem;color:var(--gold);}
-
   .leaderboard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.2rem;}
   .lb-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem;backdrop-filter:blur(10px);}
   .lb-card-title{font-family:'Cinzel Decorative',serif;font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
@@ -142,17 +135,15 @@
   .lb-val small{font-family:'Crimson Pro',serif;font-size:0.72rem;color:var(--muted);margin-left:2px;}
 
   /* Encyclopedia */
-  .species-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+  .species-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:1rem;}
   .species-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s;backdrop-filter:blur(10px);}
   .species-card:hover{border-color:var(--accent);box-shadow:0 0 16px rgba(0,229,255,0.1);}
   .species-img-wrap{width:100%;height:130px;background:var(--img-bg);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;}
-  .species-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;}
-  .species-card:hover .species-img{transform:scale(1.05);}
-  .species-img-placeholder{font-size:3rem;opacity:0.45;}
-  .species-img-loading{font-size:1.4rem;opacity:0.35;animation:bobble 1.2s ease-in-out infinite;}
-  @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .species-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;display:block;}
+  .species-card:hover .species-img-wrap img{transform:scale(1.05);}
+  .species-placeholder{font-size:3rem;opacity:0.4;}
   .species-info{padding:0.85rem 1rem;}
-  .species-name{font-size:0.92rem;font-weight:600;color:var(--text);font-style:italic;margin-bottom:0.25rem;line-height:1.3;}
+  .species-name{font-size:0.9rem;font-weight:600;color:var(--text);font-style:italic;margin-bottom:0.25rem;line-height:1.3;}
   .species-cat{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;}
   .species-stats{display:flex;gap:1rem;}
   .species-stat{display:flex;flex-direction:column;}
@@ -176,30 +167,25 @@
   .profile-stat-lbl{font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.1rem;}
   .profile-section-title{font-family:'Cinzel Decorative',serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin:1.2rem 0 0.7rem;}
   .profile-fish-list{list-style:none;}
-  .profile-fish-list li{display:flex;align-items:center;gap:0.8rem;padding:0.55rem 0;border-bottom:1px solid var(--border2);}
+  .profile-fish-list li{display:flex;align-items:center;gap:0.9rem;padding:0.6rem 0;border-bottom:1px solid var(--border2);}
   .profile-fish-list li:last-child{border-bottom:none;}
-  .profile-fish-img-wrap{position:relative;flex-shrink:0;width:44px;height:44px;}
-  .profile-fish-img{width:44px;height:44px;border-radius:5px;object-fit:cover;background:var(--img-bg);border:1px solid var(--border2);}
-  .profile-fish-img-placeholder{width:44px;height:44px;border-radius:5px;background:var(--img-bg);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
   .profile-fish-details{flex:1;min-width:0;}
   .profile-fish-name{font-style:italic;font-size:0.92rem;}
   .profile-fish-meta{color:var(--muted);font-size:0.8rem;margin-top:0.1rem;}
-
   .pagination{display:flex;justify-content:center;align-items:center;gap:0.4rem;margin-top:1.3rem;flex-wrap:wrap;}
   .page-btn{font-family:'Crimson Pro',serif;font-size:0.82rem;padding:0.35rem 0.75rem;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:4px;cursor:pointer;transition:all 0.2s;}
   .page-btn:hover{border-color:var(--accent);color:var(--text);}
   .page-btn.active{background:rgba(0,229,255,0.1);border-color:var(--accent);color:var(--accent);}
   .page-btn:disabled{opacity:0.3;cursor:not-allowed;}
-
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
   .loading{text-align:center;padding:3rem;color:var(--muted);font-style:italic;}
   .loading-fish{font-size:2rem;animation:bobble 1.5s ease-in-out infinite;display:block;margin-bottom:1rem;}
+  @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .error-msg{background:rgba(255,80,80,0.06);border:1px solid rgba(255,80,80,0.2);border-radius:8px;padding:1.5rem;color:#ff8080;text-align:center;line-height:1.8;}
   .error-msg code{display:block;margin-top:0.5rem;font-size:0.76rem;opacity:0.6;font-family:monospace;word-break:break-all;}
   .empty-state{text-align:center;padding:3rem 2rem;color:var(--muted);}
   .empty-state .empty-icon{font-size:2.5rem;margin-bottom:0.8rem;opacity:0.5;}
-
   .toast{position:fixed;bottom:2rem;right:2rem;background:var(--card-bg);border:1px solid rgba(0,229,255,0.4);border-radius:8px;padding:0.85rem 1.3rem;z-index:300;box-shadow:0 0 30px rgba(0,229,255,0.12);animation:toastIn 0.4s ease;max-width:290px;backdrop-filter:blur(10px);}
   .toast.special{border-color:rgba(240,192,64,0.5);box-shadow:0 0 30px rgba(240,192,64,0.15);}
   @keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -207,19 +193,11 @@
   .toast-title.special{color:var(--gold);}
   .toast-body{font-size:0.88rem;line-height:1.4;}
   .toast-body strong{color:var(--accent2);}
-
-  @media(max-width:640px){
-    .stats-bar{gap:1rem;} .stat-divider{display:none;}
-    td,th{padding:0.6rem 0.7rem;font-size:0.82rem;} .hide-mobile{display:none;}
-    .theme-toggle{top:0.8rem;right:0.8rem;}
-    .species-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}
-  }
+  @media(max-width:640px){.stats-bar{gap:1rem;}.stat-divider{display:none;}td,th{padding:0.6rem 0.7rem;font-size:0.82rem;}.hide-mobile{display:none;}.theme-toggle{top:0.8rem;right:0.8rem;}.species-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}}
 </style>
 </head>
 <body>
-
 <div class="particles" id="particles"></div>
-
 <header>
   <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   <h1 class="title">⚓ The Catch Log</h1>
@@ -227,7 +205,6 @@
   <p class="last-updated" id="lastUpdated">Connecting to database...</p>
   <div class="header-wave"></div>
 </header>
-
 <div class="stats-bar">
   <div class="stat-item"><span class="stat-value" id="statTotal">—</span><span class="stat-label">Total Catches</span></div>
   <div class="stat-divider"></div>
@@ -239,14 +216,12 @@
   <div class="stat-divider"></div>
   <div class="stat-item"><span class="stat-value" id="statSpecies">—</span><span class="stat-label">Species Found</span></div>
 </div>
-
 <div class="tabs">
-  <button class="tab-btn active"      onclick="switchTab('all',this)">🎣 All Catches</button>
+  <button class="tab-btn active" onclick="switchTab('all',this)">🎣 All Catches</button>
   <button class="tab-btn special-tab" onclick="switchTab('special',this)">✦ Special</button>
-  <button class="tab-btn"             onclick="switchTab('leaderboard',this)">🏆 Leaderboard</button>
-  <button class="tab-btn"             onclick="switchTab('encyclopedia',this)">📖 Encyclopedia</button>
+  <button class="tab-btn" onclick="switchTab('leaderboard',this)">🏆 Leaderboard</button>
+  <button class="tab-btn" onclick="switchTab('encyclopedia',this)">📖 Encyclopedia</button>
 </div>
-
 <main>
   <div class="tab-panel active" id="tab-all">
     <div class="filter-bar">
@@ -254,10 +229,9 @@
         <input type="text" id="searchAll" placeholder="Search angler or fish..." oninput="applyFilters()">
       </div>
       <select id="sizeFilter" onchange="applyFilters()">
-        <option value="">All sizes</option>
-        <option value="tiny">Tiny</option><option value="small">Small</option>
-        <option value="medium">Medium</option><option value="large">Large</option>
-        <option value="enormous">Enormous</option>
+        <option value="">All sizes</option><option value="tiny">Tiny</option>
+        <option value="small">Small</option><option value="medium">Medium</option>
+        <option value="large">Large</option><option value="enormous">Enormous</option>
       </select>
       <div class="sort-pills">
         <button class="sort-pill active" onclick="setSort('time',this)">Latest</button>
@@ -267,7 +241,6 @@
     </div>
     <div id="allContent"><div class="loading"><span class="loading-fish">🐟</span>Hauling in the catch...</div></div>
   </div>
-
   <div class="tab-panel" id="tab-special">
     <div class="special-header">
       <div class="special-header-icon">🏆</div>
@@ -289,164 +262,259 @@
     </div>
     <div id="specialContent"><div class="loading"><span class="loading-fish">🌟</span>Seeking the legendary...</div></div>
   </div>
-
   <div class="tab-panel" id="tab-leaderboard">
     <div id="leaderboardContent"><div class="loading"><span class="loading-fish">🏆</span>Tallying scores...</div></div>
   </div>
-
   <div class="tab-panel" id="tab-encyclopedia">
     <div class="filter-bar">
       <div class="search-wrap"><span class="search-icon">⚲</span>
         <input type="text" id="searchEncyc" placeholder="Search species..." oninput="renderEncyclopedia()">
       </div>
       <select id="catFilter" onchange="renderEncyclopedia()">
-        <option value="">All categories</option>
-        <option value="small">Small</option><option value="medium">Medium</option>
-        <option value="large">Large</option><option value="giant">Giant / Special</option>
+        <option value="">All categories</option><option value="small">Small</option>
+        <option value="medium">Medium</option><option value="large">Large</option>
+        <option value="giant">Giant / Special</option>
       </select>
     </div>
-    <div id="encycContent"><div class="loading"><span class="loading-fish">📖</span>Loading species data...</div></div>
+    <div id="encycContent"><div class="loading"><span class="loading-fish">📖</span>Loading species...</div></div>
   </div>
 </main>
-
 <div class="modal-overlay" id="profileModal" onclick="closeProfile(event)">
   <div class="modal" id="profileContent"></div>
 </div>
-
 <script>
 // ── Config ────────────────────────────────────────────────────────
 const API       = 'https://mhtiosfhklwazokjscho.supabase.co/functions/v1/get-catches';
 const KEY       = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1odGlvc2Zoa2x3YXpva2pzY2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTY1OTMsImV4cCI6MjA3NzE3MjU5M30.kngMjoWZaFTF6MqO_2W9s3WXSaMyIWzmEvbCCR8z-4c';
-const WIKI_API  = 'https://en.wikipedia.org/w/api.php';
-const POLL_BASE = 'https://image.pollinations.ai/prompt/';
+const POLL      = 'https://image.pollinations.ai/prompt/';
 const PAGE_SIZE = 25;
 
-// ── Items that should NOT get realistic fish AI images ────────────
-const JUNK_ITEMS = new Set(['Hat','Stick','Empty Wallet','Boot','Life Jacket','anchor',
-  'Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE",
-  "Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins"]);
-
-// ── Wikipedia search overrides ─────────────────────────────────────
-const WIKI_SEARCH = {
-  'kraken':'Kraken','WhaleShark':'Whale shark','OceanSunfish':'Ocean sunfish',
-  'AsianCarp':'Asian carp','GreenlandHalibut':'Greenland halibut',
-  'AtlanticCod':'Atlantic cod','SeaBass':'European seabass',
-  'NilePerch':'Nile perch','Shortnose Gar':'Shortnose gar',
-  'African Lung fish':'African lungfish','Lungfish':'Lungfish',
-  'anchor':'Ship anchor','Hat':'Fedora hat','Boot':'Wellington boot',
-  'Stick':'Wooden stick','Empty Wallet':'Leather wallet','Life Jacket':'Life jacket',
-  'Gyrinocheilus aymonieri':'Gyrinocheilus aymonieri',
-  'Neolamprologus multifasciatus':'Neolamprologus multifasciatus',
-  'Legendary Jcliff Fish you win 200+ Cliff Coins':'Atlantic bluefin tuna',
-  "MerlinMilk's Wallet you win 200+ $GUANCE":'Leather wallet',
-  "Spooo's Wallet you win 200+ $DD":'Leather wallet',
-  "Pixel's Wallet you win 200+ Marble Coins":'Marble toy',
-  'Firehawk Fish':'Firefish goby','Tundrachick Fish':'Arctic char',
-  'FlakJacket Fish':'Armored catfish','Leedsichthys':'Leedsichthys problematicus',
-  'Megamouth Shark':'Megamouth shark','Giant Freshwater Stingray':'Giant freshwater stingray',
-  'Giant Oceanic Manta Ray':'Oceanic manta ray','Beluga Sturgeon':'Beluga sturgeon',
-  'Greenland Shark':'Greenland shark','Basking Shark':'Basking shark',
-  'Mekong Giant Catfish':'Mekong giant catfish','Giant Barb':'Giant barb',
-  'Murray Cod':'Murray cod','Chilean Sea Bass':'Patagonian toothfish',
-  'Goliath Grouper':'Goliath grouper','Alligator Gar':'Alligator gar',
-  'Cat Fish':'Catfish','Tiger Fish':'Tigerfish','Basic Carp':'Common carp',
-  'Basic Cod':'Atlantic cod','Basic Grouper':'Grouper fish','Basic Halibut':'Atlantic halibut',
-};
-
-// ── Pollinations prompts — custom prompts for unusual fish ─────────
-const POLL_PROMPTS = {
-  'Ghost Fish':'translucent ghost fish underwater glowing bioluminescent deep sea photography',
-  'Dragonfish':'deep sea dragonfish bioluminescent teeth underwater photograph',
-  'Firehawk Fish':'vibrant red orange tropical fish with flame-like fins underwater photo',
-  'Tundrachick Fish':'pale ice-blue arctic fish frozen tundra underwater photo',
-  'FlakJacket Fish':'heavily armored catfish with thick scales underwater photograph',
-  'kraken':'giant kraken octopus emerging from deep ocean dark underwater photograph',
-  'Megalodon':'massive megalodon prehistoric shark underwater dramatic photo',
-  'Leedsichthys':'enormous prehistoric Leedsichthys fish ancient ocean illustration',
-  'anchor':'old rusty ship anchor underwater coral reef photo',
+// ── Pollinations prompts — specific per fish to avoid ambiguity ───
+// "Kaluga" alone returns the Russian city. Always be explicit.
+const FISH_PROMPT = {
+  'Guppie':'guppy fish Poecilia reticulata colorful freshwater aquarium photo',
+  'Nemo':'clownfish orange white stripes anemone ocean photo',
+  'Purple Tang':'purple tang Zebrasoma xanthurum reef fish photo',
+  'Gold Fish':'goldfish orange pond aquarium underwater photo',
+  'Blue Tang':'blue tang Paracanthurus hepatus reef fish photo',
+  'Damselfish':'damselfish colorful reef fish underwater photo',
+  'Goby':'goby fish small reef bottom dwelling underwater photo',
+  'Moorish Idol':'moorish idol Zanclus cornutus reef fish photo',
+  'Butterflyfish':'butterflyfish colorful tropical reef photo',
+  'Parrotfish':'parrotfish colorful reef fish underwater photo',
+  'Wrasse':'wrasse colorful reef fish underwater photo',
+  'Triggerfish':'triggerfish reef ocean underwater photo',
+  'Surgeonfish':'surgeonfish tang reef underwater photo',
+  'Fangtooth':'fangtooth fish Anoplogaster cornuta deep sea photo',
+  'Piranha':'piranha sharp teeth Amazon river fish photo',
+  'Candiru':'candiru parasitic catfish Amazon underwater photo',
+  'Lanternfish':'lanternfish bioluminescent deep sea Myctophidae photo',
+  'Viperfish':'viperfish Chauliodus deep sea long fangs photo',
+  'Flying Fish':'flying fish leaping above ocean surface photo',
+  'Leafy Sea Dragon':'leafy sea dragon Phycodurus eques ocean photo',
+  'Mud Skipper':'mudskipper fish walking on mud mangrove photo',
+  'Sculpin':'sculpin fish rocky bottom underwater photo',
+  'Icefish':'icefish Channichthyidae Antarctic transparent blood photo',
+  'Phongolo Suckermouth':'suckermouth catfish Chiloglanis Africa river photo',
+  'Galjoen':'galjoen fish Dichistius capensis South Africa photo',
+  'Bichir':'bichir fish Polypterus prehistoric freshwater photo',
+  'Mormyrid':'elephantnose fish Mormyridae Africa freshwater photo',
+  'Spiny Eel':'spiny eel Mastacembelidae freshwater aquarium photo',
+  'African Knifefish':'African knifefish Xenomystus nigri freshwater photo',
+  'Rudd':'rudd fish Scardinius erythrophthalmus European freshwater photo',
+  'Tench':'tench fish Tinca tinca European freshwater pond photo',
+  'Blobfish':'blobfish Psychrolutes marcidus deep sea ugly fish photo',
+  'Puffer Fish':'puffer fish inflated spines ocean photo',
+  'Star Fish':'starfish sea star ocean floor colorful photo',
+  'Jelly Fish':'jellyfish translucent glowing ocean underwater photo',
+  'Crab':'crab ocean underwater rocky reef photo',
+  'Sea Snake':'sea snake ocean water swimming photo',
+  'Ghost Fish':'ghost shark chimaera deep sea pale translucent photo',
+  'Angler Fish':'anglerfish deep sea bioluminescent lure darkness photo',
+  'Dragonfish':'dragonfish Stomiidae deep sea bioluminescent huge fangs photo',
+  'Lion Fish':'lionfish Pterois venomous spines reef photo',
+  'Sun Fish':'ocean sunfish Mola mola giant fish surface photo',
+  'Betta':'betta fish Betta splendens colorful fins aquarium photo',
+  'Tetra':'neon tetra small colorful freshwater fish aquarium photo',
+  'Rasbora':'rasbora small freshwater fish aquarium school photo',
+  'Danio':'zebrafish Danio rerio stripes freshwater aquarium photo',
+  'Killifish':'killifish colorful small freshwater photo',
+  'Platy':'platy fish Xiphophorus small colorful freshwater aquarium photo',
+  'Hatchetfish':'hatchetfish deep chest freshwater aquarium photo',
+  'Apistogramma':'apistogramma dwarf cichlid colorful freshwater photo',
+  'Neolamprologus multifasciatus':'Neolamprologus multifasciatus shell cichlid Lake Tanganyika photo',
+  'Largemouth Bass':'largemouth bass fishing lake freshwater photo',
+  'Trout':'trout rainbow freshwater river fish photo',
+  'Salmon':'salmon river jumping waterfall fish photo',
+  'Yellow Perch':'yellow perch freshwater lake fish photo',
+  'Basic Carp':'common carp freshwater large fish photo',
+  'Cat Fish':'catfish whiskers freshwater river bottom photo',
+  'Tiger Fish':'tigerfish Hydrocynus vittatus Africa river sharp teeth photo',
+  'Tilapia':'tilapia freshwater fish farming photo',
+  'Crappie':'crappie freshwater panfish fishing photo',
+  'Walleye':'walleye freshwater fishing glassy eyes photo',
+  'Northern Pike':'northern pike Esox lucius freshwater predator photo',
+  'Muskellunge':'muskellunge muskie large freshwater predator photo',
+  'Pacu':'pacu Colossoma macropomum large Amazon fish photo',
+  'Tambaqui':'tambaqui Colossoma macropomum Amazon fruit eating fish photo',
+  'Rohu':'rohu Labeo rohita large Indian freshwater carp photo',
+  'Snakehead':'snakehead fish Channa invasive freshwater predator photo',
+  'Giant Gourami':'giant gourami Osphronemus goramy large freshwater fish photo',
+  'AsianCarp':'Asian carp bighead silver carp invasive photo',
+  'Zander':'zander pikeperch Sander lucioperca European freshwater photo',
+  'Burbot':'burbot Lota lota freshwater cod fish photo',
+  'Arctic Char':'arctic char Salvelinus alpinus cold water fish photo',
+  'GreenlandHalibut':'Greenland halibut flatfish deep cold water photo',
+  'AtlanticCod':'Atlantic cod Gadus morhua commercial fish photo',
+  'Sole':'sole flatfish Solea ocean bottom photo',
+  'Haddock':'haddock fish Melanogrammus ocean photo',
+  'Pollock':'pollock Pollachius ocean fish photo',
+  'SeaBass':'European seabass Dicentrarchus labrax saltwater photo',
+  'Scorpionfish':'scorpionfish Scorpaena camouflaged reef photo',
+  'Snapper':'red snapper Lutjanus campechanus reef fish photo',
+  'Basic Cod':'Atlantic cod Gadus morhua ocean fish photo',
+  'Basic Grouper':'grouper Epinephelus reef fish large photo',
+  'Basic Halibut':'Atlantic halibut large flatfish ocean bottom photo',
+  'Snoek':'snoek Thyrsites atun long silver ocean fish photo',
+  'Yellowtail':'yellowtail amberjack Seriola fish ocean photo',
+  'Mackerel':'mackerel Atlantic fish school ocean photo',
+  'Squid':'squid ocean tentacles underwater photo',
+  'Octopus':'octopus reef ocean underwater photo',
+  'Lobster':'lobster ocean bottom underwater photo',
+  'Sting Ray':'stingray flat ocean floor sandy bottom photo',
+  'Ribbonfish':'oarfish giant ribbonfish Regalecus glesne ocean photo',
+  'Bowfin':'bowfin Amia calva North American freshwater fish photo',
+  'Shortnose Gar':'shortnose gar Lepisosteus platostomus river photo',
+  'Paddlefish':'paddlefish Polyodon spathula long paddle snout river photo',
+  'African Lung fish':'African lungfish Protopterus mud burrow photo',
+  'Lungfish':'lungfish ancient air breathing freshwater fish photo',
+  'NilePerch':'Nile perch Lates calcarifer large African lake fish photo',
+  'Mahseer':'mahseer Tor tor large Indian game fish river photo',
+  'Rabbit Fish':'rabbitfish Siganus reef ocean photo',
+  'Barramundi':'barramundi Lates calcarifer large Australian fish photo',
+  'Wahoo':'wahoo Acanthocybium solandri fast ocean fish photo',
+  'Opah':'opah moonfish Lampris guttatus colorful deep ocean photo',
+  'Electric Eel':'electric eel Electrophorus electricus Amazon river photo',
+  'anchor':'old rusty anchor underwater coral reef photo',
+  'Flounder':'flounder flatfish sandy ocean bottom photo',
+  'Monkfish':'monkfish anglerfish Lophius ugly ocean bottom fish photo',
+  'Orange Roughy':'orange roughy deep sea fish Hoplostethus photo',
+  'Shad':'American shad Alosa river fish photo',
+  'Cory Catfish':'corydoras catfish small freshwater aquarium bottom photo',
+  'Mollies':'molly fish Poecilia sphenops freshwater aquarium photo',
+  'Rainbowfish':'rainbowfish Melanotaenia colorful freshwater aquarium photo',
+  'Swordtail':'swordtail fish Xiphophorus hellerii freshwater aquarium photo',
+  'Dwarf Cichlid':'dwarf cichlid Apistogramma colorful freshwater photo',
+  'Gyrinocheilus aymonieri':'Gyrinocheilus aymonieri algae eater aquarium fish photo',
+  'Clown Loach':'clown loach Chromobotia macracanthus striped freshwater aquarium photo',
+  'Wels Catfish':'wels catfish Silurus glanis giant European freshwater photo',
+  'Blue Catfish':'blue catfish Ictalurus furcatus large North American photo',
+  'Flathead Catfish':'flathead catfish Pylodictis olivaris large freshwater photo',
+  'Red-Tail Catfish':'redtail catfish Phractocephalus hemioliopterus Amazon photo',
+  'Yellowfin Tuna':'yellowfin tuna Thunnus albacares ocean fish photo',
+  'Swordfish':'swordfish Xiphias gladius ocean bill photo',
+  'Great White Shark':'great white shark ocean underwater dramatic photo',
+  'Mahi-Mahi':'mahi-mahi dorado Coryphaena hippurus colorful fish photo',
+  'Sailfish':'sailfish Istiophorus sail fin ocean photo',
+  'Barracuda':'barracuda Sphyraena sharp teeth reef ocean photo',
+  'Blue Marlin':'blue marlin Makaira nigricans billfish ocean photo',
+  'Arapaima':'arapaima Arapaima gigas giant Amazon river fish photo',
+  'Coelacanth':'coelacanth Latimeria chalumnae living fossil fish photo',
+  'Sturgeon':'beluga sturgeon Acipenser large freshwater fish photo',
+  'Chilean Sea Bass':'Patagonian toothfish Dissostichus eleginoides deep sea photo',
+  'Alligator Gar':'alligator gar Atractosteus spatula large river fish photo',
+  'Bluefin Tuna':'Atlantic bluefin tuna Thunnus thynnus large ocean fish photo',
+  'Goliath Grouper':'goliath grouper Epinephelus itajara giant reef fish photo',
+  'Murray Cod':'Murray cod Maccullochella peelii Australian freshwater photo',
+  'Taimen':'taimen Hucho taimen giant Siberian salmon river photo',
+  'Goonch':'goonch Bagarius yarrelli giant Indian catfish river photo',
+  'Vundu':'vundu Heterobranchus longifilis giant African catfish photo',
+  'Piraiba':'piraiba Brachyplatystoma filamentosum giant Amazon catfish photo',
+  'Mekong Giant Catfish':'Mekong giant catfish Pangasianodon gigas endangered photo',
+  'Giant Barb':'giant barb Catlocarpio siamensis largest cyprinid photo',
+  'WhaleShark':'whale shark Rhincodon typus giant ocean fish photo',
+  'Megalodon':'megalodon prehistoric giant shark ocean dramatic illustration',
+  'kraken':'kraken giant octopus tentacles deep ocean dark dramatic photo',
+  'OceanSunfish':'ocean sunfish Mola mola giant round fish surface photo',
+  'Sea Turtle':'sea turtle swimming ocean underwater photo',
+  'Basking Shark':'basking shark Cetorhinus maximus filter feeding ocean photo',
+  'Giant Oceanic Manta Ray':'giant manta ray Mobula birostris ocean swimming photo',
+  'Beluga Sturgeon':'beluga sturgeon Huso huso giant Caspian Sea fish photo',
+  'Greenland Shark':'Greenland shark Somniosus microcephalus deep cold ocean photo',
+  'Megamouth Shark':'megamouth shark Megachasma pelagios rare deep sea photo',
+  'Kaluga':'Kaluga sturgeon Huso dauricus giant Amur River fish photo',
+  'Giant Freshwater Stingray':'giant freshwater stingray Urogymnus polylepis river photo',
+  'Leedsichthys':'Leedsichthys problematicus enormous prehistoric fish illustration',
+  'Arowana':'arowana Osteoglossum bicirrhosum large freshwater fish photo',
+  'Firehawk Fish':'vibrant red orange tropical reef fish dramatic flame-like fins underwater photo',
+  'Tundrachick Fish':'pale icy blue arctic freshwater fish cold tundra water photo',
+  'FlakJacket Fish':'heavily armored plated catfish Pterygoplichthys riverbed photo',
+  'Ghost Fish':'ghost shark chimaera Chimaera monstrosa deep sea pale photo',
   'Hat':'old fishing hat floating on water surface photo',
-  'Boot':'old rubber boot in water fishing humor photo',
-  'Empty Wallet':'empty leather wallet open showing no money humorous photo',
+  'Boot':'old rubber boot in shallow river water humorous photo',
+  'Stick':'wooden stick floating in clear river water photo',
+  'Empty Wallet':'empty leather wallet open showing nothing humorous photo',
   'Life Jacket':'bright orange life jacket floating on ocean water photo',
-  'Stick':'wooden stick floating in clear river water nature photo',
-  'Legendary Jcliff Fish you win 200+ Cliff Coins':'legendary golden fish glowing underwater treasure photo',
-  "MerlinMilk's Wallet you win 200+ $GUANCE":'magical glowing wallet with coins spilling out fantasy photo',
-  "Spooo's Wallet you win 200+ $DD":'mysterious glowing wallet underwater treasure fantasy',
-  "Pixel's Wallet you win 200+ Marble Coins":'wallet surrounded by glowing marbles fantasy treasure photo',
+  'Legendary Jcliff Fish you win 200+ Cliff Coins':'legendary glowing golden fish underwater treasure dramatic lighting fantasy',
+  "MerlinMilk's Wallet you win 200+ $GUANCE":'magical glowing wallet gold coins spilling fantasy underwater treasure',
+  "Spooo's Wallet you win 200+ $DD":'mysterious glowing wallet underwater treasure fantasy photo',
+  "Pixel's Wallet you win 200+ Marble Coins":'leather wallet surrounded by glowing marbles fantasy treasure photo',
 };
 
-function getPollUrl(fishName) {
-  const prompt = POLL_PROMPTS[fishName] ||
-    `realistic underwater photograph of a ${fishName} fish, high quality nature photography, detailed`;
-  return POLL_BASE + encodeURIComponent(prompt) + '?width=400&height=300&nologo=true&seed=' + hashCode(fishName);
+// ── Build Pollinations URL from prompt ────────────────────────────
+function pollUrl(name) {
+  const prompt = FISH_PROMPT[name] || `realistic underwater photo of a ${name} fish, high quality nature photography, detailed`;
+  return POLL + encodeURIComponent(prompt) + '?width=400&height=300&nologo=true&seed=' + hashStr(name);
+}
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return Math.abs(h)%999983;}
+
+// ── Image URL store (localStorage for persistence across sessions) ─
+const IMG = (() => { try { return JSON.parse(localStorage.getItem('fishImgV4')||'{}'); } catch { return {}; } })();
+function saveImg() { try { localStorage.setItem('fishImgV4', JSON.stringify(IMG)); } catch {} }
+
+// getImg just returns the Pollinations URL — no async needed since
+// Pollinations generates on-demand via the URL itself (browser loads it)
+function getImgUrl(name) {
+  if (!IMG[name]) { IMG[name] = pollUrl(name); saveImg(); }
+  return IMG[name];
 }
 
-function hashCode(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
-  return Math.abs(h) % 999983;
+// ── imgBox: renders a container with img that loads from Pollinations ─
+// Uses native img loading — shows emoji until the img fires onload,
+// then fades the image in. No async DOM swap needed.
+let imgSeq = 0;
+function imgBox(name, w, h, radius='4px') {
+  const url = getImgUrl(name);
+  const e   = EMOJI[name] || '🐟';
+  const k   = 'ib'+(++imgSeq);
+  // The img is hidden (opacity 0) until it loads, then CSS transition shows it.
+  // The emoji sits behind it and becomes invisible once img loads.
+  return `<span class="fish-img-box" id="${k}" style="width:${w}px;height:${h}px;border-radius:${radius};position:relative;display:inline-flex;align-items:center;justify-content:center;background:var(--img-bg);border:1px solid var(--border2);overflow:hidden;flex-shrink:0;vertical-align:middle">
+    <span class="emoji-fb" style="position:absolute;font-size:${Math.round(w*0.55)}px;z-index:0">${e}</span>
+    <img src="${esc(url)}" alt="${esc(name)}"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;z-index:1;border-radius:${radius}"
+      onload="this.style.opacity=1"
+      onerror="this.remove()">
+    <span class="ai-badge" style="z-index:2">AI</span>
+  </span>`;
 }
 
-// ── Image cache (sessionStorage) ──────────────────────────────────
-const imgCache = (() => { try { return JSON.parse(sessionStorage.getItem('fishImgCache2')||'{}'); } catch { return {}; } })();
-// Cache values: url string = confirmed image, null = use pollinations, 'ai:url' = ai-generated url
-function saveCache() { try { sessionStorage.setItem('fishImgCache2', JSON.stringify(imgCache)); } catch {} }
-
-const inFlight = new Map();
-
-// ── Main image resolver ───────────────────────────────────────────
-// Returns { url, isAI } — tries Wikipedia first, falls back to Pollinations
-async function resolveImage(fishName) {
-  if (imgCache[fishName] !== undefined) {
-    const v = imgCache[fishName];
-    if (v === null) return { url: getPollUrl(fishName), isAI: true };
-    if (typeof v === 'string' && v.startsWith('wiki:')) return { url: v.slice(5), isAI: false };
-    return { url: v, isAI: false };
-  }
-  if (inFlight.has(fishName)) return inFlight.get(fishName);
-
-  const promise = (async () => {
-    try {
-      const searchTerm = WIKI_SEARCH[fishName] || fishName;
-      const params = new URLSearchParams({
-        action:'query', titles:searchTerm, prop:'pageimages',
-        pithumbsize:'400', format:'json', origin:'*'
-      });
-      const res = await fetch(`${WIKI_API}?${params}`);
-      const data = await res.json();
-      const pages = data?.query?.pages || {};
-      const page = Object.values(pages)[0];
-      const wikiUrl = page?.thumbnail?.source || null;
-
-      if (wikiUrl) {
-        imgCache[fishName] = 'wiki:' + wikiUrl;
-        saveCache();
-        return { url: wikiUrl, isAI: false };
-      } else {
-        // No Wikipedia image — fall back to Pollinations
-        imgCache[fishName] = null;
-        saveCache();
-        return { url: getPollUrl(fishName), isAI: true };
-      }
-    } catch {
-      imgCache[fishName] = null;
-      return { url: getPollUrl(fishName), isAI: true };
-    } finally {
-      inFlight.delete(fishName);
-    }
-  })();
-
-  inFlight.set(fishName, promise);
-  return promise;
-}
-
-function prefetchImages(names) {
-  const unique = [...new Set(names)].filter(n => n && imgCache[n] === undefined);
-  unique.forEach((name, i) => setTimeout(() => resolveImage(name), i * 100));
+function preload(names) {
+  // Pre-warm browser cache by creating hidden img elements
+  [...new Set(names)].filter(n=>n).forEach(n => {
+    if (document.querySelector(`[data-preload="${CSS.escape(n)}"]`)) return;
+    const img = new Image();
+    img.dataset.preload = n;
+    img.src = getImgUrl(n);
+    img.style.display = 'none';
+    document.body.appendChild(img);
+    img.onload = () => img.remove();
+    img.onerror = () => img.remove();
+  });
 }
 
 // ── Fish data ─────────────────────────────────────────────────────
-const FISH_EMOJI = {
+const EMOJI = {
   'Guppie':'🐟','Nemo':'🐠','Gold Fish':'🐡','Blue Tang':'🐟','Piranha':'🦈',
   'Puffer Fish':'🐡','Star Fish':'⭐','Jelly Fish':'🪼','Crab':'🦀','Sea Snake':'🐍',
   'Angler Fish':'🎣','Lion Fish':'🐡','Blobfish':'🐟','Leafy Sea Dragon':'🐲',
@@ -457,18 +525,17 @@ const FISH_EMOJI = {
   'Sea Turtle':'🐢','Firehawk Fish':'🔥','Tundrachick Fish':'❄️','FlakJacket Fish':'🛡️',
   'Arowana':'🐉','OceanSunfish':'☀️','Alligator Gar':'🐊',
 };
-const DEFAULT_EMOJI = '🐟';
 
-const FISH_CATEGORIES = {
+const CATS = {
   small:['Guppie','Nemo','Purple Tang','Gold Fish','Blue Tang','Damselfish','Goby','Moorish Idol','Butterflyfish','Parrotfish','Wrasse','Triggerfish','Surgeonfish','Fangtooth','Piranha','Candiru','Lanternfish','Viperfish','Flying Fish','Leafy Sea Dragon','Mud Skipper','Sculpin','Icefish','Phongolo Suckermouth','Galjoen','Bichir','Mormyrid','Spiny Eel','African Knifefish','Rudd','Tench','Blobfish','Puffer Fish','Star Fish','Jelly Fish','Crab','Hat','Stick','Empty Wallet','Boot','Life Jacket','Sea Snake','Ghost Fish','Angler Fish','Dragonfish','Lion Fish','Sun Fish','Betta','Tetra','Rasbora','Danio','Killifish','Platy','Hatchetfish','Apistogramma','Neolamprologus multifasciatus'],
   medium:['Largemouth Bass','Trout','Salmon','Yellow Perch','Basic Carp','Cat Fish','Tiger Fish','Tilapia','Crappie','Walleye','Northern Pike','Muskellunge','Pacu','Tambaqui','Rohu','Snakehead','Giant Gourami','AsianCarp','Zander','Burbot','Arctic Char','GreenlandHalibut','AtlanticCod','Sole','Haddock','Pollock','SeaBass','Scorpionfish','Snapper','Basic Cod','Basic Grouper','Basic Halibut','Snoek','Yellowtail','Mackerel','Squid','Octopus','Lobster','Sting Ray','Ribbonfish','Bowfin','Shortnose Gar','Paddlefish','African Lung fish','Lungfish','NilePerch','Mahseer','Rabbit Fish','Barramundi','Wahoo','Opah','Electric Eel','anchor','Flounder','Monkfish','Orange Roughy','Shad','Cory Catfish','Mollies','Rainbowfish','Swordtail','Dwarf Cichlid','Gyrinocheilus aymonieri','Clown Loach','Wels Catfish','Blue Catfish','Flathead Catfish','Red-Tail Catfish'],
   large:['Yellowfin Tuna','Swordfish','Great White Shark','Mahi-Mahi','Sailfish','Barracuda','Blue Marlin','Arapaima','Coelacanth','Sturgeon','Chilean Sea Bass','Alligator Gar','Bluefin Tuna','Goliath Grouper','Murray Cod','Taimen','Goonch','Vundu','Piraiba','Mekong Giant Catfish','Giant Barb'],
   giant:['WhaleShark','Megalodon','kraken','OceanSunfish','Sea Turtle','Legendary Jcliff Fish you win 200+ Cliff Coins',"MerlinMilk's Wallet you win 200+ $GUANCE","Spooo's Wallet you win 200+ $DD","Pixel's Wallet you win 200+ Marble Coins",'Basking Shark','Giant Oceanic Manta Ray','Beluga Sturgeon','Greenland Shark','Megamouth Shark','Kaluga','Giant Freshwater Stingray','Leedsichthys','Arowana','Firehawk Fish','Tundrachick Fish','FlakJacket Fish'],
 };
 const CAT_LABEL = {small:'Small',medium:'Medium',large:'Large',giant:'Giant / Special',unknown:'Unknown'};
-function getCat(n){for(const[c,l]of Object.entries(FISH_CATEGORIES))if(l.includes(n))return c;return'unknown';}
+function getCat(n){for(const[c,l]of Object.entries(CATS))if(l.includes(n))return c;return'unknown';}
 
-// ── State ─────────────────────────────────────────────────────────
+// ── App state ─────────────────────────────────────────────────────
 let allCatches=[],specialCatches=[],filteredAll=[],filteredSpecial=[];
 let sortAll='time',sortSpecial='time',pageAll=1,pageSpecial=1;
 let knownIds=new Set(),isFirstLoad=true;
@@ -480,7 +547,7 @@ let knownIds=new Set(),isFirstLoad=true;
 function toggleTheme(){const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeBtn').textContent=d?'☀️':'🌙';localStorage.setItem('theme',d?'light':'dark');}
 (function(){const s=localStorage.getItem('theme');if(s){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'🌙':'☀️';}})();
 
-// ── Fetch catches ─────────────────────────────────────────────────
+// ── Data fetch ────────────────────────────────────────────────────
 async function fetchData(){const r=await fetch(API,{headers:{'Authorization':`Bearer ${KEY}`,'x-game-api-key':'catchingfish'}});if(!r.ok)throw new Error(`HTTP ${r.status}: ${await r.text()}`);return r.json();}
 
 async function loadData(){
@@ -489,7 +556,8 @@ async function loadData(){
     if(!isFirstLoad)data.forEach(c=>{if(!knownIds.has(c.id))showToast(c);});
     knownIds=new Set(data.map(c=>c.id));isFirstLoad=false;
     allCatches=data;specialCatches=data.filter(c=>c.is_special);
-    prefetchImages([...new Set(data.map(c=>c.fish_name).filter(Boolean))]);
+    // Preload images for all unique fish seen
+    preload([...new Set(data.map(c=>c.fish_name).filter(Boolean))]);
     updateStats();applyFilters();applySpecialFilters();
     buildCurrencyCards();renderLeaderboard();renderEncyclopedia();
     document.getElementById('lastUpdated').textContent='Last updated '+new Date().toLocaleTimeString();
@@ -510,213 +578,146 @@ function updateStats(){
 }
 function animCount(id,target){const el=document.getElementById(id);const from=parseInt(el.textContent.replace(/,/g,''))||0;if(from===target){el.textContent=target.toLocaleString();return;}let cur=from;const step=Math.max(1,Math.ceil(Math.abs(target-from)/20));const iv=setInterval(()=>{cur=cur<target?Math.min(cur+step,target):Math.max(cur-step,target);el.textContent=cur.toLocaleString();if(cur===target)clearInterval(iv);},40);}
 
-// ── Dynamic image element helper ──────────────────────────────────
-// Renders a placeholder immediately, swaps to real image async
-function makeDynImg(fishName, w, h, cssClass, wrapClass='') {
-  const id = 'img_' + Math.random().toString(36).slice(2);
-  const emoji = FISH_EMOJI[fishName] || DEFAULT_EMOJI;
-
-  // Check cache synchronously first
-  const cached = imgCache[fishName];
-  let url = null, isAI = false;
-  if (cached !== undefined) {
-    if (cached === null) { url = getPollUrl(fishName); isAI = true; }
-    else if (typeof cached === 'string' && cached.startsWith('wiki:')) { url = cached.slice(5); isAI = false; }
-  }
-
-  const aiBadge = isAI ? '<span class="ai-badge">AI</span>' : '';
-
-  if (url) {
-    return `<span class="${wrapClass}" style="position:relative;display:inline-flex">
-      <img class="${cssClass}" src="${esc(url)}" width="${w}" height="${h}" alt="${esc(fishName)}"
-        onerror="this.outerHTML='<span style=width:${w}px;height:${h}px;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.round(w*0.55)}px>${emoji}</span>'">${aiBadge}
-    </span>`;
-  }
-
-  // Async load
-  setTimeout(async () => {
-    const result = await resolveImage(fishName);
-    const el = document.getElementById(id);
-    if (!el) return;
-    const badge = result.isAI ? '<span class="ai-badge">AI</span>' : '';
-    el.outerHTML = `<span class="${wrapClass}" style="position:relative;display:inline-flex">
-      <img class="${cssClass}" src="${esc(result.url)}" width="${w}" height="${h}" alt="${esc(fishName)}"
-        onerror="this.outerHTML='<span style=width:${w}px;height:${h}px;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.round(w*0.55)}px>${emoji}</span>'">${badge}
-    </span>`;
-  }, 0);
-
-  return `<span id="${id}" style="width:${w}px;height:${h}px;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.round(w*0.55)}px">${emoji}</span>`;
-}
-
 // ── Currency cards ────────────────────────────────────────────────
 function buildCurrencyCards(){
   const icons={CliffCoins:'⛰️',GUANCE:'💰',DD:'🎯',MarbleCoins:'🔮'};
   const totals={};
   specialCatches.forEach(c=>{if(!c.currency_type)return;if(!totals[c.currency_type])totals[c.currency_type]={};totals[c.currency_type][c.user_name]=(totals[c.currency_type][c.user_name]||0)+(c.currency_amount||0);});
-  const container=document.getElementById('currencyCards');container.innerHTML='';
-  if(!Object.keys(totals).length){container.innerHTML='<p style="color:var(--muted);font-style:italic">No special catches yet.</p>';return;}
+  const con=document.getElementById('currencyCards');con.innerHTML='';
+  if(!Object.keys(totals).length){con.innerHTML='<p style="color:var(--muted);font-style:italic">No special catches yet.</p>';return;}
   Object.entries(totals).forEach(([type,users])=>{
     const sorted=Object.entries(users).sort((a,b)=>b[1]-a[1]).slice(0,5);
     const card=document.createElement('div');card.className='currency-card';
     card.innerHTML=`<div class="currency-card-title">${icons[type]||'✦'} ${type} Leaderboard</div>
-      <ul class="currency-leaderboard">${sorted.map(([name,amt],i)=>`<li><span class="rank-num">#${i+1}</span><span class="angler-name" onclick="openAnglerProfile('${esc(name)}')">${esc(name)}</span><span class="amount">${amt.toLocaleString()}</span></li>`).join('')}</ul>`;
-    container.appendChild(card);
+      <ul class="currency-leaderboard">${sorted.map(([n,a],i)=>`<li><span class="rank-num">#${i+1}</span><span class="angler-name" onclick="openAngler('${esc(n)}')">${esc(n)}</span><span class="amount">${a.toLocaleString()}</span></li>`).join('')}</ul>`;
+    con.appendChild(card);
   });
 }
 
 // ── Leaderboard ───────────────────────────────────────────────────
 function renderLeaderboard(){
-  const byAngler={};
-  allCatches.forEach(c=>{const n=c.user_name||'Unknown';if(!byAngler[n])byAngler[n]={name:n,count:0,totalWeight:0,heaviest:0};byAngler[n].count++;byAngler[n].totalWeight+=(c.weight||0);if((c.weight||0)>byAngler[n].heaviest)byAngler[n].heaviest=c.weight;});
-  const anglers=Object.values(byAngler);
-  const medals=['🥇','🥈','🥉'];
-  const lbCard=(title,icon,list,valFn)=>`<div class="lb-card"><div class="lb-card-title">${icon} ${title}</div><ul class="lb-list">${list.map((a,i)=>`<li onclick="openAnglerProfile('${esc(a.name)}')"><span class="lb-medal">${medals[i]||'#'+(i+1)}</span><span class="lb-name">${esc(a.name)}</span><span class="lb-val">${valFn(a)}</span></li>`).join('')}</ul></div>`;
+  const map={};
+  allCatches.forEach(c=>{const n=c.user_name||'?';if(!map[n])map[n]={name:n,count:0,total:0,best:0};map[n].count++;map[n].total+=(c.weight||0);if((c.weight||0)>map[n].best)map[n].best=c.weight;});
+  const all=Object.values(map);const M=['🥇','🥈','🥉'];
+  const card=(title,icon,list,fn)=>`<div class="lb-card"><div class="lb-card-title">${icon} ${title}</div><ul class="lb-list">${list.map((a,i)=>`<li onclick="openAngler('${esc(a.name)}')"><span class="lb-medal">${M[i]||'#'+(i+1)}</span><span class="lb-name">${esc(a.name)}</span><span class="lb-val">${fn(a)}</span></li>`).join('')}</ul></div>`;
   document.getElementById('leaderboardContent').innerHTML=`<div class="leaderboard-grid">
-    ${lbCard('Most Fish Caught','🎣',[...anglers].sort((a,b)=>b.count-a.count).slice(0,10),a=>`${a.count.toLocaleString()} <small>catches</small>`)}
-    ${lbCard('Heaviest Total Haul','⚖️',[...anglers].sort((a,b)=>b.totalWeight-a.totalWeight).slice(0,10),a=>`${a.totalWeight.toLocaleString()} <small>lbs</small>`)}
-    ${lbCard('Single Biggest Catch','🏆',[...anglers].sort((a,b)=>b.heaviest-a.heaviest).slice(0,10),a=>`${a.heaviest.toLocaleString()} <small>lbs</small>`)}
+    ${card('Most Fish Caught','🎣',[...all].sort((a,b)=>b.count-a.count).slice(0,10),a=>`${a.count.toLocaleString()} <small>catches</small>`)}
+    ${card('Heaviest Total Haul','⚖️',[...all].sort((a,b)=>b.total-a.total).slice(0,10),a=>`${a.total.toLocaleString()} <small>lbs</small>`)}
+    ${card('Single Biggest Catch','🏆',[...all].sort((a,b)=>b.best-a.best).slice(0,10),a=>`${a.best.toLocaleString()} <small>lbs</small>`)}
   </div>`;
 }
 
 // ── Encyclopedia ──────────────────────────────────────────────────
 function renderEncyclopedia(){
   const q=(document.getElementById('searchEncyc').value||'').toLowerCase();
-  const catF=document.getElementById('catFilter').value;
-  const speciesMap={};
-  allCatches.forEach(c=>{const n=c.fish_name;if(!n)return;if(!speciesMap[n])speciesMap[n]={name:n,count:0,heaviest:0,category:getCat(n)};speciesMap[n].count++;if((c.weight||0)>speciesMap[n].heaviest)speciesMap[n].heaviest=c.weight;});
-  Object.entries(FISH_CATEGORIES).forEach(([cat,list])=>{list.forEach(name=>{if(!speciesMap[name])speciesMap[name]={name,count:0,heaviest:0,category:cat};});});
-  let species=Object.values(speciesMap);
-  if(q)species=species.filter(s=>s.name.toLowerCase().includes(q));
-  if(catF)species=species.filter(s=>s.category===catF);
-  species.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
-  if(!species.length){document.getElementById('encycContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No species found.</p></div>';return;}
-  prefetchImages(species.slice(0,50).map(s=>s.name));
+  const cf=document.getElementById('catFilter').value;
+  const map={};
+  allCatches.forEach(c=>{const n=c.fish_name;if(!n)return;if(!map[n])map[n]={name:n,count:0,best:0,cat:getCat(n)};map[n].count++;if((c.weight||0)>map[n].best)map[n].best=c.weight;});
+  Object.entries(CATS).forEach(([cat,list])=>list.forEach(n=>{if(!map[n])map[n]={name:n,count:0,best:0,cat};}));
+  let sp=Object.values(map);
+  if(q)sp=sp.filter(s=>s.name.toLowerCase().includes(q));
+  if(cf)sp=sp.filter(s=>s.cat===cf);
+  sp.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
+  if(!sp.length){document.getElementById('encycContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No species found.</p></div>';return;}
+  preload(sp.slice(0,60).map(s=>s.name));
 
-  document.getElementById('encycContent').innerHTML=`<div class="species-grid">${species.map(s=>{
-    const imgId='enc_'+s.name.replace(/\W/g,'_')+'_'+Math.random().toString(36).slice(2);
-    const emoji=FISH_EMOJI[s.name]||DEFAULT_EMOJI;
-    const cached=imgCache[s.name];
-    let imgHtml;
-
-    if(cached!==undefined){
-      let url,isAI=false;
-      if(cached===null){url=getPollUrl(s.name);isAI=true;}
-      else if(typeof cached==='string'&&cached.startsWith('wiki:')){url=cached.slice(5);isAI=false;}
-      else{url=cached;isAI=false;}
-      imgHtml=`<img class="species-img" src="${esc(url)}" alt="${esc(s.name)}" onerror="this.parentElement.innerHTML='<span class=species-img-placeholder>${emoji}</span>'">${isAI?'<span class="ai-badge">AI</span>':''}`;
-    } else {
-      imgHtml=`<span class="species-img-loading" id="${imgId}">🌊</span>`;
-      setTimeout(async()=>{
-        const r=await resolveImage(s.name);
-        const el=document.getElementById(imgId);
-        if(el){const badge=r.isAI?'<span class="ai-badge">AI</span>':'';el.parentElement.innerHTML=`<img class="species-img" src="${esc(r.url)}" alt="${esc(s.name)}" onerror="this.parentElement.innerHTML='<span class=species-img-placeholder>${emoji}</span>'">${badge}`;}
-      },0);
-    }
-
-    return `<div class="species-card" onclick="openFishProfile('${esc(s.name)}')">
-      <div class="species-img-wrap">${imgHtml}</div>
+  document.getElementById('encycContent').innerHTML=`<div class="species-grid">${sp.map(s=>{
+    const e=EMOJI[s.name]||'🐟';
+    const url=getImgUrl(s.name);
+    const imgSection=`
+      <span class="enc-img-wrap" style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center">
+        <span style="position:absolute;font-size:2.5rem;opacity:0.4;z-index:0">${e}</span>
+        <img src="${esc(url)}" alt="${esc(s.name)}"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s;z-index:1"
+          onload="this.style.opacity=1"
+          onerror="this.remove()">
+        <span class="ai-badge" style="z-index:2">AI</span>
+      </span>`;
+    return `<div class="species-card" onclick="openFish('${esc(s.name)}')">
+      <div class="species-img-wrap">${imgSection}</div>
       <div class="species-info">
         <div class="species-name">${esc(s.name)}</div>
-        <div class="species-cat">${CAT_LABEL[s.category]||s.category}</div>
+        <div class="species-cat">${CAT_LABEL[s.cat]||s.cat}</div>
         <div class="species-stats">
           <div class="species-stat"><span class="species-stat-val">${s.count.toLocaleString()}</span><span class="species-stat-lbl">Caught</span></div>
-          ${s.heaviest?`<div class="species-stat"><span class="species-stat-val">${s.heaviest.toLocaleString()}</span><span class="species-stat-lbl">Record lbs</span></div>`:''}
+          ${s.best?`<div class="species-stat"><span class="species-stat-val">${s.best.toLocaleString()}</span><span class="species-stat-lbl">Record lbs</span></div>`:''}
         </div>
       </div>
     </div>`;
   }).join('')}</div>`;
 }
 
-// ── Fish species profile ──────────────────────────────────────────
-async function openFishProfile(fishName){
-  const modal=document.getElementById('profileModal');
-  const content=document.getElementById('profileContent');
-  const catches=allCatches.filter(c=>c.fish_name===fishName).sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
-  const result=await resolveImage(fishName);
-  const aiBadge=result.isAI?'<span style="font-size:0.7rem;opacity:0.6;margin-left:0.4rem">(AI generated)</span>':'';
-  const imgHtml=`<div style="position:relative;margin-bottom:1.2rem"><img src="${esc(result.url)}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt="${esc(fishName)}" onerror="this.style.display='none'">${result.isAI?'<span class="ai-badge" style="font-size:0.6rem;padding:2px 6px">AI Generated</span>':''}</div>`;
-  content.innerHTML=`<button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
-    ${imgHtml}
-    <div class="modal-angler-name">${FISH_EMOJI[fishName]||DEFAULT_EMOJI} ${esc(fishName)}${aiBadge}</div>
-    <div class="modal-subtitle">${CAT_LABEL[getCat(fishName)]||'Unknown'} species · ${catches.length} recent catches shown</div>
+// ── Fish species profile modal ─────────────────────────────────────
+function openFish(name){
+  const url=getImgUrl(name);
+  const e=EMOJI[name]||'🐟';
+  const catches=allCatches.filter(c=>c.fish_name===name).sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
+  document.getElementById('profileContent').innerHTML=`
+    <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
+    <div style="position:relative;width:100%;height:180px;border-radius:8px;overflow:hidden;margin-bottom:1.2rem;background:var(--img-bg);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
+      <span style="font-size:4rem;opacity:0.35;position:absolute">${e}</span>
+      <img src="${esc(url)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s"
+        onload="this.style.opacity=1" onerror="this.remove()" alt="${esc(name)}">
+      <span class="ai-badge" style="font-size:0.6rem;padding:2px 6px;z-index:2">AI Generated</span>
+    </div>
+    <div class="modal-angler-name">${EMOJI[name]||'🐟'} ${esc(name)}</div>
+    <div class="modal-subtitle">${CAT_LABEL[getCat(name)]||'Unknown'} species</div>
     <div class="profile-section-title">Recent Catches</div>
     <ul class="profile-fish-list">${catches.length?catches.map(c=>`<li>
-      <div class="profile-fish-img-placeholder">${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI}</div>
+      ${imgBox(c.fish_name,44,44,'5px')}
       <div class="profile-fish-details">
-        <div class="profile-fish-name" style="font-style:normal;font-weight:600;color:var(--accent2);cursor:pointer" onclick="openAnglerProfile('${esc(c.user_name||'')}')">
-          ${esc(c.user_name||'Unknown')}
-        </div>
+        <div class="profile-fish-name" style="font-style:normal;font-weight:600;color:var(--accent2);cursor:pointer" onclick="openAngler('${esc(c.user_name||'')}')">${esc(c.user_name||'Unknown')}</div>
         <div class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs · ${c.fish_size||''} · ${formatTime(c.caught_at)}</div>
-      </div>
-    </li>`).join(''):'<li style="color:var(--muted);font-style:italic;padding:1rem 0">No catches recorded yet.</li>'}
+      </div></li>`).join(''):'<li style="color:var(--muted);font-style:italic;padding:1rem 0">No catches yet.</li>'}
     </ul>`;
-  modal.classList.add('open');
+  document.getElementById('profileModal').classList.add('open');
 }
 
-// ── Angler profile ────────────────────────────────────────────────
-async function openAnglerProfile(anglerName){
-  const catches=allCatches.filter(c=>c.user_name===anglerName);
+// ── Angler profile modal ──────────────────────────────────────────
+function openAngler(name){
+  const catches=allCatches.filter(c=>c.user_name===name);
   if(!catches.length)return;
-  const totalWeight=catches.reduce((s,c)=>s+(c.weight||0),0);
-  const heaviest=catches.reduce((m,c)=>(c.weight||0)>m.weight?c:m,catches[0]);
+  const total=catches.reduce((s,c)=>s+(c.weight||0),0);
+  const best=catches.reduce((m,c)=>(c.weight||0)>m.weight?c:m,catches[0]);
   const specials=catches.filter(c=>c.is_special);
   const recent=[...catches].sort((a,b)=>new Date(b.caught_at)-new Date(a.caught_at)).slice(0,8);
   const currencies={};
   specials.forEach(c=>{if(c.currency_type)currencies[c.currency_type]=(currencies[c.currency_type]||0)+(c.currency_amount||0);});
   const currHtml=Object.entries(currencies).map(([t,a])=>`<span class="currency-badge">✦ ${a.toLocaleString()} ${esc(t)}</span>`).join(' ');
-
-  const fishRows=recent.map(c=>{
-    const iid='pf_'+Math.random().toString(36).slice(2);
-    const emoji=FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI;
-    const cached=imgCache[c.fish_name];
-    let imgEl;
-    if(cached!==undefined){
-      let url,isAI=false;
-      if(cached===null){url=getPollUrl(c.fish_name);isAI=true;}
-      else if(typeof cached==='string'&&cached.startsWith('wiki:')){url=cached.slice(5);}
-      else url=cached;
-      imgEl=`<div class="profile-fish-img-wrap"><img class="profile-fish-img" src="${esc(url)}" alt="${esc(c.fish_name)}" onerror="this.outerHTML='<div class=profile-fish-img-placeholder>${emoji}</div>'">${isAI?'<span class="ai-badge">AI</span>':''}</div>`;
-    } else {
-      imgEl=`<div class="profile-fish-img-wrap"><div class="profile-fish-img-placeholder" id="${iid}">${emoji}</div></div>`;
-      setTimeout(async()=>{const r=await resolveImage(c.fish_name);const el=document.getElementById(iid);if(el){const b=r.isAI?'<span class="ai-badge">AI</span>':'';el.outerHTML=`<img class="profile-fish-img" src="${esc(r.url)}" alt="${esc(c.fish_name)}" onerror="this.outerHTML='<div class=profile-fish-img-placeholder style=width:44px;height:44px>${emoji}</div>'">${b}`;}},0);
-    }
-    return `<li>${imgEl}
-      <div class="profile-fish-details">
-        <div class="profile-fish-name">${esc(c.fish_name)}<span class="size-badge size-${(c.fish_size||'').toLowerCase()}">${c.fish_size||''}</span></div>
-        <div class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs &nbsp;·&nbsp; ${formatTime(c.caught_at)}</div>
-      </div>
-    </li>`;
-  }).join('');
-
   document.getElementById('profileContent').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">✕</button>
-    <div class="modal-angler-name">🎣 ${esc(anglerName)}</div>
+    <div class="modal-angler-name">🎣 ${esc(name)}</div>
     <div class="modal-subtitle">Angler profile</div>
     <div class="profile-stats">
-      <div class="profile-stat"><div class="profile-stat-val">${catches.length.toLocaleString()}</div><div class="profile-stat-lbl">Total Catches</div></div>
-      <div class="profile-stat"><div class="profile-stat-val">${totalWeight.toLocaleString()}</div><div class="profile-stat-lbl">Total lbs</div></div>
-      <div class="profile-stat"><div class="profile-stat-val">${new Set(catches.map(c=>c.fish_name)).size}</div><div class="profile-stat-lbl">Species Found</div></div>
-      <div class="profile-stat"><div class="profile-stat-val">${specials.length}</div><div class="profile-stat-lbl">Special Catches</div></div>
-      <div class="profile-stat"><div class="profile-stat-val">${(heaviest.weight||0).toLocaleString()}</div><div class="profile-stat-lbl">Heaviest (lbs)</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${catches.length.toLocaleString()}</div><div class="profile-stat-lbl">Catches</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${total.toLocaleString()}</div><div class="profile-stat-lbl">Total lbs</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${new Set(catches.map(c=>c.fish_name)).size}</div><div class="profile-stat-lbl">Species</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${specials.length}</div><div class="profile-stat-lbl">Specials</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${(best.weight||0).toLocaleString()}</div><div class="profile-stat-lbl">Best lbs</div></div>
     </div>
     ${currHtml?`<div class="profile-section-title">Currencies Earned</div><div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem">${currHtml}</div>`:''}
     <div class="profile-section-title">Recent Catches</div>
-    <ul class="profile-fish-list">${fishRows}</ul>`;
+    <ul class="profile-fish-list">${recent.map(c=>`<li>
+      ${imgBox(c.fish_name,44,44,'5px')}
+      <div class="profile-fish-details">
+        <div class="profile-fish-name">${esc(c.fish_name)}<span class="size-badge size-${(c.fish_size||'').toLowerCase()}">${c.fish_size||''}</span></div>
+        <div class="profile-fish-meta">${(c.weight||0).toLocaleString()} lbs · ${formatTime(c.caught_at)}</div>
+      </div></li>`).join('')}
+    </ul>`;
   document.getElementById('profileModal').classList.add('open');
 }
-
 function closeProfile(e){if(e.target===document.getElementById('profileModal'))document.getElementById('profileModal').classList.remove('open');}
 
 // ── Sort / filter ─────────────────────────────────────────────────
 function sortData(arr,by){arr.sort((a,b)=>{if(by==='weight')return(b.weight||0)-(a.weight||0);if(by==='angler')return(a.user_name||'').localeCompare(b.user_name||'');if(by==='currency')return(b.currency_amount||0)-(a.currency_amount||0);return new Date(b.caught_at||0)-new Date(a.caught_at||0);});}
-function setSort(val,btn){sortAll=val;document.querySelectorAll('#tab-all .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageAll=1;applyFilters();}
-function setSpecialSort(val,btn){sortSpecial=val;document.querySelectorAll('#tab-special .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageSpecial=1;applySpecialFilters();}
+function setSort(v,btn){sortAll=v;document.querySelectorAll('#tab-all .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageAll=1;applyFilters();}
+function setSpecialSort(v,btn){sortSpecial=v;document.querySelectorAll('#tab-special .sort-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');pageSpecial=1;applySpecialFilters();}
 function applyFilters(){
   const q=(document.getElementById('searchAll').value||'').toLowerCase();
-  const size=document.getElementById('sizeFilter').value;
+  const sz=document.getElementById('sizeFilter').value;
   filteredAll=allCatches.filter(c=>!c.is_special);
   if(q)filteredAll=filteredAll.filter(c=>(c.user_name||'').toLowerCase().includes(q)||(c.fish_name||'').toLowerCase().includes(q));
-  if(size)filteredAll=filteredAll.filter(c=>(c.fish_size||'').toLowerCase()===size);
+  if(sz)filteredAll=filteredAll.filter(c=>(c.fish_size||'').toLowerCase()===sz);
   sortData(filteredAll,sortAll);pageAll=1;renderTable('allContent',filteredAll,false,pageAll);
 }
 function applySpecialFilters(){
@@ -730,43 +731,37 @@ function applySpecialFilters(){
 function renderTable(id,data,isSpecial,page){
   const el=document.getElementById(id);
   if(!data.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">${isSpecial?'🌟':'🎣'}</div><p>No catches found.</p></div>`;return;}
-  const totalPages=Math.ceil(data.length/PAGE_SIZE);
-  const start=(page-1)*PAGE_SIZE;
-  const slice=data.slice(start,start+PAGE_SIZE);
-  prefetchImages(slice.map(c=>c.fish_name).filter(Boolean));
-
+  const tp=Math.ceil(data.length/PAGE_SIZE),start=(page-1)*PAGE_SIZE,slice=data.slice(start,start+PAGE_SIZE);
+  preload(slice.map(c=>c.fish_name).filter(Boolean));
   const rows=slice.map((c,i)=>{
-    const size=(c.fish_size||'').toLowerCase();
-    const sizeBadge=size?`<span class="size-badge size-${size}">${size}</span>`:'';
-    const currBadge=(c.is_special&&c.currency_type)?`<span class="currency-badge">✦ ${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type)}</span>`:'';
-    const thumb=makeDynImg(c.fish_name,34,34,'fish-thumb','fish-thumb-wrap');
+    const sz=(c.fish_size||'').toLowerCase();
+    const szBadge=sz?`<span class="size-badge size-${sz}">${sz}</span>`:'';
+    const curr=(c.is_special&&c.currency_type)?`<span class="currency-badge">✦ ${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type)}</span>`:'';
     return `<tr class="${c.is_special?'special-row':''}" style="animation-delay:${(i%PAGE_SIZE)*0.018}s">
       <td class="td-rank">${start+i+1}</td>
-      <td class="td-angler" onclick="openAnglerProfile('${esc(c.user_name||'')}')">${esc(c.user_name||'Unknown')}</td>
-      <td class="td-fish"><span style="display:inline-flex;align-items:center">${thumb}<span>${esc(c.fish_name||'Unknown')}${sizeBadge}</span></span></td>
+      <td class="td-angler" onclick="openAngler('${esc(c.user_name||'')}')">${esc(c.user_name||'Unknown')}</td>
+      <td class="td-fish"><div class="fish-cell">${imgBox(c.fish_name,34,34,'4px')}<span>${esc(c.fish_name||'Unknown')}${szBadge}</span></div></td>
       <td class="td-weight">${(c.weight||0).toLocaleString()}<span class="unit">lbs</span></td>
-      ${isSpecial?`<td>${currBadge}</td>`:''}
+      ${isSpecial?`<td>${curr}</td>`:''}
       <td class="td-time hide-mobile">${formatTime(c.caught_at)}</td>
     </tr>`;
   }).join('');
-
   el.innerHTML=`<div class="table-wrap"><table>
     <thead><tr><th>#</th><th>Angler</th><th>Fish</th><th>Weight</th>${isSpecial?'<th>Currency</th>':''}<th class="hide-mobile">Time</th></tr></thead>
     <tbody>${rows}</tbody>
-  </table></div>${totalPages>1?renderPagination(page,totalPages,id):''}`;
+  </table></div>${tp>1?renderPagination(page,tp,id):''}`;
 }
-
-function renderPagination(current,total,id){
-  let s=Math.max(1,current-3),e=Math.min(total,s+6);if(e-s<6)s=Math.max(1,e-6);
-  let pages='';for(let i=s;i<=e;i++)pages+=`<button class="page-btn${i===current?' active':''}" onclick="goPage(${i},'${id}')">${i}</button>`;
-  return `<div class="pagination"><button class="page-btn" onclick="goPage(${current-1},'${id}')" ${current<=1?'disabled':''}>‹</button>${pages}<button class="page-btn" onclick="goPage(${current+1},'${id}')" ${current>=total?'disabled':''}>›</button></div>`;
+function renderPagination(cur,tot,id){
+  let s=Math.max(1,cur-3),e=Math.min(tot,s+6);if(e-s<6)s=Math.max(1,e-6);
+  let p='';for(let i=s;i<=e;i++)p+=`<button class="page-btn${i===cur?' active':''}" onclick="goPage(${i},'${id}')">${i}</button>`;
+  return `<div class="pagination"><button class="page-btn" onclick="goPage(${cur-1},'${id}')" ${cur<=1?'disabled':''}>‹</button>${p}<button class="page-btn" onclick="goPage(${cur+1},'${id}')" ${cur>=tot?'disabled':''}>›</button></div>`;
 }
 function goPage(p,id){if(id==='allContent'){pageAll=p;renderTable('allContent',filteredAll,false,pageAll);}else{pageSpecial=p;renderTable('specialContent',filteredSpecial,true,pageSpecial);}document.querySelector('main').scrollIntoView({behavior:'smooth'});}
 
 // ── Toast ─────────────────────────────────────────────────────────
-function showToast(c){const t=document.createElement('div');t.className='toast'+(c.is_special?' special':'');t.innerHTML=`<div class="toast-title${c.is_special?' special':''}">${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}</div><div class="toast-body"><strong>${esc(c.user_name||'Someone')}</strong> caught ${FISH_EMOJI[c.fish_name]||DEFAULT_EMOJI} <em>${esc(c.fish_name||'a fish')}</em>${c.is_special?`<br><span style="color:var(--gold)">+${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type||'')}</span>`:''}</div>`;document.body.appendChild(t);setTimeout(()=>{t.style.transition='opacity 0.5s,transform 0.5s';t.style.opacity='0';t.style.transform='translateY(20px)';setTimeout(()=>t.remove(),500);},4000);}
+function showToast(c){const t=document.createElement('div');t.className='toast'+(c.is_special?' special':'');t.innerHTML=`<div class="toast-title${c.is_special?' special':''}">${c.is_special?'✦ Special Catch!':'🎣 New Catch!'}</div><div class="toast-body"><strong>${esc(c.user_name||'Someone')}</strong> caught ${EMOJI[c.fish_name]||'🐟'} <em>${esc(c.fish_name||'a fish')}</em>${c.is_special?`<br><span style="color:var(--gold)">+${(c.currency_amount||0).toLocaleString()} ${esc(c.currency_type||'')}</span>`:''}</div>`;document.body.appendChild(t);setTimeout(()=>{t.style.transition='opacity 0.5s,transform 0.5s';t.style.opacity='0';t.style.transform='translateY(20px)';setTimeout(()=>t.remove(),500);},4000);}
 
-// ── Tab switching ─────────────────────────────────────────────────
+// ── Tabs ──────────────────────────────────────────────────────────
 function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
 
 // ── Helpers ───────────────────────────────────────────────────────
